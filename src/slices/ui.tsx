@@ -1,0 +1,38 @@
+import { createSelector, createSlice } from '@reduxjs/toolkit'
+import { RootState } from '../app/store'
+
+const initialState={
+    header:{
+        navBar:{
+            height: 0,
+            selectedTab: 0
+        }
+    }
+}
+
+export const uiSlice = createSlice({
+    name: 'ui',
+    initialState,
+    reducers:{
+        setNavBar:(state, {payload})=>{
+            const {height, selectedTab} = payload
+            const {navBar} = state.header
+            
+            if(height !== undefined) {
+                navBar.height = height
+            }
+            if(selectedTab !== undefined) {
+                navBar.selectedTab = selectedTab
+            }
+        }
+    }
+})
+
+export const {setNavBar} = uiSlice.actions;
+export default uiSlice.reducer
+
+export const getNavBarState = createSelector(
+    (state: RootState) => state.ui.header,
+    header=> ({...header})
+)
+export {initialState};
