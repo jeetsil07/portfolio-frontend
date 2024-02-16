@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { AppBar, Grid, Tab, Tabs, Toolbar, useMediaQuery, useTheme } from '@mui/material';
 import { Logo } from '../StyledComponents/common';
 import { Link } from 'react-router-dom';

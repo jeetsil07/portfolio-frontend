@@ -1,10 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useAppSelector } from "../app/hook";
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Button, Grid, Typography } from "@mui/material";
 import { getNavBarState } from "../slices/ui";
 import jeet1 from "../assets/img/jeet1.jpeg";
 import jeet2 from "../assets/img/jeet2.jpeg";
+import bgImg from "../assets/img/bgImg.png";
 import { Cursor, useTypewriter } from "react-simple-typewriter";
+import CloudDownloadTwoToneIcon from '@mui/icons-material/CloudDownloadTwoTone';
+import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
+import {
+  AboutText,
+  ContentBox,
+  CustomButton,
+  GridContainer,
+  ImageBox,
+} from "../components/StyledComponents/common";
 const Home = () => {
   console.log("home");
   const { navBar } = useAppSelector(getNavBarState);
@@ -14,33 +24,10 @@ const Home = () => {
   });
   return (
     <>
-      <Box
-        sx={{
-          marginTop: `${navBar.height}px`,
-          padding: "20px",
-          boxSizing: "border-box",
-        }}
-      >
-        <Grid
-          container
-          justifyContent="center"
-          alignItems="center"
-          sx={{
-            width: "100%",
-            Height: "auto",
-            paddingTop: "20px",
-          }}
-        >
-          <Grid item sm={3} sx={{ marginBottom: "10px" }}>
-            <Box
-              sx={{
-                height: "200px",
-                width: "200px",
-                borderRadius: '50%',
-                overflow: 'hidden',
-                boxShadow: "0 0 0 10px white, 0 0 0 15px #47A992",
-              }}
-            >
+      <ContentBox topMargin={navBar.height} bgImg={bgImg}>
+        <GridContainer container justifyContent="center" alignItems="center">
+          <Grid item md={3} sx={{ marginBottom: "10px" }}>
+            <ImageBox>
               <img
                 // src={jeet1}
                 src={jeet2}
@@ -52,19 +39,15 @@ const Home = () => {
                   objectFit: "cover",
                 }}
               />
-            </Box>
+            </ImageBox>
           </Grid>
-          <Grid item sm={5} sx={{ margin: "20px 10px" }}>
+          <Grid item lg={5} sx={{ margin: "20px 10px" }}>
             <Typography variant="h5" color="initial">
               <span style={{ color: "#47A992" }}>I'm a</span>{" "}
               <span style={{ color: "#FF0060" }}>{typing}</span>
-              <Cursor cursorColor="#FF0060" cursorBlinking cursorStyle="_" />
+              <Cursor cursorColor="#FF0060" cursorStyle="_" />
             </Typography>
-            <Typography
-              variant="body1"
-              color="initial"
-              sx={{ textAlign: "left", marginTop: "10px" }}
-            >
+            <AboutText variant="subtitle2" color="GrayText">
               As a professional software developer, I bring a unique blend of
               academic excellence and creative flair to my work. With a
               background in BCA from MAKAUT and Botany Honours from Calcutta
@@ -74,9 +57,17 @@ const Home = () => {
               videos, allowing me to communicate complex ideas in a clear and
               engaging manner. Coding is not just a profession for me; it's a
               passion that drives me to constantly learn and innovate.{" "}
-            </Typography>
+            </AboutText>
           </Grid>
-        </Grid>
+        </GridContainer>
+      </ContentBox>
+      <Box>
+        <ContentBox >
+          <GridContainer container justifyContent="center" alignItems="center">
+                <CustomButton btnColor="#FF0060" variant="contained" endIcon={<CloudDownloadTwoToneIcon/>} >Download Resume</CustomButton>
+                <CustomButton variant="contained" endIcon={<InfoTwoToneIcon/>} >About Me</CustomButton>
+          </GridContainer>
+        </ContentBox>
       </Box>
     </>
   );
