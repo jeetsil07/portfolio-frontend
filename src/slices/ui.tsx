@@ -1,7 +1,17 @@
 import { createSelector, createSlice } from '@reduxjs/toolkit'
 import { RootState } from '../app/store'
 
-const initialState={
+interface NavBarState {
+    height: number;
+    selectedTab: number|undefined;
+  }
+  
+  interface State {
+    header: {
+      navBar: NavBarState;
+    };
+  }
+const initialState:State ={
     header:{
         navBar:{
             height: 0,
@@ -23,6 +33,10 @@ export const uiSlice = createSlice({
             }
             if(selectedTab !== undefined) {
                 navBar.selectedTab = selectedTab
+            }
+            if(selectedTab === -1) {
+                navBar.selectedTab = -1
+                console.log('-1 tab')
             }
         }
     }

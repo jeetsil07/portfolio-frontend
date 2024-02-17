@@ -1,11 +1,11 @@
 import React from "react";
 import { useAppSelector } from "../app/hook";
-import { Box, Button, Grid, Typography } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import { getNavBarState } from "../slices/ui";
-import jeet1 from "../assets/img/jeet1.jpeg";
+// import jeet1 from "../assets/img/jeet1.jpeg";
 import jeet2 from "../assets/img/jeet2.jpeg";
 import bgImg from "../assets/img/bgImg.png";
-import { Cursor, useTypewriter } from "react-simple-typewriter";
+import { Typewriter } from "react-simple-typewriter";
 import CloudDownloadTwoToneIcon from '@mui/icons-material/CloudDownloadTwoTone';
 import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
 import {
@@ -14,17 +14,13 @@ import {
   CustomButton,
   GridContainer,
   ImageBox,
-} from "../components/StyledComponents/common";
+} from "../components/StyledComponents/CommonStyle";
 const Home = () => {
   console.log("home");
   const { navBar } = useAppSelector(getNavBarState);
-  const [typing] = useTypewriter({
-    words: ["Software Developer", "UI/UX Designer", "Professional YouTuber"],
-    loop: false,
-  });
   return (
     <>
-      <ContentBox topMargin={navBar.height} bgImg={bgImg}>
+      <ContentBox topmargin={navBar.height} bgimg={bgImg}>
         <GridContainer container justifyContent="center" alignItems="center">
           <Grid item md={3} sx={{ marginBottom: "10px" }}>
             <ImageBox>
@@ -44,8 +40,16 @@ const Home = () => {
           <Grid item lg={5} sx={{ margin: "20px 10px" }}>
             <Typography variant="h5" color="initial">
               <span style={{ color: "#47A992" }}>I'm a</span>{" "}
-              <span style={{ color: "#FF0060" }}>{typing}</span>
-              <Cursor cursorColor="#FF0060" cursorStyle="_" />
+              <span style={{ color: '#FF0060' }}>
+                <Typewriter
+                  words={["Software Developer", "UI/UX Designer", "Professional YouTuber"]}
+                  loop={false}
+                  cursor
+                  cursorStyle='_'
+                  typeSpeed={70}
+                  deleteSpeed={50}
+                />
+              </span>
             </Typography>
             <AboutText variant="subtitle2" color="GrayText">
               As a professional software developer, I bring a unique blend of
@@ -64,8 +68,8 @@ const Home = () => {
       <Box>
         <ContentBox >
           <GridContainer container justifyContent="center" alignItems="center">
-                <CustomButton btnColor="#FF0060" variant="contained" endIcon={<CloudDownloadTwoToneIcon/>} >Download Resume</CustomButton>
-                <CustomButton variant="contained" endIcon={<InfoTwoToneIcon/>} >About Me</CustomButton>
+            <CustomButton btncolor="#FF0060" variant="contained" endIcon={<CloudDownloadTwoToneIcon />} >Download Resume</CustomButton>
+            <CustomButton variant="contained" endIcon={<InfoTwoToneIcon />} >About Me</CustomButton>
           </GridContainer>
         </ContentBox>
       </Box>

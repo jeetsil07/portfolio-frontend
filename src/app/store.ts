@@ -1,10 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit'
 import uiReducer, { initialState }  from '../slices/ui';
 
-const reduxState: string|null = localStorage.getItem('reduxState')
-console.log(reduxState)
+const pathName = window.location.pathname;
+const reduxState: string|null = (pathName === '/home') || (pathName === '/') ? null : localStorage.getItem('reduxState');
 const persistedState = reduxState ? JSON.parse(reduxState) : initialState;
-// console.log(persistedState)
 const store = configureStore({
   reducer: {
     ui: uiReducer,
@@ -16,7 +15,6 @@ const store = configureStore({
 
 store.subscribe(()=>{
   const state = store.getState();
-  // console.log(state.ui)
   localStorage.setItem('reduxState',JSON.stringify(state.ui))
 })
 

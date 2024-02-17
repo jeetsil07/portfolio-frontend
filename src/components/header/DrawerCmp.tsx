@@ -15,7 +15,7 @@ import InfoTwoToneIcon from "@mui/icons-material/InfoTwoTone";
 import WorkHistoryTwoToneIcon from "@mui/icons-material/WorkHistoryTwoTone";
 import BookTwoToneIcon from "@mui/icons-material/BookTwoTone";
 import PermContactCalendarTwoToneIcon from "@mui/icons-material/PermContactCalendarTwoTone";
-import { Logo } from "../StyledComponents/common";
+import { Logo } from "../StyledComponents/CommonStyle";
 import { Link, useLocation } from "react-router-dom";
 import logoImg from '../../assets/img/jeet1.jpeg'
 

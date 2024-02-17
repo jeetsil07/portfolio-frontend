@@ -14,7 +14,6 @@ const SearchBar = () => {
                 fullWidth
                 sx={{
                     '& .MuiOutlinedInput-root': {
-                        // maxHeight: '50px',
                         '& fieldset': {
                             borderColor: 'white', // Set outline color
                         },

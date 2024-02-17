@@ -6,6 +6,7 @@ import About from './pages/About';
 import Portfolio from './pages/Portfolio';
 import Blogs from './pages/Blogs';
 import Contact from './pages/Contact';
+import NotFound from './pages/NotFound';
 function App() {
   console.log("App")
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path='/portfolio' element={<Portfolio/>}/>
           <Route path='/blogs' element={<Blogs/>}/>
           <Route path='/contact' element={<Contact/>}/>
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
     </>

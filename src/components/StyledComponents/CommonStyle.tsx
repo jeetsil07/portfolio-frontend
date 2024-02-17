@@ -7,11 +7,11 @@ export const Logo = styled(Avatar)`
 export const SearchBar = styled("div")`
   width: 70%;
 `;
-export const ContentBox = styled(Box)<{ topMargin?: number, bgImg?: string }>`
-  margin-top: ${(props) => props.topMargin}px;
+export const ContentBox = styled(Box)<{ topmargin?: number, bgimg?: string }>`
+  margin-top: ${(props) => props.topmargin}px;
   padding: 20px;
   box-sizing: border-box;
-  background-image: url(${(props)=>props.bgImg});
+  background-image: url(${(props)=>props.bgimg});
   background-size: contain;
   background-position: start;
   background-repeat: no-repeat;
@@ -32,10 +32,10 @@ export const AboutText = styled(Typography)`
 text-align: left;
  margin-top: 10px
 `;
-export const CustomButton = styled(Button)<{btnColor?: string}>`
-    background-color: ${props=> props.btnColor === '#FF0060'?'#47A992':'#FF0060'};
+export const CustomButton = styled(Button)<{btncolor?: string}>`
+    background-color: #47A992;
     margin: 10px;
     &:hover{
-        background-color: ${props=> props.btnColor === '#FF0060'?'#FF0060':'#47A992'};
+        background-color: #FF0060;
     }
 `;

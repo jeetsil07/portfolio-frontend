@@ -1,21 +1,19 @@
 import React, { useEffect, useMemo, useRef } from 'react';
 import { AppBar, Grid, Tab, Tabs, Toolbar, useMediaQuery, useTheme } from '@mui/material';
-import { Logo } from '../StyledComponents/common';
-import { Link } from 'react-router-dom';
-import { LinkStyle } from '../../css/globalStyle';
+import { Logo } from '../StyledComponents/CommonStyle';
+import { useNavigate } from 'react-router-dom';
 import SearchBar from './SearchBar';
 import DrawerCmp from './DrawerCmp';
 import logoImg from '../../assets/img/jeet1.jpeg';
 import { useAppDispatch, useAppSelector } from '../../app/hook';
 import { getNavBarState, setNavBar } from '../../slices/ui';
-// import { selectNavbarHeight, setNavBarHeight } from '../../slices/navBar';
 
 const Navbar = () => {
     console.log("navbar")
+    const pathName = window.location.pathname.toLowerCase();
+    const navigate = useNavigate();
     const navBarRef = useRef<HTMLDivElement | null>(null);
-    // const navbarHeight = useAppSelector(selectNavbarHeight);
-    const {navBar} = useAppSelector(getNavBarState);
-    console.log(navBar.height);
+    const { navBar } = useAppSelector(getNavBarState);
     const dispatch = useAppDispatch();
     const theme = useTheme();
     const isMatch = useMediaQuery(theme.breakpoints.down('md'));
@@ -24,34 +22,48 @@ const Navbar = () => {
         return menus.map((menu, index) => {
             const to = menu === 'About Me' ? '/about' : `/${menu.toLowerCase()}`;
             return (
-                <Tab key={index} label={<Link style={LinkStyle} to={to}>{menu}</Link>} />
+                <Tab key={index} label={menu} onClick={() => navigate(to)} />
             );
         });
-    }, []);
+    }, [navigate]);
 
     // calculate navbar height
     useEffect(() => {
+        if (pathName === '/home') {
+            dispatch(setNavBar({ selectedTab: 0 }))
+        } else if (pathName === '/about') {
+            dispatch(setNavBar({ selectedTab: 1 }))
+        } else if (pathName === '/portfolio') {
+            dispatch(setNavBar({ selectedTab: 2 }))
+        } else if (pathName === '/blogs') {
+            dispatch(setNavBar({ selectedTab: 3 }))
+        } else if (pathName === '/contact') {
+            dispatch(setNavBar({ selectedTab: 4 }))
+        } else {
+            dispatch(setNavBar({ selectedTab: -1 }))
+        }
+        // console.log(pathName)
         const measureNavbarHeight = () => {
             // const navbar = document.getElementById('navbar');
             if (navBarRef) {
                 const navHeight = navBarRef.current?.clientHeight;
-                dispatch(setNavBar({height:navHeight}));
+                dispatch(setNavBar({ height: navHeight }));
             }
         };
-    
+
         measureNavbarHeight();
-    
+
         const handleResize = () => {
             measureNavbarHeight();
         };
-    
+
         window.addEventListener('resize', handleResize);
-    
+
         return () => {
             window.removeEventListener('resize', handleResize);
         };
-    }); 
-    
+    }, [dispatch, pathName]);
+
 
     return (
         <AppBar
@@ -59,6 +71,7 @@ const Navbar = () => {
             ref={navBarRef}
             sx={{
                 backgroundColor: '#47A992',
+                padding: '5px 20px'
             }}
         >
             <Toolbar>
@@ -66,39 +79,39 @@ const Navbar = () => {
                     {!isMatch ? (
                         <>
                             <Grid item xs={2}>
-                                <Logo alt="Remy Sharp" src={logoImg} />
-                            </Grid>
-                            <Grid item xs={7}>
-                                <Tabs
-                                    textColor='inherit'
-                                    value={navBar.selectedTab}
-                                    onChange={(e, val) => dispatch(setNavBar({selectedTab: val}))}
-                                    sx={{
-                                        '& .MuiTabs-indicator': {
-                                            backgroundColor: 'white', 
-                                        },
-                                    }}
-                                >
-                                    {renderMenus}
-                                </Tabs>
-                            </Grid>
-                            <Grid item xs={3}>
-                                <SearchBar />
-                            </Grid>
-                        </>
-                    ) : (
-                        <>
-                            <Grid item xs={2}>
-                                <Logo alt="Remy Sharp" src={logoImg} />
-                            </Grid>
-                            <Grid item xs={2} display="flex" justifyContent="center">
-                                <DrawerCmp />
-                            </Grid>
-                        </>
+                            <Logo alt="Jeet Sil" src={logoImg} />
+                        </Grid>
+                    <Grid item xs={7}>
+                        <Tabs
+                            textColor='inherit'
+                            value={navBar.selectedTab}
+                            // onChange={(e, val) => dispatch(setNavBar({selectedTab: val}))}
+                            sx={{
+                                '& .MuiTabs-indicator': {
+                                    backgroundColor: 'white',
+                                },
+                            }}
+                        >
+                            {renderMenus}
+                        </Tabs>
+                    </Grid>
+                    <Grid item xs={3}>
+                        <SearchBar />
+                    </Grid>
+                </>
+                ) : (
+                <>
+                    <Grid item xs={2}>
+                        <Logo alt="Jeet Sil" src={logoImg} />
+                    </Grid>
+                    <Grid item xs={2} display="flex" justifyContent="center">
+                        <DrawerCmp />
+                    </Grid>
+                </>
                     )}
-                </Grid>
-            </Toolbar>
-        </AppBar>
+            </Grid>
+        </Toolbar>
+        </AppBar >
     );
 }
 

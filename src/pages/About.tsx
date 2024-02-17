@@ -4,6 +4,7 @@ import { useAppSelector } from '../app/hook';
 import { getNavBarState } from '../slices/ui';
 
 const About = () => {
+  console.log('about')
   const {navBar} = useAppSelector(getNavBarState);
   return (
     <Box sx={{
