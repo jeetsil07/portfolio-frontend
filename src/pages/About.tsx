@@ -1,11 +1,11 @@
 import { Box } from '@mui/material'
 import React from 'react'
 import { useAppSelector } from '../app/hook';
-import { getNavBarState } from '../slices/ui';
+import { getUiUxState } from '../slices/ui';
 
 const About = () => {
   console.log('about')
-  const {navBar} = useAppSelector(getNavBarState);
+  const {navBar} = useAppSelector(getUiUxState);
   return (
     <Box sx={{
         width: '100%',

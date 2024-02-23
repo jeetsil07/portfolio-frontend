@@ -6,14 +6,14 @@ import SearchBar from './SearchBar';
 import DrawerCmp from './DrawerCmp';
 import logoImg from '../../assets/img/jeet1.jpeg';
 import { useAppDispatch, useAppSelector } from '../../app/hook';
-import { getNavBarState, setNavBar } from '../../slices/ui';
+import { setNavBar } from '../../slices/ui';
 
 const Navbar = () => {
     console.log("navbar")
     const pathName = window.location.pathname.toLowerCase();
     const navigate = useNavigate();
     const navBarRef = useRef<HTMLDivElement | null>(null);
-    const { navBar } = useAppSelector(getNavBarState);
+    const { navBar } = useAppSelector((state)=>state.ui.uiux);
     const dispatch = useAppDispatch();
     const theme = useTheme();
     const isMatch = useMediaQuery(theme.breakpoints.down('md'));
@@ -39,8 +39,6 @@ const Navbar = () => {
             dispatch(setNavBar({ selectedTab: 3 }))
         } else if (pathName === '/contact') {
             dispatch(setNavBar({ selectedTab: 4 }))
-        } else {
-            dispatch(setNavBar({ selectedTab: -1 }))
         }
         // console.log(pathName)
         const measureNavbarHeight = () => {

@@ -1,0 +1,19 @@
+/* .swiper{
+    padding: 50px
+} */
+.swiper-pagination .swiper-pagination-bullet-active {
+    background-color: #47A992; 
+}
+.swiper-button-prev,
+.swiper-button-next {
+  color: #47A992; /* White text color */
+   /* Font size */
+}
+
+.swiper-button-prev:hover,
+.swiper-button-next:hover {
+  color: #FF0060; /* Darker red on hover */
+}
+
+
+  

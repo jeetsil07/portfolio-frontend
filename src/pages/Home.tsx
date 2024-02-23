@@ -1,7 +1,7 @@
 import React from "react";
 import { useAppSelector } from "../app/hook";
 import { Box, Grid, Typography } from "@mui/material";
-import { getNavBarState } from "../slices/ui";
+import { getUiUxState } from "../slices/ui";
 // import jeet1 from "../assets/img/jeet1.jpeg";
 import jeet2 from "../assets/img/jeet2.jpeg";
 import bgImg from "../assets/img/bgImg.png";
@@ -15,9 +15,12 @@ import {
   GridContainer,
   ImageBox,
 } from "../components/StyledComponents/CommonStyle";
+import Skills from "../components/Skills";
+import Projects from "../components/Projects";
+import Footer from "../components/footer/Footer";
 const Home = () => {
   console.log("home");
-  const { navBar } = useAppSelector(getNavBarState);
+  const { navBar } = useAppSelector(getUiUxState);
   return (
     <>
       <ContentBox topmargin={navBar.height} bgimg={bgImg}>
@@ -40,9 +43,9 @@ const Home = () => {
           <Grid item lg={5} sx={{ margin: "20px 10px" }}>
             <Typography variant="h5" color="initial">
               <span style={{ color: "#47A992" }}>I'm a</span>{" "}
-              <span style={{ color: '#FF0060' }}>
+              <span style={{ color: '#FF0060',padding:'15px 0' }}>
                 <Typewriter
-                  words={["Software Developer", "UI/UX Designer", "Professional YouTuber"]}
+                  words={["Software Developer", "UI/UX Designer", "YouTuber"]}
                   loop={false}
                   cursor
                   cursorStyle='_'
@@ -68,11 +71,14 @@ const Home = () => {
       <Box>
         <ContentBox >
           <GridContainer container justifyContent="center" alignItems="center">
-            <CustomButton btncolor="#FF0060" variant="contained" endIcon={<CloudDownloadTwoToneIcon />} >Download Resume</CustomButton>
+            <CustomButton variant="contained" endIcon={<CloudDownloadTwoToneIcon />} >Download Resume</CustomButton>
             <CustomButton variant="contained" endIcon={<InfoTwoToneIcon />} >About Me</CustomButton>
           </GridContainer>
         </ContentBox>
       </Box>
+      <Skills/>
+      <Projects/>
+      <Footer/>
     </>
   );
 };

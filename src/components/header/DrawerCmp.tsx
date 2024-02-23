@@ -26,35 +26,35 @@ const DrawerCmp = () => {
     console.log("memo");
     const menus: string[] = ["Home", "About Me", "Portfolio", "Blogs", "Contact"];
     const menuIcons: { [key: string]: React.ElementType } = {
-        Home: HomeTwoToneIcon,
-        'About Me': InfoTwoToneIcon,
-        Portfolio: WorkHistoryTwoToneIcon,
-        Blogs: BookTwoToneIcon,
-        Contact: PermContactCalendarTwoToneIcon,
+      Home: HomeTwoToneIcon,
+      'About Me': InfoTwoToneIcon,
+      Portfolio: WorkHistoryTwoToneIcon,
+      Blogs: BookTwoToneIcon,
+      Contact: PermContactCalendarTwoToneIcon,
     };
 
     return menus.map((menu, index) => {
-        const IconComponent = menuIcons[menu];
-        const to = menu === "About Me" ? "/about" : `/${menu.toLowerCase()}`;
-        const isActive = location.pathname === to;
-        return (
-            <div key={index}>
-                <ListItemButton component={Link} to={to}>
-                    <IconComponent sx={{color:'#47A992'}} />
-                    <ListItemText
-                        primary={menu}
-                        sx={{
-                          color: isActive ? '#47A992' : '',
-                          paddingLeft: "30px",
-                          minWidth: "100px",
-                      }}
-                    />
-                </ListItemButton>
-                <Divider />
-            </div>
-        );
+      const IconComponent = menuIcons[menu];
+      const to = menu === "About Me" ? "/about" : `/${menu.toLowerCase()}`;
+      const isActive = location.pathname === to;
+      return (
+        <div key={index}>
+          <ListItemButton component={Link} to={to}>
+            <IconComponent sx={{ color: '#47A992' }} />
+            <ListItemText
+              primary={menu}
+              sx={{
+                color: isActive ? '#47A992' : '',
+                paddingLeft: "30px",
+                minWidth: "100px",
+              }}
+            />
+          </ListItemButton>
+          <Divider />
+        </div>
+      );
     });
-}, [location]);
+  }, [location]);
   return (
     <>
       <IconButton
@@ -63,7 +63,7 @@ const DrawerCmp = () => {
         }}
         onClick={() => setDrawer((prev) => !prev)}
       >
-        <MenuTwoToneIcon/>
+        <MenuTwoToneIcon />
       </IconButton>
       <Drawer open={drawer} onClose={() => setDrawer((prev) => !prev)}>
         <Grid
@@ -77,7 +77,7 @@ const DrawerCmp = () => {
         >
           <Grid item xs={5}>
             <Logo
-              alt="Remy Sharp"
+              alt="Jeet Sil"
               src={logoImg}
             />
           </Grid>

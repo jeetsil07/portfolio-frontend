@@ -32,10 +32,13 @@ export const AboutText = styled(Typography)`
 text-align: left;
  margin-top: 10px
 `;
-export const CustomButton = styled(Button)<{btncolor?: string}>`
+export const CustomButton = styled(Button)`
     background-color: #47A992;
     margin: 10px;
     &:hover{
         background-color: #FF0060;
     }
+`;
+export const FooterContainer = styled(GridContainer)`
+    background-color: #47A992;
 `;
