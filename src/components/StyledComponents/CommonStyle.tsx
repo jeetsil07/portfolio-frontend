@@ -41,4 +41,5 @@ export const CustomButton = styled(Button)`
 `;
 export const FooterContainer = styled(GridContainer)`
     background-color: #47A992;
+    padding: 20px;
 `;

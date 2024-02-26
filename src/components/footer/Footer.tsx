@@ -1,7 +1,7 @@
 import { Box, Button, Divider, Grid, IconButton, InputAdornment, List, ListItem, ListItemButton, ListItemIcon, ListItemText, TextField, Typography } from '@mui/material'
 import React, { useMemo } from 'react'
 import { FooterContainer, GridContainer } from '../StyledComponents/CommonStyle'
-import { KeyboardArrowRight } from '@mui/icons-material'
+import { FormatAlignJustify, KeyboardArrowRight } from '@mui/icons-material'
 import HomeTwoToneIcon from "@mui/icons-material/HomeTwoTone";
 import InfoTwoToneIcon from "@mui/icons-material/InfoTwoTone";
 import WorkHistoryTwoToneIcon from "@mui/icons-material/WorkHistoryTwoTone";
@@ -51,16 +51,16 @@ const Footer = () => {
     return (
         <>
             <Box>
-                <FooterContainer>
-                    <Grid container justifyContent={'center'}>
-                        <Grid item md={2} xs={5} m={1}>
+                <FooterContainer >
+                    <Grid container spacing={2}>
+                        <Grid item md={2}>
                             <Typography variant="h6" color="white" marginLeft={4}>Navigations</Typography>
                             <hr />
                             <List>
                                 {renderMenus}
                             </List>
                         </Grid>
-                        <Grid item md={2} xs={5} m={1}>
+                        <Grid item md={3}>
                             <Typography variant="h6" color="white" marginLeft={4}>Contact Details</Typography>
                             <hr />
                             <List>
@@ -84,7 +84,7 @@ const Footer = () => {
                                 </ListItem>
                             </List>
                         </Grid>
-                        <Grid item md={3} sm={5} m={1}>
+                        <Grid item md={3}>
                             <Typography variant="h6" color="white" marginLeft={4}>Popular Posts</Typography>
                             <hr />
                             <List>
@@ -120,7 +120,7 @@ const Footer = () => {
                                 </ListItem>
                             </List>
                         </Grid>
-                        <Grid item md={4} sm={5} m={1}>
+                        <Grid item md={4}>
                             <Typography variant="h6" color="white" marginLeft={4}>Subscribe</Typography>
                             <hr />
                             <TextField
