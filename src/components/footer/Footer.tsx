@@ -1,20 +1,163 @@
-import { Box, Grid } from '@mui/material'
-import React from 'react'
+import { Box, Button, Divider, Grid, IconButton, InputAdornment, List, ListItem, ListItemButton, ListItemIcon, ListItemText, TextField, Typography } from '@mui/material'
+import React, { useMemo } from 'react'
 import { FooterContainer, GridContainer } from '../StyledComponents/CommonStyle'
-
+import { KeyboardArrowRight } from '@mui/icons-material'
+import HomeTwoToneIcon from "@mui/icons-material/HomeTwoTone";
+import InfoTwoToneIcon from "@mui/icons-material/InfoTwoTone";
+import WorkHistoryTwoToneIcon from "@mui/icons-material/WorkHistoryTwoTone";
+import BookTwoToneIcon from "@mui/icons-material/BookTwoTone";
+import PermContactCalendarTwoToneIcon from "@mui/icons-material/PermContactCalendarTwoTone";
+import { Link, useLocation } from 'react-router-dom';
+import EmailTwoToneIcon from '@mui/icons-material/EmailTwoTone';
+import CallTwoToneIcon from '@mui/icons-material/CallTwoTone';
+import AccountTreeTwoToneIcon from '@mui/icons-material/AccountTreeTwoTone';
+import DescriptionTwoToneIcon from '@mui/icons-material/DescriptionTwoTone';
+import NotificationsNoneTwoToneIcon from '@mui/icons-material/NotificationsNoneTwoTone';
 const Footer = () => {
-  return (
-    <>
-        <Box>
-            <FooterContainer>
-                 <Grid container>
-                    <Grid item xs={2}>
+    const location = useLocation()
+
+    const renderMenus = useMemo(() => {
+        console.log("memo");
+        const menus: string[] = ["Home", "About Me", "Portfolio", "Blogs", "Contact"];
+        const menuIcons: { [key: string]: React.ElementType } = {
+            Home: HomeTwoToneIcon,
+            'About Me': InfoTwoToneIcon,
+            Portfolio: WorkHistoryTwoToneIcon,
+            Blogs: BookTwoToneIcon,
+            Contact: PermContactCalendarTwoToneIcon,
+        };
+
+        return menus.map((menu, index) => {
+            const IconComponent = menuIcons[menu];
+            const to = menu === "About Me" ? "/about" : `/${menu.toLowerCase()}`;
+            const isActive = location.pathname === to;
+            console.log("footer", window.location.pathname)
+            return (
+                <ListItem key={index}>
+                    <ListItemButton component={Link} to={to}>
+                        <IconComponent sx={{ color: 'white', marginRight: '10px' }} />
+                        <ListItemText
+                            primary={menu}
+                            sx={{
+                                color: isActive ? '#FF0060' : 'white',
+                            }}
+                        />
+                    </ListItemButton>
+                </ListItem>
+            );
+        });
+    }, [location]);
+
+    return (
+        <>
+            <Box>
+                <FooterContainer>
+                    <Grid container justifyContent={'center'}>
+                        <Grid item md={2} xs={5} m={1}>
+                            <Typography variant="h6" color="white" marginLeft={4}>Navigations</Typography>
+                            <hr />
+                            <List>
+                                {renderMenus}
+                            </List>
+                        </Grid>
+                        <Grid item md={2} xs={5} m={1}>
+                            <Typography variant="h6" color="white" marginLeft={4}>Contact Details</Typography>
+                            <hr />
+                            <List>
+                                <ListItem sx={{overflowWrap:'anywhere'}}>
+                                    <EmailTwoToneIcon sx={{ margin: 1, color: 'white' }} />
+                                    <Typography variant="body1" color="white" >
+                                        jeetsil100@gmail.com
+                                    </Typography>
+                                </ListItem>
+                                <ListItem>
+                                    <CallTwoToneIcon sx={{ margin: 1, color: 'white' }} />
+                                    <Typography variant="body1" color="white">
+                                        7890101401
+                                    </Typography>
+                                </ListItem>
+                                <ListItem>
+                                    <AccountTreeTwoToneIcon sx={{ margin: 1, color: 'white' }} />
+                                    <Typography variant="body1" color="white">
+                                        <Link to="https://github.com/jeetsil07" target="_blank" style={{ color: 'white' }} >GitHub Profile</Link>
+                                    </Typography>
+                                </ListItem>
+                            </List>
+                        </Grid>
+                        <Grid item md={3} sm={5} m={1}>
+                            <Typography variant="h6" color="white" marginLeft={4}>Popular Posts</Typography>
+                            <hr />
+                            <List>
+                                <ListItem>
+                                    <DescriptionTwoToneIcon sx={{ margin: 2, color: 'white' }} />
+                                    <Typography variant="body1" color="white">
+                                        <Link to="https://github.com/jeetsil07" target="_blank" style={{ color: 'white' }} title='Modern Day Technology and Website with Ai & Machine Learning' >Modern Day Technology and Website</Link>
+                                    </Typography>
+                                </ListItem>
+                                <ListItem>
+                                    <DescriptionTwoToneIcon sx={{ margin: 2, color: 'white' }} />
+                                    <Typography variant="body1" color="white">
+                                        <Link to="https://github.com/jeetsil07" target="_blank" style={{ color: 'white' }} title='Modern Day Technology and Website with Ai & Machine Learning' >Modern Technology</Link>
+                                    </Typography>
+                                </ListItem>
+                                <ListItem>
+                                    <DescriptionTwoToneIcon sx={{ margin: 2, color: 'white' }} />
+                                    <Typography variant="body1" color="white">
+                                        <Link to="https://github.com/jeetsil07" target="_blank" style={{ color: 'white' }} title='Modern Day Technology and Website with Ai & Machine Learning' >Modern Day Technology </Link>
+                                    </Typography>
+                                </ListItem>
+                                <ListItem>
+                                    <DescriptionTwoToneIcon sx={{ margin: 2, color: 'white' }} />
+                                    <Typography variant="body1" color="white">
+                                        <Link to="https://github.com/jeetsil07" target="_blank" style={{ color: 'white' }} title='Modern Day Technology and Website with Ai & Machine Learning' >Modern Day  and Website</Link>
+                                    </Typography>
+                                </ListItem>
+                                <ListItem>
+                                    <DescriptionTwoToneIcon sx={{ margin: 2, color: 'white' }} />
+                                    <Typography variant="body1" color="white">
+                                        <Link to="https://github.com/jeetsil07" target="_blank" style={{ color: 'white' }} title='Modern Day Technology and Website with Ai & Machine Learning' >Modern Website</Link>
+                                    </Typography>
+                                </ListItem>
+                            </List>
+                        </Grid>
+                        <Grid item md={4} sm={5} m={1}>
+                            <Typography variant="h6" color="white" marginLeft={4}>Subscribe</Typography>
+                            <hr />
+                            <TextField
+                                variant='outlined'
+                                placeholder='Enter Your Valid Email Id'
+                                fullWidth
+                                sx={{
+                                    '& .MuiOutlinedInput-root': {
+                                        '& fieldset': {
+                                            borderColor: 'white', // Set outline color
+                                        },
+                                        '&:hover fieldset': {
+                                            borderColor: 'white', // Set outline color on hover
+                                        },
+                                        '&.Mui-focused fieldset': {
+                                            borderColor: 'white', // Set outline color when focused
+                                        },
+                                    },
+                                }}
+                                InputProps={{
+                                    style: {
+                                        color: 'white',
+                                    }
+                                }}
+                            />
+                            <Button variant="contained" sx={{
+                                backgroundColor:'#FF0060',
+                                marginTop: "5px"
+                            }} endIcon={<NotificationsNoneTwoToneIcon />}>
+                                Subscribe
+                            </Button>
+                        </Grid>
                     </Grid>
-                 </Grid>
-            </FooterContainer>
-        </Box>
-    </>
-  )
+                </FooterContainer>
+            </Box>
+        </>
+    )
 }
 
 export default Footer
