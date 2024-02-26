@@ -1,7 +1,7 @@
 import React from 'react'
 import { ContentBox, CustomButton, GridContainer } from './StyledComponents/CommonStyle'
 import { Box, Button, Card, CardActions, CardContent, CardMedia, Grid, Typography } from '@mui/material'
-import SendIcon from '@mui/icons-material/Send';
+import DetailsTwoToneIcon from '@mui/icons-material/DetailsTwoTone';
 import CurrencyRupeeTwoToneIcon from '@mui/icons-material/CurrencyRupeeTwoTone';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -116,7 +116,7 @@ const Projects = () => {
                       </Typography>
                     </CardContent>
                     <CardActions>
-                      <CustomButton size="small" variant='contained' endIcon={<SendIcon/>}>More Details</CustomButton>
+                      <CustomButton size="small" variant='contained' endIcon={<DetailsTwoToneIcon sx={{ transform: 'rotate(90deg)' }} />}>More Details</CustomButton>
                     </CardActions>
                   </Card>
                 </SwiperSlide>

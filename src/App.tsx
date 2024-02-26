@@ -7,7 +7,6 @@ import Portfolio from './pages/Portfolio';
 import Blogs from './pages/Blogs';
 import Contact from './pages/Contact';
 import NotFound from './pages/NotFound';
-import Footer from './components/footer/Footer';
 function App() {
   console.log("App")
   return (
@@ -23,7 +22,6 @@ function App() {
           <Route path='/contact' element={<Contact/>}/>
           <Route path="*" element={<NotFound />} />
         </Routes>
-        <Footer/>
       </BrowserRouter>
     </>
   );
