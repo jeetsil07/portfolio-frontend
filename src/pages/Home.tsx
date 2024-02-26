@@ -17,7 +17,6 @@ import {
 } from "../components/StyledComponents/CommonStyle";
 import Skills from "../components/Skills";
 import Projects from "../components/Projects";
-import Footer from "../components/footer/Footer";
 const Home = () => {
   console.log("home");
   const { navBar } = useAppSelector(getUiUxState);
@@ -78,7 +77,6 @@ const Home = () => {
       </Box>
       <Skills/>
       <Projects/>
-      <Footer/>
     </>
   );
 };
