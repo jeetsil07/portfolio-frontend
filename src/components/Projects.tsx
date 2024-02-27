@@ -100,7 +100,7 @@ const Projects = () => {
               AllProjects.map((project, index) => (
                 <SwiperSlide key={index}>
                   <Card sx={{
-                    maxWidth: 400, Height: 'auto', marginBottom: '50px', transition: 'transform 0.2s',
+                   width: '100%', Height: 'auto', marginBottom: '50px', transition: 'transform 0.2s',
                     '&:hover': {
                       transform: 'scale(1.05)',
                     },
