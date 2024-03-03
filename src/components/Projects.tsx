@@ -1,9 +1,7 @@
 import React from 'react'
-import { ContentBox, CustomButton, GridContainer } from './StyledComponents/CommonStyle'
-import { Box, Button, Card, CardActions, CardContent, CardMedia, Grid, Typography } from '@mui/material'
+import { ContentBox, CustomButton } from './StyledComponents/CommonStyle'
+import { Box, Card, CardActions, CardContent, CardMedia, Typography } from '@mui/material'
 import SendIcon from '@mui/icons-material/Send';
-// import DetailsTwoToneIcon from '@mui/icons-material/DetailsTwoTone';
-import CurrencyRupeeTwoToneIcon from '@mui/icons-material/CurrencyRupeeTwoTone';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 // Import Swiper styles
@@ -13,7 +11,7 @@ import 'swiper/css/pagination';
 import "../swiperStyle/swiper.css"
 
 // import required modules
-import { Keyboard, Navigation, Pagination } from 'swiper/modules';
+import { Keyboard, Pagination } from 'swiper/modules';
 
 const Projects = () => {
   const AllProjects = [

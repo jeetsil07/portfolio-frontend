@@ -7,11 +7,11 @@ export const Logo = styled(Avatar)`
 export const SearchBar = styled("div")`
   width: 70%;
 `;
-export const ContentBox = styled(Box)<{ topmargin?: number, bgimg?: string }>`
+export const ContentBox = styled(Box) <{ topmargin?: number, bgimg?: string }>`
   margin-top: ${(props) => props.topmargin}px;
   padding: 20px;
   box-sizing: border-box;
-  background-image: url(${(props)=>props.bgimg});
+  background-image: url(${(props) => props.bgimg});
   background-size: contain;
   background-position: start;
   background-repeat: no-repeat;
@@ -42,4 +42,11 @@ export const CustomButton = styled(Button)`
 export const FooterContainer = styled(GridContainer)`
     background-color: #47A992;
     padding: 20px;
+`;
+export const SectionTitle = styled(Typography)`
+    color: #47A992;
+    display: inline-block;
+    padding: 5px;
+    border-Bottom: 2px solid;
+
 `;

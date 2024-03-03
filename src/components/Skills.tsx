@@ -9,7 +9,7 @@ const Skills = () => {
     console.log(skills)
     const allSkillsprogress = useMemo(() => [70, 80, 90, 70, 90, 80, 60, 80, 70, 60], []);
     const allSkillsTitle = ['React Js', 'Laravel', 'Javascript', 'Php', 'Html', 'Css', 'Bootstrap', 'Material Ui', 'Figma', 'Aws']
-    const handleSkillPage = useCallback((event: any, page: any) => {
+    const handleSkillPage = useCallback((event: React.ChangeEvent<unknown>, page: number) => {
         if (page !== skillPage) {
             setSkillPage(page);
             setSkills([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
@@ -40,13 +40,6 @@ const Skills = () => {
     const startIndex = (skillPage - 1) * skillsPerPage;
     const endIndex = startIndex + skillsPerPage;
 
-    var settings = {
-        dots: true,
-        infinite: true,
-        speed: 500,
-        slidesToShow: 1,
-        slidesToScroll: 1,
-      };
     return (
         <>
             <Box>
@@ -64,7 +57,7 @@ const Skills = () => {
                                 </Grid>
                             ))
                         }
-                        
+
                     </GridContainer>
                     <GridContainer container justifyContent="center" alignItems="center">
                         <Stack spacing={2}>
