@@ -70,8 +70,8 @@ const Home = () => {
       <Box>
         <ContentBox >
           <GridContainer container justifyContent="center" alignItems="center">
-            <CustomButton variant="contained" endIcon={<CloudDownloadTwoToneIcon />} >Download Resume</CustomButton>
-            <CustomButton variant="contained" endIcon={<InfoTwoToneIcon />} >About Me</CustomButton>
+            <CustomButton variant="contained" marginRight={true} marginLeft={true} marginTop={true} endIcon={<CloudDownloadTwoToneIcon />} >Download Resume</CustomButton>
+            <CustomButton variant="contained" marginLeft={true} marginRight={true} marginTop={true} endIcon={<InfoTwoToneIcon />} >About Me</CustomButton>
           </GridContainer>
         </ContentBox>
       </Box>

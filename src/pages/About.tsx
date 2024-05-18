@@ -2,7 +2,7 @@ import { Grid, ImageList, ImageListItem, Typography } from '@mui/material'
 import React from 'react'
 import { useAppSelector } from '../app/hook';
 import { getUiUxState } from '../slices/ui';
-import { ContentBox, SectionTitle } from '../components/StyledComponents/CommonStyle';
+import { ContentBox } from '../components/StyledComponents/CommonStyle';
 import { Timeline, TimelineConnector, TimelineContent, TimelineDot, TimelineItem, TimelineOppositeContent, TimelineSeparator } from '@mui/lab';
 
 import LaptopMacIcon from '@mui/icons-material/LaptopMac';
@@ -82,8 +82,8 @@ const About = () => {
     <>
       <ContentBox topmargin={navBar.height}>
         <Grid container justifyContent={'center'}>
-          <Grid item sm={8} textAlign={'center'}>
-            <SectionTitle variant="h4" align='center' margin={3}>🖐️ Know About Me</SectionTitle>
+          <Grid item sm={8}>
+            <Typography variant="h4" align='center' margin={3} sx={{ color: "#47A992" }}>🖐️ Know About Me</Typography>
             <Typography variant="body2" m={2} align='center' color="GrayText">🧑‍💻 I am a Software Developer.</Typography>
             <Typography variant="body2" m={2} align='center' color="GrayText">🆓 In my free time, I enjoy to listen 🎵 musics and experimenting with new 🧑‍🍳 recipes in the kitchen.</Typography>
             <Typography variant="body2" m={2} align='center' color="GrayText">🏆 My success mantra is 'Always be learning.' I believe that continuous learning and improvement are key to personal and professional growth.</Typography>
@@ -94,75 +94,73 @@ const About = () => {
           </Grid>
         </Grid>
         <Grid container justifyContent={'center'}>
-          <Grid item textAlign={'center'}>
-            <SectionTitle variant="h4" align='center' margin={3} sx={{ color: "#47A992" }}>Career Timeline</SectionTitle>
+          <Grid item>
+            <Typography variant="h4" align='center' margin={3} sx={{ color: "#47A992" }}>Career Timeline</Typography>
             <Timeline position="alternate">
               <TimelineItem>
                 <TimelineOppositeContent
-                  sx={{ m: 'auto 0' }}
+                  sx={{ m: 'auto 0', color: "#FF0060" }}
                   variant="body2"
-                  color="text.secondary"
                 >
                   2017 - 2020
                 </TimelineOppositeContent>
-                <TimelineSeparator>
-                  <TimelineConnector />
+                <TimelineSeparator >
+                  <TimelineConnector sx={{ bgcolor: '#47A992' }}/>
                   <TimelineDot color="primary">
                     <AutoStoriesOutlinedIcon />
                   </TimelineDot>
-                  <TimelineConnector />
+                  <TimelineConnector sx={{ bgcolor: '#47A992' }}/>
                 </TimelineSeparator>
                 <TimelineContent sx={{ py: '12px', px: 2 }}>
-                  <Typography variant="h6" component="span">
+                  <Typography variant="h6" component="span" sx={{ color: "#FF0060" }} >
                     {'Bsc. Botany (Hons)'}
                   </Typography>
-                  <Typography>Studied from Calcutta University</Typography>
-                  <Typography>Gurudas College</Typography>
+                  <Typography color={'GrayText'}>Studied from Calcutta University</Typography>
+                  <Typography color={'GrayText'}>Gurudas College</Typography>
                 </TimelineContent>
               </TimelineItem>
               <TimelineItem>
                 <TimelineOppositeContent
-                  sx={{ m: 'auto 0' }}
+                  sx={{ m: 'auto 0', color: "#FF0060" }}
                   variant="body2"
                   color="text.secondary"
                 >
                   2020 - 2023
                 </TimelineOppositeContent>
                 <TimelineSeparator>
-                  <TimelineConnector />
+                  <TimelineConnector sx={{ bgcolor: '#47A992' }}/>
                   <TimelineDot color="primary">
                     <AutoStoriesOutlinedIcon />
                   </TimelineDot>
-                  <TimelineConnector />
+                  <TimelineConnector sx={{ bgcolor: '#47A992' }}/>
                 </TimelineSeparator>
                 <TimelineContent sx={{ py: '12px', px: 2 }}>
-                  <Typography variant="h6" component="span">
+                  <Typography variant="h6" component="span" sx={{ color: "#FF0060" }}>
                     BCA
                   </Typography>
-                  <Typography>Studied Computer Application from Maulana Abul Kalam Azad University of Technology</Typography>
-                  <Typography>Narula Institute of Technology</Typography>
+                  <Typography color={'GrayText'}>Studied Computer Application from Maulana Abul Kalam Azad University of Technology</Typography>
+                  <Typography color={'GrayText'}>Narula Institute of Technology</Typography>
                 </TimelineContent>
               </TimelineItem>
               <TimelineItem>
                 <TimelineOppositeContent
-                  sx={{ m: 'auto 0' }}
+                  sx={{ m: 'auto 0', color: "#FF0060" }}
                   variant="body2"
-                  color="text.secondary"
                 >
                   2023 - Continue
                 </TimelineOppositeContent>
                 <TimelineSeparator>
-                  <TimelineConnector />
+                  <TimelineConnector sx={{ bgcolor: '#47A992' }}/>
                   <TimelineDot color="primary">
                     <LaptopMacIcon />
                   </TimelineDot>
-                  <TimelineConnector />
+                  <TimelineConnector sx={{ bgcolor: '#47A992' }}/>
                 </TimelineSeparator>
                 <TimelineContent sx={{ py: '12px', px: 2 }}>
-                  <Typography variant="h6" component="span">
+                  <Typography variant="h6" component="span" sx={{ color: "#FF0060" }}>
                     Academian Indian Pvt Ltd
                   </Typography>
-                  <Typography>Working as a Software Developer</Typography>
+                  <Typography color={'GrayText'}>Working as a Software Developer</Typography>
                 </TimelineContent>
               </TimelineItem>
             </Timeline>
@@ -170,7 +168,7 @@ const About = () => {
         </Grid>
         <Grid container justifyContent={'center'}>
           <Grid item textAlign={'center'}>
-            <SectionTitle variant="h4" align='center' margin={3} sx={{ color: "#47A992" }}>Images</SectionTitle>
+            <Typography variant="h4" align='center' margin={3} sx={{ color: "#47A992" }}>Images</Typography>
             <ImageList
               sx={{ minHeight: 450 }}
               variant="quilted"

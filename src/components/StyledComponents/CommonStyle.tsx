@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { Avatar, Box, Button, Grid, Typography } from "@mui/material";
 
 export const Logo = styled(Avatar)`
-  margin: "0 auto";
+  margin: 0 auto;
 `;
 export const SearchBar = styled("div")`
   width: 70%;
@@ -32,10 +32,14 @@ export const AboutText = styled(Typography)`
 text-align: left;
  margin-top: 10px
 `;
-export const CustomButton = styled(Button)`
+export const CustomButton = styled(Button) <{ marginTop?: boolean, marginBottom?: boolean, marginLeft?: boolean, marginRight?: boolean }>`
     background-color: #47A992;
-    margin: 10px;
-    &:hover{
+    margin-top: ${props => (props.marginTop ? '10px' : '0')};
+    margin-bottom: ${props => (props.marginBottom ? '10px' : '0')};
+    margin-left: ${props => (props.marginLeft ? '10px' : '0')};
+    margin-right: ${props => (props.marginRight ? '10px' : '0')};
+
+    &:hover {
         background-color: #FF0060;
     }
 `;
@@ -49,4 +53,16 @@ export const SectionTitle = styled(Typography)`
     padding: 5px;
     border-Bottom: 2px solid;
 
+`;
+
+export const BlogFilterPanel = styled(Box)`
+  box-sizing: border-box;
+  position: fixed;
+  top: 0; right: 0; 
+  width: 300px;
+  z-index: 1200;
+  height: 100vh; 
+  background-color: white; 
+  padding: 25px;  
+  overflow: auto;
 `;

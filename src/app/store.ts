@@ -1,16 +1,20 @@
 import { configureStore } from '@reduxjs/toolkit'
 import uiReducer, { initialState }  from '../slices/ui';
+import { api } from './api';
 
 const pathName = window.location.pathname;
 const reduxState: string|null = (pathName === '/home') || (pathName === '/') ? null : localStorage.getItem('reduxState');
 const persistedState = reduxState ? JSON.parse(reduxState) : initialState;
 const store = configureStore({
   reducer: {
+    [api.reducerPath]: api.reducer,
     ui: uiReducer,
   },
   preloadedState: {
     ui: persistedState
-  }
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(api.middleware),
 })
 
 store.subscribe(()=>{

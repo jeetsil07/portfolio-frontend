@@ -12,13 +12,17 @@ import { RootState } from '../app/store'
 //     };
 //   }
 const initialState ={
-    uiux:{
+    userInterface:{
         navBar:{
             height: 0,
             selectedTab: 0
         },
-        progressBar:{
-            options: []
+        blogFilter:{
+            open: false,
+            filter:{
+                date: 'new',
+                ratings: []
+            }
         }
     }
 }
@@ -29,7 +33,7 @@ const uiSlice = createSlice({
     reducers:{
         setNavBar:(state, {payload})=>{
             const {height, selectedTab} = payload
-            const {navBar} = state.uiux
+            const {navBar} = state.userInterface
             
             if(height !== undefined) {
                 navBar.height = height
@@ -42,23 +46,27 @@ const uiSlice = createSlice({
                 console.log('-1 tab')
             }
         },
-        setProgressBar: (state,{payload})=>{
-            const {options} = payload
-            const {progressBar} = state.uiux
-
-            if(options !== undefined){
-                progressBar.options = options
+        setBlogFilter:(state,{payload})=>{
+            const {open, filter} = payload
+            const {blogFilter} = state.userInterface
+            if(open !== undefined) {
+                blogFilter.open = open
+            }
+            if(filter !== undefined) {
+                blogFilter.filter.date = filter?.date
+                blogFilter.filter.ratings = filter?.ratings
             }
         }
     }
 })
 
-export const {setNavBar,setProgressBar} = uiSlice.actions;
+// export const {setNavBar,setProgressBar} = uiSlice.actions;
+export const {setNavBar,setBlogFilter} = uiSlice.actions;
 export default uiSlice.reducer
 
 export const getUiUxState = createSelector(
-    (state: RootState) => state.ui.uiux,
-    uiux => ({...uiux})
+    (state: RootState) => state.ui.userInterface,
+    userInterface => ({...userInterface})
   );
   
 export {initialState};

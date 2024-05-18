@@ -3,14 +3,15 @@ import SearchIcon from '@mui/icons-material/Search';
 
 import React, { useState } from 'react'
 
-const SearchBar = () => {
+const SearchBar = ({pathName}:{pathName: string}) => {
     const [searchProject,setSearchProject] = useState("");
+    const [searhPost,setSearchPost] = useState("");
     return (
         <>
             <TextField
                 variant='outlined'
                 placeholder='Search...'
-                label="Search Project"
+                label={pathName === "/blogs" ? "Search Post" : "Search Project"}
                 fullWidth
                 sx={{
                     '& .MuiOutlinedInput-root': {
@@ -40,9 +41,8 @@ const SearchBar = () => {
                 InputLabelProps={{
                     style: { color: 'white' } // Change the color of the label
                 }}
-
-                onChange={(e)=>setSearchProject(e.target.value)}
-                value={searchProject}
+                onChange={(e)=>pathName === "/blogs" ? setSearchPost(e.target.value) : setSearchProject(e.target.value)}
+                value={pathName === "/blogs" ? searhPost : searchProject}
             />
         </>
     )

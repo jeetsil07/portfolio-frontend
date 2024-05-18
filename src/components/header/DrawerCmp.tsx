@@ -23,12 +23,11 @@ const DrawerCmp = () => {
   const [drawer, setDrawer] = useState(false);
   const location = useLocation();
   const renderMenus = useMemo(() => {
-    console.log("memo");
-    const menus: string[] = ["Home", "About Me", "Portfolio", "Blogs", "Contact"];
+    // console.log("memo");
+    const menus: string[] = ["Home", "About Me", "Blogs", "Contact"];
     const menuIcons: { [key: string]: React.ElementType } = {
       Home: HomeTwoToneIcon,
       'About Me': InfoTwoToneIcon,
-      Portfolio: WorkHistoryTwoToneIcon,
       Blogs: BookTwoToneIcon,
       Contact: PermContactCalendarTwoToneIcon,
     };

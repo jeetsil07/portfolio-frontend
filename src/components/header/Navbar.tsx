@@ -13,12 +13,12 @@ const Navbar = () => {
     const pathName = window.location.pathname.toLowerCase();
     const navigate = useNavigate();
     const navBarRef = useRef<HTMLDivElement | null>(null);
-    const { navBar } = useAppSelector((state)=>state.ui.uiux);
+    const { navBar } = useAppSelector((state)=>state.ui.userInterface);
     const dispatch = useAppDispatch();
     const theme = useTheme();
     const isMatch = useMediaQuery(theme.breakpoints.down('md'));
     const renderMenus = useMemo(() => {
-        const menus = ['Home', 'About Me', 'Portfolio', 'Blogs', 'Contact'];
+        const menus: string[] = ['Home', 'About Me','Blogs', 'Contact'];
         return menus.map((menu, index) => {
             const to = menu === 'About Me' ? '/about' : `/${menu.toLowerCase()}`;
             return (
@@ -33,16 +33,12 @@ const Navbar = () => {
             dispatch(setNavBar({ selectedTab: 0 }))
         } else if (pathName === '/about') {
             dispatch(setNavBar({ selectedTab: 1 }))
-        } else if (pathName === '/portfolio') {
-            dispatch(setNavBar({ selectedTab: 2 }))
         } else if (pathName === '/blogs') {
-            dispatch(setNavBar({ selectedTab: 3 }))
+            dispatch(setNavBar({ selectedTab: 2 }))
         } else if (pathName === '/contact') {
-            dispatch(setNavBar({ selectedTab: 4 }))
+            dispatch(setNavBar({ selectedTab: 3 }))
         }
-        // console.log(pathName)
         const measureNavbarHeight = () => {
-            // const navbar = document.getElementById('navbar');
             if (navBarRef) {
                 const navHeight = navBarRef.current?.clientHeight;
                 dispatch(setNavBar({ height: navHeight }));
@@ -83,7 +79,6 @@ const Navbar = () => {
                         <Tabs
                             textColor='inherit'
                             value={navBar.selectedTab}
-                            // onChange={(e, val) => dispatch(setNavBar({selectedTab: val}))}
                             sx={{
                                 '& .MuiTabs-indicator': {
                                     backgroundColor: 'white',
@@ -94,7 +89,7 @@ const Navbar = () => {
                         </Tabs>
                     </Grid>
                     <Grid item xs={3}>
-                        <SearchBar />
+                        <SearchBar pathName={pathName} />
                     </Grid>
                 </>
                 ) : (

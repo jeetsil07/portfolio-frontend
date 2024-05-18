@@ -17,12 +17,11 @@ const Footer = () => {
     const location = useLocation()
 
     const renderMenus = useMemo(() => {
-        console.log("memo");
-        const menus: string[] = ["Home", "About Me", "Portfolio", "Blogs", "Contact"];
+        // console.log("memo");
+        const menus: string[] = ["Home", "About Me", "Blogs", "Contact"];
         const menuIcons: { [key: string]: React.ElementType } = {
             Home: HomeTwoToneIcon,
             'About Me': InfoTwoToneIcon,
-            Portfolio: WorkHistoryTwoToneIcon,
             Blogs: BookTwoToneIcon,
             Contact: PermContactCalendarTwoToneIcon,
         };
@@ -31,7 +30,7 @@ const Footer = () => {
             const IconComponent = menuIcons[menu];
             const to = menu === "About Me" ? "/about" : `/${menu.toLowerCase()}`;
             const isActive = location.pathname === to;
-            console.log("footer", window.location.pathname)
+            // console.log("footer", window.location.pathname)
             return (
                 <ListItem key={index}>
                     <ListItemButton component={Link} to={to}>

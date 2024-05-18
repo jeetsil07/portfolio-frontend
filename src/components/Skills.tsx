@@ -6,7 +6,7 @@ const Skills = () => {
     console.log('skill')
     const [skillPage, setSkillPage] = useState(1);
     const [skills, setSkills] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
-    console.log(skills)
+    // console.log(skills)
     const allSkillsprogress = useMemo(() => [70, 80, 90, 70, 90, 80, 60, 80, 70, 60], []);
     const allSkillsTitle = ['React Js', 'Laravel', 'Javascript', 'Php', 'Html', 'Css', 'Bootstrap', 'Material Ui', 'Figma', 'Aws']
     const handleSkillPage = useCallback((event: React.ChangeEvent<unknown>, page: number) => {
@@ -61,16 +61,20 @@ const Skills = () => {
                     </GridContainer>
                     <GridContainer container justifyContent="center" alignItems="center">
                         <Stack spacing={2}>
-                            <Pagination count={totalSkillPage} shape="rounded" page={skillPage} onChange={handleSkillPage} sx={{
-                                '& .MuiPaginationItem-page': {
-                                    backgroundColor: '#47A992',
-                                    color: "white"
+                            <Pagination count={totalSkillPage} showFirstButton showLastButton 
+                             page={skillPage} onChange={handleSkillPage} 
+                             sx={{
+                                '& .MuiPaginationItem-root': {
+                                  color: '#47A992', // Change to your desired color
                                 },
                                 '& .Mui-selected': {
-                                    backgroundColor: '#FF0060 !important',
-                                    transform: 'scale(1.2)'
-                                }
-                            }} />
+                                  backgroundColor: '#FF0060 !important', // Change to your desired color
+                                  color: 'white', // Change to your desired color
+                                  transform: 'scale(1.2)'
+                                },
+                                alignSelf: 'center'
+                              }} 
+                            />
                         </Stack>
                     </GridContainer>
                 </ContentBox>
