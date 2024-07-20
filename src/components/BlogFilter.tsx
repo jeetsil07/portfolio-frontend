@@ -18,7 +18,7 @@ const top100Films = [
   { title: 'Pulp Fiction' },
 ];
 const BlogFilter = () => {
-  const {blogFilter} = useAppSelector(getUiUxState);
+  const {blogFilter, navBar} = useAppSelector(getUiUxState);
   const [dateFilter, setDateFilter] = useState<string>('');
   const [ratingFilter, setRatingFilter] = useState<number[]>([]);
   const dispatch = useAppDispatch();
@@ -70,7 +70,7 @@ const BlogFilter = () => {
   console.log(ratingFilter)
   const ratings = [5, 4, 3, 2, 1];
   return (
-    <BlogFilterPanel sx={{boxShadow: 1}}>
+    <BlogFilterPanel sx={{boxShadow: 1, marginTop: `${navBar?.height}px`}}>
       <Typography variant="h5" color="#47A992">
         Date
       </Typography>

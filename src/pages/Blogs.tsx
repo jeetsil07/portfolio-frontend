@@ -18,9 +18,6 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import postImg1 from "../assets/img/post.jpg";
-import postImg2 from "../assets/img/post2.jpg";
-import postImg3 from "../assets/img/post3.jpg";
 import SendIcon from "@mui/icons-material/Send";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import BlogFilter from "../components/BlogFilter";
@@ -35,40 +32,8 @@ const Blogs = () => {
   const filterRef = useRef<HTMLDivElement>(null);
   const dispatch = useAppDispatch();
 
-  const {data} = useGetPostsQuery({ category: 'yourCategory' })
-  console.log('data',data)
-  const postData = [
-    {
-      title: "1 Lorem, ipsum dolor sit adipisicing elit.",
-      desc: "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maiores cupiditate delectus possimus fugiat reiciendis, aperiam accusamus facere iure ad dolor mollitia est eius eaque similique reprehenderit exercitationem quod. Vitae, aut.",
-      img: postImg1,
-    },
-    {
-      title: "2 Lorem, ipsum dolor sit adipisicing elit.",
-      desc: "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maiores cupiditate delectus possimus fugiat reiciendis, aperiam accusamus facere iure ad dolor mollitia est eius eaque similique reprehenderit exercitationem quod. Vitae, aut.",
-      img: postImg2,
-    },
-    {
-      title: "3 Lorem, ipsum dolor sit adipisicing elit.",
-      desc: "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maiores cupiditate delectus possimus fugiat reiciendis, aperiam accusamus facere iure ad dolor mollitia est eius eaque similique reprehenderit exercitationem quod. Vitae, aut.",
-      img: postImg3,
-    },
-    {
-      title: "4 Lorem, ipsum dolor sit adipisicing elit.",
-      desc: "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maiores cupiditate delectus possimus fugiat reiciendis, aperiam accusamus facere iure ad dolor mollitia est eius eaque similique reprehenderit exercitationem quod. Vitae, aut.",
-      img: postImg1,
-    },
-    {
-      title: "5 Lorem, ipsum dolor sit adipisicing elit.",
-      desc: "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maiores cupiditate delectus possimus fugiat reiciendis, aperiam accusamus facere iure ad dolor mollitia est eius eaque similique reprehenderit exercitationem quod. Vitae, aut.",
-      img: postImg2,
-    },
-    {
-      title: "6 Lorem, ipsum dolor sit adipisicing elit.",
-      desc: "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maiores cupiditate delectus possimus fugiat reiciendis, aperiam accusamus facere iure ad dolor mollitia est eius eaque similique reprehenderit exercitationem quod. Vitae, aut.",
-      img: postImg3,
-    },
-  ];
+  const { data: postdata, error, isLoading } = useGetPostsQuery({})
+  console.log(isLoading, 'data', postdata)
 
   const allPostCategory = [
     "Recent Posts",
@@ -82,7 +47,7 @@ const Blogs = () => {
     "Entertainment",
     "History of India",
   ];
-  const toggleFilter = (event: React.MouseEvent<HTMLButtonElement>)=>{
+  const toggleFilter = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
     dispatch(setBlogFilter({
       open: true
@@ -96,19 +61,19 @@ const Blogs = () => {
       }));
     }
   }, [filterRef, dispatch]);
-  
-  useEffect(()=>{
-    window.addEventListener('click',handleOutsideClick);
-    return ()=>{
-    window.removeEventListener('click',handleOutsideClick);
+
+  useEffect(() => {
+    window.addEventListener('click', handleOutsideClick);
+    return () => {
+      window.removeEventListener('click', handleOutsideClick);
     }
-  },[filterRef, handleOutsideClick])
-  const handlePostPage = (event: React.ChangeEvent<unknown>, page: number)=>{
+  }, [filterRef, handleOutsideClick])
+  const handlePostPage = (event: React.ChangeEvent<unknown>, page: number) => {
     setPostpage(page);
   }
 
   const postsPerPage = 5;
-  const totalPostPage = Math.ceil(postData.length / postsPerPage);
+  const totalPostPage = Math.ceil(postdata?.length / postsPerPage);
   const startIndex = (postPage - 1) * postsPerPage;
   const endIndex = startIndex + postsPerPage;
   return (
@@ -138,47 +103,50 @@ const Blogs = () => {
       </Grid>
       <Grid container spacing={2}>
         <Grid item sm={8}>
-          <Box>
-            {postData.map((post, index) => (
-              <Card key={index} sx={{ padding: "5px", margin: "10px" }}>
-                <CardActionArea>
-                  <Grid container alignItems={"start"}>
-                    <Grid item md={6} xs={12}>
-                      <CardMedia
-                        component="img"
-                        height="140"
-                        image={post.img}
-                        alt="post img"
-                      />
+          {
+            !isLoading &&
+            <Box>
+              {postdata.map((post: any, index: any) => (
+                <Card key={index} sx={{ padding: "5px", margin: "10px" }}>
+                  <CardActionArea>
+                    <Grid container alignItems={"start"}>
+                      <Grid item md={6} xs={12}>
+                        <CardMedia
+                          component="img"
+                          height="140"
+                          image={post.image}
+                          alt="post img"
+                        />
+                      </Grid>
+                      <Grid item md={6} xs={12}>
+                        <CardContent>
+                          <Typography
+                            gutterBottom
+                            variant="subtitle1"
+                            component="div"
+                          >
+                            {post.title}
+                          </Typography>
+                          <Typography variant="caption" color="text.secondary">
+                            {post.description.substring(0, 100)}...
+                          </Typography>
+                          <br />
+                          <CustomButton
+                            size="small"
+                            marginTop={true}
+                            variant="contained"
+                            endIcon={<SendIcon />}
+                          >
+                            Read More
+                          </CustomButton>
+                        </CardContent>
+                      </Grid>
                     </Grid>
-                    <Grid item md={6} xs={12}> 
-                      <CardContent>
-                        <Typography
-                          gutterBottom
-                          variant="subtitle1"
-                          component="div"
-                        >
-                          {post.title}
-                        </Typography>
-                        <Typography variant="caption" color="text.secondary">
-                          {post.desc.substring(0, 100)}...
-                        </Typography>
-                        <br />
-                        <CustomButton
-                          size="small"
-                          marginTop={true}
-                          variant="contained"
-                          endIcon={<SendIcon />}
-                        >
-                          Read More
-                        </CustomButton>
-                      </CardContent>
-                    </Grid>
-                  </Grid>
-                </CardActionArea>
-              </Card>
-            ))}
-          </Box>
+                  </CardActionArea>
+                </Card>
+              ))}
+            </Box>
+          }
           <Stack sx={{ margin: "25px" }}>
             <Pagination
               count={10}
