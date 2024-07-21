@@ -22,6 +22,7 @@ import SendIcon from "@mui/icons-material/Send";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import BlogFilter from "../components/BlogFilter";
 import { useGetPostsQuery } from "../services/posts.service";
+import { primaryColor, secondaryColor } from "../util/constant";
 
 
 const Blogs = () => {
@@ -91,9 +92,9 @@ const Blogs = () => {
           variant="text"
           startIcon={<FilterAltIcon />}
           sx={{
-            color: "#47A992", // Change text color
+            color: primaryColor, // Change text color
             "& .MuiSvgIcon-root": {
-              color: "#47A992", // Change icon color
+              color: primaryColor, // Change icon color
             },
           }}
           onClick={toggleFilter}
@@ -106,7 +107,7 @@ const Blogs = () => {
           {
             !isLoading &&
             <Box>
-              {postdata.map((post: any, index: any) => (
+              {postdata?.map((post: any, index: any) => (
                 <Card key={index} sx={{ padding: "5px", margin: "10px" }}>
                   <CardActionArea>
                     <Grid container alignItems={"start"}>
@@ -145,6 +146,9 @@ const Blogs = () => {
                   </CardActionArea>
                 </Card>
               ))}
+              { (postdata === undefined || postdata?.length === 0) &&
+                <Typography variant="body1" color={"GrayText"} margin={2}>No Result Found</Typography>
+              }
             </Box>
           }
           <Stack sx={{ margin: "25px" }}>
@@ -156,10 +160,10 @@ const Blogs = () => {
               showLastButton
               sx={{
                 "& .MuiPaginationItem-root": {
-                  color: "#47A992", // Change to your desired color
+                  color: primaryColor, // Change to your desired color
                 },
                 "& .Mui-selected": {
-                  backgroundColor: "#FF0060 !important", // Change to your desired color
+                  backgroundColor: `${secondaryColor} !important`, // Change to your desired color
                   color: "white", // Change to your desired color
                   transform: "scale(1.2)",
                 },
@@ -191,10 +195,10 @@ const Blogs = () => {
                       "&.MuiChip-root": {
                         margin: "3px",
                         backgroundColor:
-                          category === postCategory ? "#47A992" : "inherit",
+                          category === postCategory ? primaryColor : "inherit",
                         color: category === postCategory ? "#fff" : "inherit",
                         "&:hover": {
-                          backgroundColor: "#47A992",
+                          backgroundColor: primaryColor,
                           color: "#fff",
                         },
                       },

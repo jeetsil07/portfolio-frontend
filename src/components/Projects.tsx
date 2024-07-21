@@ -12,6 +12,7 @@ import "../swiperStyle/swiper.css"
 
 // import required modules
 import { Keyboard, Pagination } from 'swiper/modules';
+import { primaryColor } from '../util/constant';
 
 const Projects = () => {
   const AllProjects = [
@@ -59,7 +60,7 @@ const Projects = () => {
     <>
       <Box>
         <ContentBox>
-          <Typography variant="h4" align='center' margin={3} sx={{ color: "#47A992" }}>PROJECTS AND WORK</Typography>
+          <Typography variant="h4" align='center' margin={3} sx={{ color: primaryColor }}>PROJECTS AND WORK</Typography>
           <Swiper
             slidesPerView={3}
             spaceBetween={30}

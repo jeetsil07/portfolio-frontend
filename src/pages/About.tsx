@@ -7,6 +7,7 @@ import { Timeline, TimelineConnector, TimelineContent, TimelineDot, TimelineItem
 
 import LaptopMacIcon from '@mui/icons-material/LaptopMac';
 import AutoStoriesOutlinedIcon from '@mui/icons-material/AutoStoriesOutlined';
+import { primaryColor, secondaryColor } from '../util/constant';
 
 const About = () => {
   console.log('about')
@@ -83,7 +84,7 @@ const About = () => {
       <ContentBox topmargin={navBar.height}>
         <Grid container justifyContent={'center'}>
           <Grid item sm={8}>
-            <Typography variant="h4" align='center' margin={3} sx={{ color: "#47A992" }}>🖐️ Know About Me</Typography>
+            <Typography variant="h4" align='center' margin={3} sx={{ color: primaryColor }}>🖐️ Know About Me</Typography>
             <Typography variant="body2" m={2} align='center' color="GrayText">🧑‍💻 I am a Software Developer.</Typography>
             <Typography variant="body2" m={2} align='center' color="GrayText">🆓 In my free time, I enjoy to listen 🎵 musics and experimenting with new 🧑‍🍳 recipes in the kitchen.</Typography>
             <Typography variant="body2" m={2} align='center' color="GrayText">🏆 My success mantra is 'Always be learning.' I believe that continuous learning and improvement are key to personal and professional growth.</Typography>
@@ -95,24 +96,24 @@ const About = () => {
         </Grid>
         <Grid container justifyContent={'center'}>
           <Grid item>
-            <Typography variant="h4" align='center' margin={3} sx={{ color: "#47A992" }}>Career Timeline</Typography>
+            <Typography variant="h4" align='center' margin={3} sx={{ color: primaryColor }}>Career Timeline</Typography>
             <Timeline position="alternate">
               <TimelineItem>
                 <TimelineOppositeContent
-                  sx={{ m: 'auto 0', color: "#FF0060" }}
+                  sx={{ m: 'auto 0', color: secondaryColor }}
                   variant="body2"
                 >
                   2017 - 2020
                 </TimelineOppositeContent>
                 <TimelineSeparator >
-                  <TimelineConnector sx={{ bgcolor: '#47A992' }}/>
+                  <TimelineConnector sx={{ bgcolor: primaryColor }}/>
                   <TimelineDot color="primary">
                     <AutoStoriesOutlinedIcon />
                   </TimelineDot>
-                  <TimelineConnector sx={{ bgcolor: '#47A992' }}/>
+                  <TimelineConnector sx={{ bgcolor: primaryColor }}/>
                 </TimelineSeparator>
                 <TimelineContent sx={{ py: '12px', px: 2 }}>
-                  <Typography variant="h6" component="span" sx={{ color: "#FF0060" }} >
+                  <Typography variant="h6" component="span" sx={{ color: secondaryColor }} >
                     {'Bsc. Botany (Hons)'}
                   </Typography>
                   <Typography color={'GrayText'}>Studied from Calcutta University</Typography>
@@ -121,21 +122,21 @@ const About = () => {
               </TimelineItem>
               <TimelineItem>
                 <TimelineOppositeContent
-                  sx={{ m: 'auto 0', color: "#FF0060" }}
+                  sx={{ m: 'auto 0', color: secondaryColor }}
                   variant="body2"
                   color="text.secondary"
                 >
                   2020 - 2023
                 </TimelineOppositeContent>
                 <TimelineSeparator>
-                  <TimelineConnector sx={{ bgcolor: '#47A992' }}/>
+                  <TimelineConnector sx={{ bgcolor: primaryColor }}/>
                   <TimelineDot color="primary">
                     <AutoStoriesOutlinedIcon />
                   </TimelineDot>
-                  <TimelineConnector sx={{ bgcolor: '#47A992' }}/>
+                  <TimelineConnector sx={{ bgcolor: primaryColor }}/>
                 </TimelineSeparator>
                 <TimelineContent sx={{ py: '12px', px: 2 }}>
-                  <Typography variant="h6" component="span" sx={{ color: "#FF0060" }}>
+                  <Typography variant="h6" component="span" sx={{ color: secondaryColor }}>
                     BCA
                   </Typography>
                   <Typography color={'GrayText'}>Studied Computer Application from Maulana Abul Kalam Azad University of Technology</Typography>
@@ -144,20 +145,20 @@ const About = () => {
               </TimelineItem>
               <TimelineItem>
                 <TimelineOppositeContent
-                  sx={{ m: 'auto 0', color: "#FF0060" }}
+                  sx={{ m: 'auto 0', color: secondaryColor }}
                   variant="body2"
                 >
                   2023 - Continue
                 </TimelineOppositeContent>
                 <TimelineSeparator>
-                  <TimelineConnector sx={{ bgcolor: '#47A992' }}/>
+                  <TimelineConnector sx={{ bgcolor: primaryColor }}/>
                   <TimelineDot color="primary">
                     <LaptopMacIcon />
                   </TimelineDot>
-                  <TimelineConnector sx={{ bgcolor: '#47A992' }}/>
+                  <TimelineConnector sx={{ bgcolor: primaryColor }}/>
                 </TimelineSeparator>
                 <TimelineContent sx={{ py: '12px', px: 2 }}>
-                  <Typography variant="h6" component="span" sx={{ color: "#FF0060" }}>
+                  <Typography variant="h6" component="span" sx={{ color: secondaryColor }}>
                     Academian Indian Pvt Ltd
                   </Typography>
                   <Typography color={'GrayText'}>Working as a Software Developer</Typography>
@@ -168,7 +169,7 @@ const About = () => {
         </Grid>
         <Grid container justifyContent={'center'}>
           <Grid item textAlign={'center'}>
-            <Typography variant="h4" align='center' margin={3} sx={{ color: "#47A992" }}>Images</Typography>
+            <Typography variant="h4" align='center' margin={3} sx={{ color: primaryColor }}>Images</Typography>
             <ImageList
               sx={{ minHeight: 450 }}
               variant="quilted"

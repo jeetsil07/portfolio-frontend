@@ -5,6 +5,7 @@ import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import { useAppDispatch, useAppSelector } from '../app/hook';
 import { getUiUxState, setBlogFilter } from '../slices/ui';
+import { primaryColor } from '../util/constant';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -71,7 +72,7 @@ const BlogFilter = () => {
   const ratings = [5, 4, 3, 2, 1];
   return (
     <BlogFilterPanel sx={{boxShadow: 1, marginTop: `${navBar?.height}px`}}>
-      <Typography variant="h5" color="#47A992">
+      <Typography variant="h5" color={primaryColor}>
         Date
       </Typography>
       <RadioGroup
@@ -81,11 +82,11 @@ const BlogFilter = () => {
         value={dateFilter}
         onChange={handleDateFilter}
       >
-        <FormControlLabel value="new" control={<Radio sx={{ color: '#47A992', '&.Mui-checked': { color: '#47A992' } }} />} label="Newest First" />
-        <FormControlLabel value="old" control={<Radio sx={{ color: '#47A992', '&.Mui-checked': { color: '#47A992' } }} />} label="Oldest First" />
+        <FormControlLabel value="new" control={<Radio sx={{ color: primaryColor, '&.Mui-checked': { color: primaryColor } }} />} label="Newest First" />
+        <FormControlLabel value="old" control={<Radio sx={{ color: primaryColor, '&.Mui-checked': { color: primaryColor } }} />} label="Oldest First" />
       </RadioGroup>
       <Divider sx={{ margin: '5px 0' }} />
-      <Typography variant="h5" color="#47A992">
+      <Typography variant="h5" color={primaryColor}>
         Ratings
       </Typography>
       <FormGroup>
@@ -94,7 +95,7 @@ const BlogFilter = () => {
             key={rating}
             control={
               <Checkbox
-                sx={{ color: '#47A992', '&.Mui-checked': { color: '#47A992' } }}
+                sx={{ color: primaryColor, '&.Mui-checked': { color: primaryColor } }}
                 onChange={handleRatingFilter}
                 value={rating}
                 checked={ratingFilter.includes(rating)}

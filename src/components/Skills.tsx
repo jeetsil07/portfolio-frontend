@@ -1,6 +1,7 @@
 import { Box, CircularProgress, Grid, Pagination, Stack, Typography } from '@mui/material'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { ContentBox, GridContainer } from './StyledComponents/CommonStyle';
+import { primaryColor, secondaryColor } from '../util/constant';
 
 const Skills = () => {
     console.log('skill')
@@ -44,16 +45,16 @@ const Skills = () => {
         <>
             <Box>
                 <ContentBox sx={{ backgroundColor: '#F2EFE5', margin: '30px' }}>
-                    <Typography variant="h4" align='center' margin={3} sx={{ color: "#47A992" }}>SKILLS & TECH STACK</Typography>
+                    <Typography variant="h4" align='center' margin={3} sx={{ color: primaryColor }}>SKILLS & TECH STACK</Typography>
                     <GridContainer container justifyContent="center" alignItems="center">
                         {
                             skills.slice(startIndex, endIndex).map((skill, index) => (
                                 <Grid key={index} item md={3} sx={{ margin: "30px" }}>
                                     <Box sx={{ position: "relative", display: 'flex', justifyContent: 'center' }} >
-                                        <CircularProgress variant="determinate" value={skill} size={100} sx={{ color: '#FF0060' }} />
-                                        <Typography sx={{ color: "#47A992", position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)" }}>{skill}%</Typography>
+                                        <CircularProgress variant="determinate" value={skill} size={100} sx={{ color: secondaryColor }} />
+                                        <Typography sx={{ color: primaryColor, position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)" }}>{skill}%</Typography>
                                     </Box>
-                                    <Typography align="center" margin={'10px'} sx={{ color: "#47A992" }} >{allSkillsTitle[startIndex + index]}</Typography>
+                                    <Typography align="center" margin={'10px'} sx={{ color: primaryColor }} >{allSkillsTitle[startIndex + index]}</Typography>
                                 </Grid>
                             ))
                         }
@@ -65,10 +66,10 @@ const Skills = () => {
                              page={skillPage} onChange={handleSkillPage} 
                              sx={{
                                 '& .MuiPaginationItem-root': {
-                                  color: '#47A992', // Change to your desired color
+                                  color: primaryColor, // Change to your desired color
                                 },
                                 '& .Mui-selected': {
-                                  backgroundColor: '#FF0060 !important', // Change to your desired color
+                                  backgroundColor: `${secondaryColor} !important`, // Change to your desired color
                                   color: 'white', // Change to your desired color
                                   transform: 'scale(1.2)'
                                 },

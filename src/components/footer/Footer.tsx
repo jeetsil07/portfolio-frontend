@@ -13,6 +13,7 @@ import CallTwoToneIcon from '@mui/icons-material/CallTwoTone';
 import AccountTreeTwoToneIcon from '@mui/icons-material/AccountTreeTwoTone';
 import DescriptionTwoToneIcon from '@mui/icons-material/DescriptionTwoTone';
 import NotificationsNoneTwoToneIcon from '@mui/icons-material/NotificationsNoneTwoTone';
+import { secondaryColor } from '../../util/constant';
 const Footer = () => {
     const location = useLocation()
 
@@ -38,7 +39,7 @@ const Footer = () => {
                         <ListItemText
                             primary={menu}
                             sx={{
-                                color: isActive ? '#FF0060' : 'white',
+                                color: isActive ? secondaryColor : 'white',
                             }}
                         />
                     </ListItemButton>
@@ -146,7 +147,7 @@ const Footer = () => {
                                 }}
                             />
                             <Button variant="contained" sx={{
-                                backgroundColor:'#FF0060',
+                                backgroundColor:secondaryColor,
                                 marginTop: "5px"
                             }} endIcon={<NotificationsNoneTwoToneIcon />}>
                                 Subscribe

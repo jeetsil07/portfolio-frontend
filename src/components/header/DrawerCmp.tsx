@@ -18,6 +18,7 @@ import PermContactCalendarTwoToneIcon from "@mui/icons-material/PermContactCalen
 import { Logo } from "../StyledComponents/CommonStyle";
 import { Link, useLocation } from "react-router-dom";
 import logoImg from '../../assets/img/jeet1.jpeg'
+import { primaryColor } from "../../util/constant";
 
 const DrawerCmp = () => {
   const [drawer, setDrawer] = useState(false);
@@ -39,11 +40,11 @@ const DrawerCmp = () => {
       return (
         <div key={index}>
           <ListItemButton component={Link} to={to}>
-            <IconComponent sx={{ color: '#47A992' }} />
+            <IconComponent sx={{ color: primaryColor }} />
             <ListItemText
               primary={menu}
               sx={{
-                color: isActive ? '#47A992' : '',
+                color: isActive ? primaryColor : '',
                 paddingLeft: "30px",
                 minWidth: "100px",
               }}
@@ -71,7 +72,7 @@ const DrawerCmp = () => {
           alignItems="center"
           sx={{
             padding: "10px",
-            backgroundColor: "#47A992",
+            backgroundColor: primaryColor,
           }}
         >
           <Grid item xs={5}>

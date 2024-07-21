@@ -17,6 +17,7 @@ import {
 } from "../components/StyledComponents/CommonStyle";
 import Skills from "../components/Skills";
 import Projects from "../components/Projects";
+import { primaryColor, secondaryColor } from "../util/constant";
 const Home = () => {
   console.log("home");
   const { navBar } = useAppSelector(getUiUxState);
@@ -41,8 +42,8 @@ const Home = () => {
           </Grid>
           <Grid item lg={5} sx={{ margin: "20px 10px" }}>
             <Typography variant="h5" color="initial">
-              <span style={{ color: "#47A992" }}>I'm a</span>{" "}
-              <span style={{ color: '#FF0060',padding:'15px 0' }}>
+              <span style={{ color: primaryColor }}>I'm a</span>{" "}
+              <span style={{ color: secondaryColor,padding:'15px 0' }}>
                 <Typewriter
                   words={["Software Developer", "UI/UX Designer", "YouTuber"]}
                   loop={false}

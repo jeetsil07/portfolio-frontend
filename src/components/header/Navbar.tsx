@@ -7,6 +7,7 @@ import DrawerCmp from './DrawerCmp';
 import logoImg from '../../assets/img/jeet1.jpeg';
 import { useAppDispatch, useAppSelector } from '../../app/hook';
 import { setNavBar } from '../../slices/ui';
+import { primaryColor } from '../../util/constant';
 
 const Navbar = () => {
     console.log("navbar")
@@ -64,7 +65,7 @@ const Navbar = () => {
             id='navbar'
             ref={navBarRef}
             sx={{
-                backgroundColor: '#47A992',
+                backgroundColor: primaryColor,
                 padding: '5px 20px'
             }}
         >
