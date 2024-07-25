@@ -1,8 +1,14 @@
 import React from 'react'
+import { ContentBox } from '../components/StyledComponents/CommonStyle'
+import { useAppSelector } from '../app/hook'
+import { getUiUxState } from '../slices/ui'
 
 const NotFound = () => {
+  const {navBar} = useAppSelector(getUiUxState)
   return (
-    <h3 style={{position: 'absolute',top:'50%',left:'50%',transform:'translate(-50%,-50%)'}}>Page Not Found</h3>
+    <ContentBox topmargin={navBar.height}>
+    <h3>Page Not Found</h3>
+    </ContentBox>
   )
 }
 

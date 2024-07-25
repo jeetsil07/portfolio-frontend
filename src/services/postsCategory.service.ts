@@ -12,21 +12,14 @@
 // export const { useGetPostsQuery } = postsApi;
 import { api } from '../app/api'
 
-const postsApi = api.injectEndpoints({
+const postsCategoryApi = api.injectEndpoints({
   endpoints: (builder) => ({
-    getPosts: builder.query({
-      query: (category) => {
-        console.log(category,'postapi')
-        if (category.id === '') {
-          return '/api/posts/';
-        } else {
-          return `/api/posts/?category_id=${category.id}`;
-        }
-      },
-      providesTags: ['Posts'],
+    getPostsCategory: builder.query({
+      query: () => `/api/postscategory/`,
+      providesTags: ['Postscategory'],
     }),
   }),
   overrideExisting: false,
 });
 
-export const { useGetPostsQuery } = postsApi;
+export const { useGetPostsCategoryQuery } = postsCategoryApi;

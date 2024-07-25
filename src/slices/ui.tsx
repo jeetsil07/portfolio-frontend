@@ -1,5 +1,6 @@
 import { createSelector, createSlice } from '@reduxjs/toolkit'
 import { RootState } from '../app/store'
+import { Post, PostCategory } from '../util/type/types'
 
 // interface NavBarState {
 //     height: number;
@@ -23,6 +24,17 @@ const initialState ={
                 date: 'new',
                 ratings: []
             }
+        },
+        postCategory:{
+            data:[] as PostCategory[],
+            selectedCategory:{
+                id: '',
+                name:''
+            } as PostCategory
+        },
+        postData:{
+            data:[],
+            selectedPost:{} as Post
         }
     }
 }
@@ -56,12 +68,32 @@ const uiSlice = createSlice({
                 blogFilter.filter.date = filter?.date
                 blogFilter.filter.ratings = filter?.ratings
             }
+        },
+        setPostCategory:(state,{payload})=>{
+            const {data,selectedCategory} = payload
+            const {postCategory} = state.userInterface
+            if(data !== undefined) {
+                postCategory.data = data
+            }
+            if(selectedCategory !== undefined) {
+                postCategory.selectedCategory = selectedCategory
+            }
+        },
+        setPostData:(state,{payload})=>{
+            const {data,selectedPost} = payload
+            const {postData} = state.userInterface
+            if(data !== undefined) {
+                postData.data = data
+            }
+            if(selectedPost !== undefined) {
+                postData.selectedPost = selectedPost
+            }
         }
     }
 })
 
 // export const {setNavBar,setProgressBar} = uiSlice.actions;
-export const {setNavBar,setBlogFilter} = uiSlice.actions;
+export const {setNavBar,setBlogFilter,setPostData,setPostCategory} = uiSlice.actions;
 export default uiSlice.reducer
 
 export const getUiUxState = createSelector(

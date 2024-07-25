@@ -34,8 +34,12 @@ export const api = createApi({
       headers.set("Accept", "application/json");
       return headers;
     },
+    responseHandler: async (response) => {
+      const data = await response.json();
+      return { data, status: response.status };
+    },
   }),
-  tagTypes: ["Posts"],
+  tagTypes: ["Posts", "Postscategory"],
 
   endpoints: () => ({}),
 });

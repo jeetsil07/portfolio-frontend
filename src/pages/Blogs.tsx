@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../app/hook";
-import { getUiUxState, setBlogFilter } from "../slices/ui";
+import { getUiUxState, setBlogFilter, setNavBar, setPostCategory, setPostData } from "../slices/ui";
 import {
   ContentBox,
   CustomButton,
@@ -23,31 +23,44 @@ import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import BlogFilter from "../components/BlogFilter";
 import { useGetPostsQuery } from "../services/posts.service";
 import { primaryColor, secondaryColor } from "../util/constant";
+import { useGetPostsCategoryQuery } from "../services/postsCategory.service";
+import { Post, PostCategory } from "../util/type/types";
+import { Route, useNavigate } from "react-router-dom";
+import routes from "../util/routes";
 
 
 const Blogs = () => {
   console.log("blogs");
-  const [postCategory, setPostCategory] = useState<string>("Recent Posts");
   const [postPage, setPostpage] = useState<number>(1);
-  const { navBar, blogFilter } = useAppSelector(getUiUxState);
+  const { navBar, blogFilter, postData, postCategory } = useAppSelector(getUiUxState);
   const filterRef = useRef<HTMLDivElement>(null);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const { data: postCategories, isLoading: categoryLoading } = useGetPostsCategoryQuery({})
+  useEffect(() => {
+    if (!postCategories || postCategories.status !== 200) return
+    dispatch(
+      setPostCategory({
+        data: postCategories.data,
+        // selectedCategory: {
+        //   id: '',
+        //   name: ''
+        // }
+      })
+    )
+  }, [postCategories, dispatch])
+  const { data: postdata, isLoading } = useGetPostsQuery(postCategory.selectedCategory, {
+    skip: Object.values(postCategory.selectedCategory).length === 0
+  })
 
-  const { data: postdata, error, isLoading } = useGetPostsQuery({})
-  console.log(isLoading, 'data', postdata)
-
-  const allPostCategory = [
-    "Recent Posts",
-    "Sports",
-    "Politics",
-    "Wild Life",
-    "Technology",
-    "Education",
-    "Travel",
-    "Heritage & Culture",
-    "Entertainment",
-    "History of India",
-  ];
+  useEffect(() => {
+    if (!postdata || postdata.status !== 200) return
+    dispatch(
+      setPostData({
+        data: postdata.data
+      })
+    )
+  }, [postdata, dispatch])
   const toggleFilter = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
     dispatch(setBlogFilter({
@@ -56,7 +69,6 @@ const Blogs = () => {
   }
   const handleOutsideClick = useCallback((event: MouseEvent) => {
     if (filterRef.current && !filterRef.current.contains(event.target as Node)) {
-      console.log(filterRef.current, event.target);
       dispatch(setBlogFilter({
         open: false
       }));
@@ -73,10 +85,32 @@ const Blogs = () => {
     setPostpage(page);
   }
 
-  const postsPerPage = 5;
-  const totalPostPage = Math.ceil(postdata?.length / postsPerPage);
+  const postsPerPage = 2;
+  const totalPostPage = Math.ceil(postData.data.length / postsPerPage);
   const startIndex = (postPage - 1) * postsPerPage;
   const endIndex = startIndex + postsPerPage;
+
+  const openPost = (post: Post) => {
+    dispatch(
+      setPostData({
+        selectedPost: post
+      }),
+    )
+    dispatch(
+      setNavBar({
+        selectedTab: -1
+      })
+    )
+    navigate(routes.post)
+  }
+  const setCatPage = (value:PostCategory) => {
+    setPostpage(1)
+    dispatch(
+      setPostCategory({
+        selectedCategory: value
+      })
+    )
+  }
   return (
     <ContentBox topmargin={navBar.height}>
       <Grid
@@ -86,7 +120,7 @@ const Blogs = () => {
         justifyContent={"space-between"}
       >
         <Typography variant="h5" color={"GrayText"}>
-          {postCategory}
+          {postCategory.selectedCategory.name === '' ? 'All' : postCategory.selectedCategory.name}
         </Typography>
         <Button
           variant="text"
@@ -105,9 +139,9 @@ const Blogs = () => {
       <Grid container spacing={2}>
         <Grid item sm={8}>
           {
-            !isLoading &&
+            !isLoading && postData.data.length > 0 &&
             <Box>
-              {postdata?.map((post: any, index: any) => (
+              {postData.data.slice(startIndex, endIndex).map((post: any, index: any) => (
                 <Card key={index} sx={{ padding: "5px", margin: "10px" }}>
                   <CardActionArea>
                     <Grid container alignItems={"start"}>
@@ -137,6 +171,7 @@ const Blogs = () => {
                             marginTop={true}
                             variant="contained"
                             endIcon={<SendIcon />}
+                            onClick={() => { openPost(post) }}
                           >
                             Read More
                           </CustomButton>
@@ -146,14 +181,14 @@ const Blogs = () => {
                   </CardActionArea>
                 </Card>
               ))}
-              { (postdata === undefined || postdata?.length === 0) &&
+              {(postdata === undefined || postdata?.length === 0) &&
                 <Typography variant="body1" color={"GrayText"} margin={2}>No Result Found</Typography>
               }
             </Box>
           }
           <Stack sx={{ margin: "25px" }}>
             <Pagination
-              count={10}
+              count={totalPostPage}
               page={postPage}
               onChange={handlePostPage}
               showFirstButton
@@ -185,28 +220,61 @@ const Blogs = () => {
               >
                 Blogs Category
               </Typography>
-              <Stack direction="row" spacing={1} flexWrap={"wrap"}>
-                {allPostCategory.map((category: string, index: number) => (
-                  <Chip
-                    key={index}
-                    label={`${category} ${10}`}
-                    variant="outlined"
-                    sx={{
-                      "&.MuiChip-root": {
-                        margin: "3px",
-                        backgroundColor:
-                          category === postCategory ? primaryColor : "inherit",
-                        color: category === postCategory ? "#fff" : "inherit",
-                        "&:hover": {
-                          backgroundColor: primaryColor,
-                          color: "#fff",
+              {
+                (postCategory.data.length > 0 && Object.values(postCategory.selectedCategory).length > 0) && (
+                  <Stack direction="row" spacing={1} flexWrap={"wrap"}>
+                    <Chip
+                      label='All'
+                      variant="outlined"
+                      sx={{
+                        "&.MuiChip-root": {
+                          margin: "3px",
+                          backgroundColor:
+                            postCategory.selectedCategory.id === '' ? primaryColor : "inherit",
+                          color: postCategory.selectedCategory.id === '' ? "#fff" : "inherit",
+                          "&:hover": {
+                            backgroundColor: primaryColor,
+                            color: "#fff",
+                          },
                         },
-                      },
-                    }}
-                    onClick={() => setPostCategory(category)}
-                  />
-                ))}
-              </Stack>
+                      }}
+                      onClick={() => {
+                        setCatPage({
+                          id: '',
+                          name: ''
+                        })
+
+                      }}
+                    />
+                    {postCategory.data?.map((category: any, index: number) => (
+                      <Chip
+                        key={index}
+                        label={category.name}
+                        variant="outlined"
+                        sx={{
+                          "&.MuiChip-root": {
+                            margin: "3px",
+                            backgroundColor:
+                              category.id === postCategory.selectedCategory.id ? primaryColor : "inherit",
+                            color: category.id === postCategory.selectedCategory.id ? "#fff" : "inherit",
+                            "&:hover": {
+                              backgroundColor: primaryColor,
+                              color: "#fff",
+                            },
+                          },
+                        }}
+                        onClick={() => {
+                          setCatPage({
+                            id: category.id,
+                            name: category.name
+                          })
+                        }}
+                      />
+                    ))}
+                  </Stack>
+
+                )
+              }
             </Grid>
           </Grid>
         </Grid>

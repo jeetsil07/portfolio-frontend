@@ -7,19 +7,21 @@ import Blogs from './pages/Blogs';
 import Contact from './pages/Contact';
 import NotFound from './pages/NotFound';
 import Footer from './components/footer/Footer';
+import Post from './pages/Post';
+import routes from './util/routes';
 function App() {
-  // console.log("App")
   return (
     <>
       <BrowserRouter>
         <Navbar/>
         <Routes>
-          <Route path="/" element={<Navigate to="/home" />} />
-          <Route index path='/home' element={<Home/>}/>
-          <Route path='/about' element={<About/>}/>
-          <Route path='/blogs' element={<Blogs/>}/>
-          <Route path='/contact' element={<Contact/>}/>
-          <Route path="*" element={<NotFound />} />
+          <Route path="/" element={<Navigate to={routes.home} />} />
+          <Route index path={routes.home} element={<Home/>}/>
+          <Route path={routes.about} element={<About/>}/>
+          <Route path={routes.blogs} element={<Blogs/>}/>
+          <Route path={routes.contact} element={<Contact/>}/>
+          <Route path={routes.post} element={<Post/>}/>
+          <Route path={routes.notfound} element={<NotFound />} />
         </Routes>
         <Footer/>
       </BrowserRouter>
