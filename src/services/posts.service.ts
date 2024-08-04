@@ -16,7 +16,6 @@ const postsApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getPosts: builder.query({
       query: (category) => {
-        console.log(category,'postapi')
         if (category.id === '') {
           return '/api/posts/';
         } else {
