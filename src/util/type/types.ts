@@ -23,3 +23,15 @@ export type Comment = {
   updated_at: string;
   children: Comment[];
 };
+
+export interface Post {
+  id: number;
+  post_category: number;
+  title: string;
+  description: string;
+  image: string;
+  post_ratings: number;
+  rating_times: number;
+  created_at: string;
+  updated_at: string;
+}

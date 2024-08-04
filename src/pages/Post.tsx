@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { ContentBox } from '../components/StyledComponents/CommonStyle'
 import { useAppDispatch, useAppSelector } from '../app/hook'
 import { getUiUxState, setPostComments } from '../slices/ui'
-import { Avatar, Box, Button, Card, CardMedia, Divider, Grid, IconButton, InputAdornment, Modal, Paper, TextField, Tooltip, Typography } from '@mui/material'
+import { Alert, Avatar, Box, Button, Card, CardMedia, Divider, Grid, IconButton, InputAdornment, Modal, Paper, Snackbar, TextField, Tooltip, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import routes from '../util/routes'
 import { useCreatePostCommentMutation, useDeletePostCommentMutation, useGetPostCommentQuery, useUpdatePostCommentMutation } from '../services/comment.service'
@@ -14,6 +14,7 @@ import AddCommentIcon from '@mui/icons-material/AddComment';
 import RateReviewIcon from '@mui/icons-material/RateReview';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Comment } from '../util/type/types'
+import { formatDate, sortComments } from '../util/general'
 const Post = () => {
     const [expandedComments, setExpandedComments] = useState(new Set());
     const [expandedChildren, setExpandedChildren] = useState(new Set());
@@ -24,6 +25,7 @@ const Post = () => {
     const [newComment, setNewComment] = useState('')
     const [editCommentId, setEditCommentId] = useState('')
     const [updatedComment, setUpdatedComment] = useState('');
+    const [showSnackBar, setShowSnackBar] = useState(false);
 
     console.log('post')
     const navigate = useNavigate();
@@ -83,6 +85,14 @@ const Post = () => {
             setModalOpen(false)
             await deleteComment(deleteCommentId).unwrap();
         } catch (error) {
+            const typedError = error as { status?: number };
+            if (typedError.status === 404) {
+                setShowSnackBar(true)
+                // Handle 404 error, such as showing a message to the user
+            } else {
+                console.error('Failed to update comment:', error);
+                // Handle other errors
+            }
             console.error('Failed to delete the comment:', error);
         }
     }
@@ -96,6 +106,16 @@ const Post = () => {
             setNewComment('');
             setParentCommentId('');
         } catch (error) {
+            const typedError = error as { status?: number };
+            if (typedError.status === 400) {
+                setShowSnackBar(true)
+                setNewComment('');
+                setParentCommentId('');
+                // Handle 404 error, such as showing a message to the user
+            } else {
+                console.error('Failed to update comment:', error);
+                // Handle other errors
+            }
             console.error('Failed to create comment', error);
         }
     };
@@ -108,33 +128,31 @@ const Post = () => {
             setModalOpen(false);
             console.log('Comment updated successfully');
         } catch (error) {
+            setEditCommentId('');
+            setUpdatedComment('');
+            setModalOpen(false);
+            const typedError = error as { status?: number };
+            if (typedError.status === 404) {
+                setShowSnackBar(true)
+                // Handle 404 error, such as showing a message to the user
+            } else {
+                console.error('Failed to update comment:', error);
+                // Handle other errors
+            }
             console.error('Failed to update comment', error);
         }
     };
-    const formatDate = (timestamp: string | number | Date) => {
-        const date = new Date(timestamp);
-
-        const options: Intl.DateTimeFormatOptions = { weekday: 'short' }; // Abbreviated day name
-        const dayName = date.toLocaleDateString('en-US', options); // Sun
-        const day = String(date.getDate()).padStart(2, '0'); // 04
-        const month = String(date.getMonth() + 1).padStart(2, '0'); // 08 (months are zero-indexed in JavaScript)
-        const year = date.getFullYear(); // 2024
-        const hours = String(date.getHours()).padStart(2, '0'); // 07
-        const minutes = String(date.getMinutes()).padStart(2, '0'); // 57
-
-        const formattedDate = `${dayName}, ${day}-${month}-${year} ${hours}:${minutes}`;
-        return formattedDate;
-    };
+    
     const renderComments = (comments: any, level = 0, show = false) => {
         console.log(level, 'level')
         return comments.map((comment: any) => {
             const isExpanded = expandedComments.has(comment.comment_id);
             const showAllChildren = expandedChildren.has(comment.comment_id);
 
-            const commentText = comment.comment.length > 100 && !isExpanded
+            const commentText = comment.comment.length > 240 && !isExpanded
                 ? (
                     <Typography>
-                        {comment.comment.substring(0, 100)}...
+                        {comment.comment.substring(0, 240)}...
                         <Typography
                             variant='caption'
                             color={primaryColor}
@@ -150,7 +168,7 @@ const Post = () => {
 
             return (
                 <div key={comment.comment_id} style={indent}>
-                    <div style={{ display: 'flex', alignItems: 'start', margin: '10px' }}>
+                    <div style={{ display: 'flex', alignItems: 'start'}}>
                         <Avatar sx={{ width: 30, height: 30, margin: '0 7px', bgcolor: `hsl(${level * 40}, 100%, 80%)` }}>J</Avatar>
                         <div>
                             <Paper sx={{ padding: '5px', cursor: 'pointer' }} onClick={() => handleToggleExpand(comment.comment_id)}>
@@ -191,7 +209,7 @@ const Post = () => {
 
                                     >
                                         <AddCommentIcon
-                                            sx={{ color: primaryColor, margin: '8px', fontSize: '16px', cursor: 'pointer' }}
+                                            sx={{ color: primaryColor, margin: '5px', fontSize: '18px', cursor: 'pointer' }}
                                         />
                                     </IconButton>
                                 </Tooltip>
@@ -228,7 +246,7 @@ const Post = () => {
 
                                     >
                                         <RateReviewIcon
-                                            sx={{ color: primaryColor, margin: '8px', fontSize: '16px', cursor: 'pointer' }}
+                                            sx={{ color: primaryColor, margin: '5px', fontSize: '18px', cursor: 'pointer' }}
                                         />
                                     </IconButton>
                                 </Tooltip>
@@ -264,7 +282,7 @@ const Post = () => {
                                         onClick={() => handleDeleteClick(comment.comment_id)}
                                     >
                                         <DeleteIcon
-                                            sx={{ color: primaryColor, margin: '8px', fontSize: '16px', cursor: 'pointer' }}
+                                            sx={{ color: primaryColor, margin: '5px', fontSize: '18px', cursor: 'pointer' }}
 
                                         />
                                     </IconButton>
@@ -304,9 +322,9 @@ const Post = () => {
                                                     <ThumbUpAltIcon
                                                         sx={{
                                                             color: `${primaryColor}`,
-                                                            margin: '8px',
+                                                            margin: '5px',
                                                             cursor: 'pointer',
-                                                            fontSize: '16px'
+                                                            fontSize: '18px'
                                                         }}
                                                     />
                                                     <Typography variant="caption" sx={{ color: primaryColor, marginY: '7px', }}>
@@ -348,9 +366,9 @@ const Post = () => {
                                                 <ThumbUpOffAltIcon
                                                     sx={{
                                                         color: `${primaryColor}`,
-                                                        margin: '8px',
+                                                        margin: '5px',
                                                         cursor: 'pointer',
-                                                        fontSize: '16px'
+                                                        fontSize: '18px'
                                                     }}
                                                 />
                                             </IconButton>
@@ -391,19 +409,19 @@ const Post = () => {
 
     };
 
-    const sortComments = (comments: Comment[]): Comment[] => {
-        // Sort comments by created_at in descending order
-        comments.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+    // const sortComments = (comments: Comment[]): Comment[] => {
+    //     // Sort comments by created_at in descending order
+    //     comments.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
 
-        // Recursively sort the children comments
-        comments.forEach((comment) => {
-            if (comment.children && comment.children.length > 0) {
-                sortComments(comment.children);
-            }
-        });
+    //     // Recursively sort the children comments
+    //     comments.forEach((comment) => {
+    //         if (comment.children && comment.children.length > 0) {
+    //             sortComments(comment.children);
+    //         }
+    //     });
 
-        return comments;
-    };
+    //     return comments;
+    // };
     const handleModalClose = () => {
         if (modalOpen) {
             setModalOpen(false)
@@ -437,11 +455,14 @@ const Post = () => {
         setModalOpen(true)
         setParentCommentId(id)
     }
-
     const editCommentModalHandle = (id: any, comment: any) => {
         setEditCommentId(id);
         setUpdatedComment(comment);
         setModalOpen(true);
+    }
+
+    const handleCloseSnack = () => {
+        setShowSnackBar(false)
     }
     return (
         <>
@@ -451,12 +472,18 @@ const Post = () => {
                         {Object.values(postData.selectedPost).length > 0 &&
                             <Grid container flexDirection={'column'} sx={{ background: '' }}>
                                 <Grid item>
-                                    <Typography variant="h4" color={"GrayText"}>
+                                    <Typography variant="h4" color={"GrayText"} my={1}>
                                         {postData.selectedPost.title}
                                     </Typography>
-                                    <Typography variant="caption" color={"GrayText"}>
-                                        {getCategoryName()}
-                                    </Typography>
+                                    <Grid container justifyContent={'space-between'}>
+                                        <Typography variant="caption" color={"GrayText"}>
+                                            {getCategoryName()}
+                                        </Typography>
+                                        <Typography variant="caption" color={"GrayText"}>
+                                            {formatDate(postData.selectedPost.created_at)}
+                                        </Typography>
+                                    </Grid>
+
                                 </Grid>
                                 <Divider />
                                 <Grid item>
@@ -469,7 +496,7 @@ const Post = () => {
                                         />
                                     </Card>
                                 </Grid>
-                                <Grid item sx={{ py: 2 }}>
+                                <Grid item sx={{ py: 2, textAlign:'justify' }}>
                                     {postData.selectedPost.description}
                                 </Grid>
                                 <Typography variant='h6' color={'GrayText'}>Comment</Typography>
@@ -515,7 +542,7 @@ const Post = () => {
                                         {!showAllComments && postComments.data.length > 2 ? (
                                             <Button sx={{ margin: 2, color: primaryColor }} onClick={() => setShowAllComments(true)}>Show All Comments</Button>
                                         ) : (postComments.data.length <= 2) ? <></> : <Button sx={{ margin: 2, color: secondaryColor }} onClick={() => setShowAllComments(false)}>Show Less</Button>}
-                                    </Grid> : <Typography sx={{ mt: 2, textAlign: 'center' }}>
+                                    </Grid> : <Typography sx={{ mt: 2, textAlign: 'center', color:'GrayText' }}>
                                         No Comments
                                     </Typography>
                                 }
@@ -649,6 +676,26 @@ const Post = () => {
                     </Paper>
                 </Modal>
             }
+            <Snackbar open={showSnackBar}
+                autoHideDuration={6000}
+                onClose={handleCloseSnack}
+                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                sx={{
+                    '@media (min-width:320px)': {
+                        top: `${navBar.height + 10}px`,
+                    }
+                }}
+
+            >
+                <Alert
+                    onClose={handleCloseSnack}
+                    severity="info"
+                    variant="filled"
+                    sx={{ width: '100%' }}
+                >
+                    Comment does not exist...
+                </Alert>
+            </Snackbar>
         </>
     )
 }

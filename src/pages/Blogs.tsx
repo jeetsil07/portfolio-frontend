@@ -27,6 +27,7 @@ import { useGetPostsCategoryQuery } from "../services/postsCategory.service";
 import { Post, PostCategory } from "../util/type/types";
 import { Route, useNavigate } from "react-router-dom";
 import routes from "../util/routes";
+import { formatDate, sortPosts } from "../util/general";
 
 
 const Blogs = () => {
@@ -55,12 +56,16 @@ const Blogs = () => {
 
   useEffect(() => {
     if (!postdata || postdata.status !== 200) return
+    const mutablePosts = JSON.parse(JSON.stringify(postdata.data));
+    const dateOrder = blogFilter.filter.date
+    const sortedPosts = sortPosts(mutablePosts, dateOrder)
     dispatch(
       setPostData({
-        data: postdata.data
+        data: sortedPosts
       })
     )
-  }, [postdata, dispatch])
+  }, [postdata, dispatch, blogFilter])
+
   const toggleFilter = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
     dispatch(setBlogFilter({
@@ -103,7 +108,7 @@ const Blogs = () => {
     )
     navigate(routes.post)
   }
-  const setCatPage = (value:PostCategory) => {
+  const setCatPage = (value: PostCategory) => {
     setPostpage(1)
     dispatch(
       setPostCategory({
@@ -139,73 +144,85 @@ const Blogs = () => {
       <Grid container spacing={2}>
         <Grid item sm={8}>
           {
-            !isLoading && postData.data.length > 0 &&
-            <Box>
-              {postData.data.slice(startIndex, endIndex).map((post: any, index: any) => (
-                <Card key={index} sx={{ padding: "5px", margin: "10px" }}>
-                  <CardActionArea>
-                    <Grid container alignItems={"start"}>
-                      <Grid item md={6} xs={12}>
-                        <CardMedia
-                          component="img"
-                          height="140"
-                          image={post.image}
-                          alt="post img"
-                        />
-                      </Grid>
-                      <Grid item md={6} xs={12}>
-                        <CardContent>
-                          <Typography
-                            gutterBottom
-                            variant="subtitle1"
-                            component="div"
-                          >
-                            {post.title}
-                          </Typography>
-                          <Typography variant="caption" color="text.secondary">
-                            {post.description.substring(0, 100)}...
-                          </Typography>
-                          <br />
-                          <CustomButton
-                            size="small"
-                            marginTop={true}
-                            variant="contained"
-                            endIcon={<SendIcon />}
-                            onClick={() => { openPost(post) }}
-                          >
-                            Read More
-                          </CustomButton>
-                        </CardContent>
-                      </Grid>
-                    </Grid>
-                  </CardActionArea>
-                </Card>
-              ))}
-              {(postdata === undefined || postdata?.length === 0) &&
-                <Typography variant="body1" color={"GrayText"} margin={2}>No Result Found</Typography>
-              }
-            </Box>
+            !isLoading && postData.data.length > 0 ?
+              (
+                <>
+                  <Box>
+                    {postData.data.slice(startIndex, endIndex).map((post: any, index: any) => (
+                      <Card key={index} sx={{ padding: "5px", margin: "10px" }}>
+                        <CardActionArea>
+                          <Grid container alignItems={"start"}>
+                            <Grid item md={6} xs={12}>
+                              <CardMedia
+                                component="img"
+                                height="170"
+                                image={post.image}
+                                alt="post img"
+                              />
+                            </Grid>
+                            <Grid item md={6} xs={12}>
+                              <CardContent>
+                                <Typography
+                                  variant="subtitle1"
+                                  component="div"
+                                >
+                                  {post.title}
+                                </Typography>
+                                <Typography
+                                  gutterBottom
+                                  variant="caption"
+                                  component="div"
+                                  color={'GrayText'}
+                                >
+                                  {formatDate(post.created_at)}
+                                </Typography>
+                                <Typography variant="caption" color="text.secondary">
+                                  {post.description.substring(0, 100)}...
+                                </Typography>
+                                <br />
+                                <CustomButton
+                                  size="small"
+                                  marginTop={true}
+                                  variant="contained"
+                                  endIcon={<SendIcon />}
+                                  onClick={() => { openPost(post) }}
+                                >
+                                  Read More
+                                </CustomButton>
+                              </CardContent>
+                            </Grid>
+                          </Grid>
+                        </CardActionArea>
+                      </Card>
+                    ))}
+                    {(postdata === undefined || postdata?.length === 0) &&
+                      <Typography variant="body1" color={"GrayText"} margin={2}>No Result Found</Typography>
+                    }
+                  </Box>
+                  <Stack sx={{ margin: "25px" }}>
+                    <Pagination
+                      count={totalPostPage}
+                      page={postPage}
+                      onChange={handlePostPage}
+                      showFirstButton
+                      showLastButton
+                      sx={{
+                        "& .MuiPaginationItem-root": {
+                          color: primaryColor, // Change to your desired color
+                        },
+                        "& .Mui-selected": {
+                          backgroundColor: `${secondaryColor} !important`, // Change to your desired color
+                          color: "white", // Change to your desired color
+                          transform: "scale(1.2)",
+                        },
+                        alignSelf: "center",
+                      }}
+                    />
+                  </Stack>
+                </>) : (
+                <Typography variant="body1" color="initial">No Post Available</Typography>
+              )
           }
-          <Stack sx={{ margin: "25px" }}>
-            <Pagination
-              count={totalPostPage}
-              page={postPage}
-              onChange={handlePostPage}
-              showFirstButton
-              showLastButton
-              sx={{
-                "& .MuiPaginationItem-root": {
-                  color: primaryColor, // Change to your desired color
-                },
-                "& .Mui-selected": {
-                  backgroundColor: `${secondaryColor} !important`, // Change to your desired color
-                  color: "white", // Change to your desired color
-                  transform: "scale(1.2)",
-                },
-                alignSelf: "center",
-              }}
-            />
-          </Stack>
         </Grid>
         <Grid item sm={4}>
           <Grid container spacing={2}>
