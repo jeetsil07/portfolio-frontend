@@ -14,14 +14,28 @@ const Navbar = () => {
     const pathName = window.location.pathname.toLowerCase();
     const navigate = useNavigate();
     const navBarRef = useRef<HTMLDivElement | null>(null);
-    const { navBar } = useAppSelector((state)=>state.ui.userInterface);
+    const { navBar } = useAppSelector((state) => state.ui.userInterface);
     const dispatch = useAppDispatch();
     const theme = useTheme();
     const isMatch = useMediaQuery(theme.breakpoints.down('md'));
     const renderMenus = useMemo(() => {
-        const menus: string[] = ['Home', 'About Me','Blogs', 'Contact'];
+        const storedTokens = localStorage.getItem('authTokens');
+        let menus: string[];
+        if (storedTokens) {
+            menus = ['Home', 'About Me', 'Blogs', 'Contact', 'My Profile'];
+        } else {
+            menus = ['Home', 'About Me', 'Blogs', 'Contact', 'Login'];
+        }
         return menus.map((menu, index) => {
-            const to = menu === 'About Me' ? '/about' : `/${menu.toLowerCase()}`;
+            let to: string;
+            if (menu === 'About Me') {
+                to = '/about'
+            } else if (menu === 'My Profile') {
+                to = '/profile'
+            } else {
+                to = `/${menu.toLowerCase()}`;
+            }
+
             return (
                 <Tab key={index} label={menu} onClick={() => navigate(to)} />
             );
@@ -38,6 +52,11 @@ const Navbar = () => {
             dispatch(setNavBar({ selectedTab: 2 }))
         } else if (pathName === '/contact') {
             dispatch(setNavBar({ selectedTab: 3 }))
+        } else if (pathName === '/login') {
+            dispatch(setNavBar({ selectedTab: 4 }))
+        }
+        else if (pathName === '/profile') {
+            dispatch(setNavBar({ selectedTab: 4 }))
         }
         const measureNavbarHeight = () => {
             if (navBarRef) {
@@ -74,37 +93,37 @@ const Navbar = () => {
                     {!isMatch ? (
                         <>
                             <Grid item xs={2}>
-                            <Logo alt="Jeet Sil" src={logoImg} />
-                        </Grid>
-                    <Grid item xs={7}>
-                        <Tabs
-                            textColor='inherit'
-                            value={navBar.selectedTab}
-                            sx={{
-                                '& .MuiTabs-indicator': {
-                                    backgroundColor: 'white',
-                                },
-                            }}
-                        >
-                            {renderMenus}
-                        </Tabs>
-                    </Grid>
-                    <Grid item xs={3}>
-                        <SearchBar pathName={pathName} />
-                    </Grid>
-                </>
-                ) : (
-                <>
-                    <Grid item xs={2}>
-                        <Logo alt="Jeet Sil" src={logoImg} />
-                    </Grid>
-                    <Grid item xs={2} display="flex" justifyContent="center">
-                        <DrawerCmp />
-                    </Grid>
-                </>
+                                <Logo alt="Jeet Sil" src={logoImg} />
+                            </Grid>
+                            <Grid item xs={7}>
+                                <Tabs
+                                    textColor='inherit'
+                                    value={navBar.selectedTab}
+                                    sx={{
+                                        '& .MuiTabs-indicator': {
+                                            backgroundColor: 'white',
+                                        },
+                                    }}
+                                >
+                                    {renderMenus}
+                                </Tabs>
+                            </Grid>
+                            <Grid item xs={3}>
+                                <SearchBar pathName={pathName} />
+                            </Grid>
+                        </>
+                    ) : (
+                        <>
+                            <Grid item xs={2}>
+                                <Logo alt="Jeet Sil" src={logoImg} />
+                            </Grid>
+                            <Grid item xs={2} display="flex" justifyContent="center">
+                                <DrawerCmp />
+                            </Grid>
+                        </>
                     )}
-            </Grid>
-        </Toolbar>
+                </Grid>
+            </Toolbar>
         </AppBar >
     );
 }

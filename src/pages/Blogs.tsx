@@ -90,7 +90,7 @@ const Blogs = () => {
     setPostpage(page);
   }
 
-  const postsPerPage = 2;
+  const postsPerPage = 3;
   const totalPostPage = Math.ceil(postData.data.length / postsPerPage);
   const startIndex = (postPage - 1) * postsPerPage;
   const endIndex = startIndex + postsPerPage;

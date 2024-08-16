@@ -3,6 +3,8 @@ export default{
     about: '/about',
     blogs: '/blogs',
     contact: '/contact',
+    login: '/login',
+    profile: '/profile',
     post: '/post',
     notfound:'*'
 }

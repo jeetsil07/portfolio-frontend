@@ -1,17 +1,25 @@
 import { configureStore } from '@reduxjs/toolkit'
-import uiReducer, { initialState }  from '../slices/ui';
+import uiReducer, { initialState as uiInitialState } from '../slices/ui';
+import userReducer, { initialState as userInitialState } from '../slices/user';
+
 import { api } from './api';
 
 const pathName = window.location.pathname;
 const reduxState: string|null = (pathName === '/home') || (pathName === '/') ? null : localStorage.getItem('reduxState');
-const persistedState = reduxState ? JSON.parse(reduxState) : initialState;
+const userState: string|null = (pathName === '/home') || (pathName === '/') ? null : localStorage.getItem('userState');
+
+const uiPersistedState = reduxState ? JSON.parse(reduxState) : uiInitialState;
+const userPersistedState = userState ? JSON.parse(userState) : userInitialState;
+
 const store = configureStore({
   reducer: {
     [api.reducerPath]: api.reducer,
     ui: uiReducer,
+    user: userReducer,
   },
   preloadedState: {
-    ui: persistedState
+    ui: uiPersistedState,
+    user: userPersistedState
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(api.middleware),
@@ -20,6 +28,7 @@ const store = configureStore({
 store.subscribe(()=>{
   const state = store.getState();
   localStorage.setItem('reduxState',JSON.stringify(state.ui))
+  localStorage.setItem('userState',JSON.stringify(state.user))
 })
 
 export default store;

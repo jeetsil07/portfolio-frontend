@@ -108,6 +108,21 @@ const BlogFilter = () => {
             }
           />
         ))}
+        <FormControlLabel
+            control={
+              <Checkbox
+                sx={{ color: primaryColor, '&.Mui-checked': { color: primaryColor } }}
+                onChange={handleRatingFilter}
+                value={0}
+                checked={ratingFilter.includes(0)}
+              />
+            }
+            label={
+              <Typography variant="body1">
+                <Rating name="read-only" value={0} readOnly sx={{ display: 'flex' }} />
+              </Typography>
+            }
+          />
       </FormGroup>
       <Box sx={{
         position: 'fixed',

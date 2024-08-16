@@ -13,23 +13,41 @@ import CallTwoToneIcon from '@mui/icons-material/CallTwoTone';
 import AccountTreeTwoToneIcon from '@mui/icons-material/AccountTreeTwoTone';
 import DescriptionTwoToneIcon from '@mui/icons-material/DescriptionTwoTone';
 import NotificationsNoneTwoToneIcon from '@mui/icons-material/NotificationsNoneTwoTone';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import LoginIcon from '@mui/icons-material/Login';
 import { secondaryColor } from '../../util/constant';
+
 const Footer = () => {
     const location = useLocation()
 
     const renderMenus = useMemo(() => {
         // console.log("memo");
-        const menus: string[] = ["Home", "About Me", "Blogs", "Contact"];
+        const storedTokens = localStorage.getItem('authTokens');
+        let menus: string[];
+        if (storedTokens) {
+            menus = ['Home', 'About Me', 'Blogs', 'Contact', 'My Profile'];
+        } else {
+            menus = ['Home', 'About Me', 'Blogs', 'Contact', 'Login'];
+        }
         const menuIcons: { [key: string]: React.ElementType } = {
             Home: HomeTwoToneIcon,
             'About Me': InfoTwoToneIcon,
             Blogs: BookTwoToneIcon,
             Contact: PermContactCalendarTwoToneIcon,
+            Login: LoginIcon,
+            'My Profile': AccountCircleIcon,
         };
 
         return menus.map((menu, index) => {
             const IconComponent = menuIcons[menu];
-            const to = menu === "About Me" ? "/about" : `/${menu.toLowerCase()}`;
+            let to: string;
+            if (menu === 'About Me') {
+                to = '/about'
+            } else if (menu === 'My Profile') {
+                to = '/profile'
+            } else {
+                to = `/${menu.toLowerCase()}`;
+            }
             const isActive = location.pathname === to;
             // console.log("footer", window.location.pathname)
             return (
@@ -64,7 +82,7 @@ const Footer = () => {
                             <Typography variant="h6" color="white" marginLeft={4}>Contact Details</Typography>
                             <hr />
                             <List>
-                                <ListItem sx={{overflowWrap:'anywhere'}}>
+                                <ListItem sx={{ overflowWrap: 'anywhere' }}>
                                     <EmailTwoToneIcon sx={{ margin: 1, color: 'white' }} />
                                     <Typography variant="body1" color="white" >
                                         jeetsil100@gmail.com
@@ -147,7 +165,7 @@ const Footer = () => {
                                 }}
                             />
                             <Button variant="contained" sx={{
-                                backgroundColor:secondaryColor,
+                                backgroundColor: secondaryColor,
                                 marginTop: "5px"
                             }} endIcon={<NotificationsNoneTwoToneIcon />}>
                                 Subscribe

@@ -23,8 +23,7 @@ const postCommentApi = api.injectEndpoints({
           url: `/api/postcomment/${updatedCommentData.comment_id}/`,
           method: 'PATCH',
           body: updatedCommentData,
-        }
-        
+        }        
       },
       invalidatesTags: ['Comment'],
     }),

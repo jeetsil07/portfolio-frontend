@@ -15,6 +15,7 @@ import RateReviewIcon from '@mui/icons-material/RateReview';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Comment } from '../util/type/types'
 import { formatDate, sortComments } from '../util/general'
+import { getUserData } from '../slices/user'
 const Post = () => {
     const [expandedComments, setExpandedComments] = useState(new Set());
     const [expandedChildren, setExpandedChildren] = useState(new Set());
@@ -31,6 +32,7 @@ const Post = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch()
     const { navBar, postData, postCategory, postComments } = useAppSelector(getUiUxState)
+    const { user } = useAppSelector(getUserData)
     useEffect(() => {
         if (Object.values(postData.selectedPost).length === 0) {
             navigate(routes.blogs)
@@ -142,7 +144,7 @@ const Post = () => {
             console.error('Failed to update comment', error);
         }
     };
-    
+
     const renderComments = (comments: any, level = 0, show = false) => {
         console.log(level, 'level')
         return comments.map((comment: any) => {
@@ -168,8 +170,10 @@ const Post = () => {
 
             return (
                 <div key={comment.comment_id} style={indent}>
-                    <div style={{ display: 'flex', alignItems: 'start'}}>
-                        <Avatar sx={{ width: 30, height: 30, margin: '0 7px', bgcolor: `hsl(${level * 40}, 100%, 80%)` }}>J</Avatar>
+                    <div style={{ display: 'flex', alignItems: 'start' }}>
+                        <Avatar sx={{ width: 30, height: 30, margin: '0 7px', bgcolor: `hsl(${level * 40}, 100%, 80%)`, padding: "3px" }}>
+                            <Typography variant="body1" color="white">{comment.user !== null ? "J" : 'AU'}</Typography>
+                        </Avatar>
                         <div>
                             <Paper sx={{ padding: '5px', cursor: 'pointer' }} onClick={() => handleToggleExpand(comment.comment_id)}>
                                 <Typography variant='caption' color={'GrayText'}>{formatDate(comment.updated_at)}</Typography>
@@ -213,80 +217,84 @@ const Post = () => {
                                         />
                                     </IconButton>
                                 </Tooltip>
-                                <Tooltip title="Edit Comment"
-                                    arrow
-                                    componentsProps={{
-                                        tooltip: {
-                                            sx: {
-                                                bgcolor: primaryColor,
-                                                color: 'white',
-                                            },
-                                        },
-                                        arrow: {
-                                            sx: {
-                                                color: primaryColor,
-                                            },
-                                        },
-                                    }}
-                                    slotProps={{
-                                        popper: {
-                                            modifiers: [
-                                                {
-                                                    name: 'offset',
-                                                    options: {
-                                                        offset: [0, -20],
-                                                    },
+                                {user.user_id !== '' &&
+                                    <Tooltip title="Edit Comment"
+                                        arrow
+                                        componentsProps={{
+                                            tooltip: {
+                                                sx: {
+                                                    bgcolor: primaryColor,
+                                                    color: 'white',
                                                 },
-                                            ],
-                                        },
-                                    }}
-                                >
-                                    <IconButton
-                                        onClick={() => editCommentModalHandle(comment.comment_id, comment.comment)}
-
-                                    >
-                                        <RateReviewIcon
-                                            sx={{ color: primaryColor, margin: '5px', fontSize: '18px', cursor: 'pointer' }}
-                                        />
-                                    </IconButton>
-                                </Tooltip>
-                                <Tooltip title="Delete Comment"
-                                    arrow
-                                    componentsProps={{
-                                        tooltip: {
-                                            sx: {
-                                                bgcolor: primaryColor,
-                                                color: 'white',
                                             },
-                                        },
-                                        arrow: {
-                                            sx: {
-                                                color: primaryColor,
-                                            },
-                                        },
-                                    }}
-                                    slotProps={{
-                                        popper: {
-                                            modifiers: [
-                                                {
-                                                    name: 'offset',
-                                                    options: {
-                                                        offset: [0, -20],
-                                                    },
+                                            arrow: {
+                                                sx: {
+                                                    color: primaryColor,
                                                 },
-                                            ],
-                                        },
-                                    }}
-                                >
-                                    <IconButton
-                                        onClick={() => handleDeleteClick(comment.comment_id)}
+                                            },
+                                        }}
+                                        slotProps={{
+                                            popper: {
+                                                modifiers: [
+                                                    {
+                                                        name: 'offset',
+                                                        options: {
+                                                            offset: [0, -20],
+                                                        },
+                                                    },
+                                                ],
+                                            },
+                                        }}
                                     >
-                                        <DeleteIcon
-                                            sx={{ color: primaryColor, margin: '5px', fontSize: '18px', cursor: 'pointer' }}
+                                        <IconButton
+                                            onClick={() => editCommentModalHandle(comment.comment_id, comment.comment)}
 
-                                        />
-                                    </IconButton>
-                                </Tooltip>
+                                        >
+                                            <RateReviewIcon
+                                                sx={{ color: primaryColor, margin: '5px', fontSize: '18px', cursor: 'pointer' }}
+                                            />
+                                        </IconButton>
+                                    </Tooltip>
+                                }
+                                {user.user_id !== '' &&
+                                    <Tooltip title="Delete Comment"
+                                        arrow
+                                        componentsProps={{
+                                            tooltip: {
+                                                sx: {
+                                                    bgcolor: primaryColor,
+                                                    color: 'white',
+                                                },
+                                            },
+                                            arrow: {
+                                                sx: {
+                                                    color: primaryColor,
+                                                },
+                                            },
+                                        }}
+                                        slotProps={{
+                                            popper: {
+                                                modifiers: [
+                                                    {
+                                                        name: 'offset',
+                                                        options: {
+                                                            offset: [0, -20],
+                                                        },
+                                                    },
+                                                ],
+                                            },
+                                        }}
+                                    >
+                                        <IconButton
+                                            onClick={() => handleDeleteClick(comment.comment_id)}
+                                        >
+                                            <DeleteIcon
+                                                sx={{ color: primaryColor, margin: '5px', fontSize: '18px', cursor: 'pointer' }}
+
+                                            />
+                                        </IconButton>
+                                    </Tooltip>
+                                }
                                 {
                                     comment.comment_likes !== 0 ? (
                                         <>
@@ -496,7 +504,7 @@ const Post = () => {
                                         />
                                     </Card>
                                 </Grid>
-                                <Grid item sx={{ py: 2, textAlign:'justify' }}>
+                                <Grid item sx={{ py: 2, textAlign: 'justify' }}>
                                     {postData.selectedPost.description}
                                 </Grid>
                                 <Typography variant='h6' color={'GrayText'}>Comment</Typography>
@@ -542,7 +550,7 @@ const Post = () => {
                                         {!showAllComments && postComments.data.length > 2 ? (
                                             <Button sx={{ margin: 2, color: primaryColor }} onClick={() => setShowAllComments(true)}>Show All Comments</Button>
                                         ) : (postComments.data.length <= 2) ? <></> : <Button sx={{ margin: 2, color: secondaryColor }} onClick={() => setShowAllComments(false)}>Show Less</Button>}
-                                    </Grid> : <Typography sx={{ mt: 2, textAlign: 'center', color:'GrayText' }}>
+                                    </Grid> : <Typography sx={{ mt: 2, textAlign: 'center', color: 'GrayText' }}>
                                         No Comments
                                     </Typography>
                                 }
