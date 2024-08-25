@@ -28,7 +28,7 @@ const Post = () => {
     const [updatedComment, setUpdatedComment] = useState('');
     const [showSnackBar, setShowSnackBar] = useState(false);
 
-    console.log('post')
+   
     const navigate = useNavigate();
     const dispatch = useAppDispatch()
     const { navBar, postData, postCategory, postComments } = useAppSelector(getUiUxState)
@@ -128,7 +128,7 @@ const Post = () => {
             setEditCommentId('');
             setUpdatedComment('');
             setModalOpen(false);
-            console.log('Comment updated successfully');
+            
         } catch (error) {
             setEditCommentId('');
             setUpdatedComment('');
@@ -171,9 +171,15 @@ const Post = () => {
             return (
                 <div key={comment.comment_id} style={indent}>
                     <div style={{ display: 'flex', alignItems: 'start' }}>
-                        <Avatar sx={{ width: 30, height: 30, margin: '0 7px', bgcolor: `hsl(${level * 40}, 100%, 80%)`, padding: "3px" }}>
-                            <Typography variant="body1" color="white">{comment.user !== null ? "J" : 'AU'}</Typography>
-                        </Avatar>
+                        {comment.user ?
+                            <Avatar sx={{ width: 30, height: 30, margin: '0 7px', bgcolor: `hsl(${level * 40}, 100%, 80%)`, padding: "3px" }} src={comment.user.image} />
+
+                            :
+                            <Avatar sx={{ width: 30, height: 30, margin: '0 7px', bgcolor: `hsl(${level * 40}, 100%, 80%)`, padding: "3px" }}>
+                                <Typography variant="body1" color="white">US</Typography>
+                            </Avatar>
+                        }
+
                         <div>
                             <Paper sx={{ padding: '5px', cursor: 'pointer' }} onClick={() => handleToggleExpand(comment.comment_id)}>
                                 <Typography variant='caption' color={'GrayText'}>{formatDate(comment.updated_at)}</Typography>
@@ -501,11 +507,13 @@ const Post = () => {
                                             alt="green iguana"
                                             height="240"
                                             image={postData.selectedPost.image}
+                                            sx={{ objectFit: 'contain' }} 
                                         />
                                     </Card>
                                 </Grid>
                                 <Grid item sx={{ py: 2, textAlign: 'justify' }}>
-                                    {postData.selectedPost.description}
+                                    <div dangerouslySetInnerHTML={{ __html: postData.selectedPost.description }} />
+
                                 </Grid>
                                 <Typography variant='h6' color={'GrayText'}>Comment</Typography>
                                 <Divider />

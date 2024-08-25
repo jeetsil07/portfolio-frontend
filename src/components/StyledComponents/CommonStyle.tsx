@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import { Avatar, Box, Button, Grid, Typography } from "@mui/material";
-
+import { ImageBoxProps } from "../../util/type/types";
+import { primaryColor } from "../../util/constant";
 export const Logo = styled(Avatar)`
   margin: 0 auto;
 `;
@@ -21,19 +22,23 @@ export const GridContainer = styled(Grid)`
     Height: auto;
     padding-top: 20px;
 `;
-export const ImageBox = styled(Box)`
-  height: 200px;
-  width: 200px;
-  border-radius: 50%;
+export const ImageBox = styled(Box)<ImageBoxProps>`
+  height: ${({ profile }) => (profile ? '150px' : '200px')};
+  width: ${({ profile }) => (profile ? '150px' : '200px')};
+  border-radius: ${({ profile }) => (profile ? '' : '50%')}; 
   overflow: hidden;
-  box-shadow: 0 0 0 10px white, 0 0 0 15px #47a992;
+  box-shadow: ${({ profile }) => (profile ? '' : `0 0 0 10px white, 0 0 0 15px ${primaryColor}`)}; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #80808029;
 `;
 export const AboutText = styled(Typography)`
 text-align: left;
  margin-top: 10px
 `;
 export const CustomButton = styled(Button) <{ marginTop?: boolean, marginBottom?: boolean, marginLeft?: boolean, marginRight?: boolean }>`
-    background-color: #47A992;
+    background-color: ${primaryColor};
     margin-top: ${props => (props.marginTop ? '10px' : '0')};
     margin-bottom: ${props => (props.marginBottom ? '10px' : '0')};
     margin-left: ${props => (props.marginLeft ? '10px' : '0')};
@@ -44,11 +49,11 @@ export const CustomButton = styled(Button) <{ marginTop?: boolean, marginBottom?
     }
 `;
 export const FooterContainer = styled(GridContainer)`
-    background-color: #47A992;
+    background-color: ${primaryColor};
     padding: 20px;
 `;
 export const SectionTitle = styled(Typography)`
-    color: #47A992;
+    color: ${primaryColor};
     display: inline-block;
     padding: 5px;
     border-Bottom: 2px solid;
@@ -65,4 +70,8 @@ export const BlogFilterPanel = styled(Box)`
   background-color: white; 
   padding: 25px;  
   overflow: auto;
+`;
+
+export const ProfileImgInput = styled.div`
+  margin-left: 10px;
 `;

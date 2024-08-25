@@ -20,7 +20,7 @@ import {
 } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
-import BlogFilter from "../components/BlogFilter";
+import BlogFilter from "../components/business/BlogFilter";
 import { useGetPostsQuery } from "../services/posts.service";
 import { primaryColor, secondaryColor } from "../util/constant";
 import { useGetPostsCategoryQuery } from "../services/postsCategory.service";
@@ -31,7 +31,7 @@ import { formatDate, sortPosts } from "../util/general";
 
 
 const Blogs = () => {
-  console.log("blogs");
+ 
   const [postPage, setPostpage] = useState<number>(1);
   const { navBar, blogFilter, postData, postCategory } = useAppSelector(getUiUxState);
   const filterRef = useRef<HTMLDivElement>(null);
@@ -43,10 +43,6 @@ const Blogs = () => {
     dispatch(
       setPostCategory({
         data: postCategories.data,
-        // selectedCategory: {
-        //   id: '',
-        //   name: ''
-        // }
       })
     )
   }, [postCategories, dispatch])
@@ -151,7 +147,7 @@ const Blogs = () => {
                     {postData.data.slice(startIndex, endIndex).map((post: any, index: any) => (
                       <Card key={index} sx={{ padding: "5px", margin: "10px" }}>
                         <CardActionArea>
-                          <Grid container alignItems={"start"}>
+                          <Grid container alignItems={"center"}>
                             <Grid item md={6} xs={12}>
                               <CardMedia
                                 component="img"
@@ -177,7 +173,7 @@ const Blogs = () => {
                                   {formatDate(post.created_at)}
                                 </Typography>
                                 <Typography variant="caption" color="text.secondary">
-                                  {post.description.substring(0, 100)}...
+                                  <div dangerouslySetInnerHTML={{ __html: post.description.substring(0, 100) }} />
                                 </Typography>
                                 <br />
                                 <CustomButton

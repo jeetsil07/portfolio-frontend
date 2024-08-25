@@ -8,7 +8,7 @@ import SignIn from '../components/forms/SignIn';
 import { getUserData, setUserData } from '../slices/user';
 
 const Login = () => {
-  console.log('Login')
+  
   const { user } = useAppSelector(getUserData);
   const dispatch = useAppDispatch()
   const storedTokens = localStorage.getItem("authTokens");

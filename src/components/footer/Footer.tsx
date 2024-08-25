@@ -21,7 +21,7 @@ const Footer = () => {
     const location = useLocation()
 
     const renderMenus = useMemo(() => {
-        // console.log("memo");
+        
         const storedTokens = localStorage.getItem('authTokens');
         let menus: string[];
         if (storedTokens) {
@@ -49,7 +49,7 @@ const Footer = () => {
                 to = `/${menu.toLowerCase()}`;
             }
             const isActive = location.pathname === to;
-            // console.log("footer", window.location.pathname)
+           
             return (
                 <ListItem key={index}>
                     <ListItemButton component={Link} to={to}>

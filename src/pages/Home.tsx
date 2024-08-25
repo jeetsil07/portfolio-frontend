@@ -15,11 +15,11 @@ import {
   GridContainer,
   ImageBox,
 } from "../components/StyledComponents/CommonStyle";
-import Skills from "../components/Skills";
-import Projects from "../components/Projects";
+import Skills from "../components/business/Skills";
+import Projects from "../components/business/Projects";
 import { primaryColor, secondaryColor } from "../util/constant";
 const Home = () => {
-  console.log("home");
+  
   const { navBar } = useAppSelector(getUiUxState);
   return (
     <>

@@ -10,7 +10,7 @@ import AutoStoriesOutlinedIcon from '@mui/icons-material/AutoStoriesOutlined';
 import { primaryColor, secondaryColor } from '../util/constant';
 
 const About = () => {
-  console.log('about')
+  
   const { navBar } = useAppSelector(getUiUxState);
   const itemData = [
     {

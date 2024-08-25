@@ -8,17 +8,19 @@ const initialState = {
             is_superuser: false,
             email: '',
             first_name: '',
-            last_name: ''
+            last_name: '',
+            password: '',
+            imageUrl: ''
         }        
     }
 }
 
-const uiSlice = createSlice({
+const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
         setUserData: (state,{payload})=>{
-            const {user_id,is_superuser,email,first_name,last_name} = payload
+            const {user_id,is_superuser,email,first_name,last_name,password,imageUrl} = payload
             const {user} = state.userData
             if(user_id !== undefined){
                 user.user_id = user_id
@@ -34,12 +36,18 @@ const uiSlice = createSlice({
             if(last_name !== undefined){
                 user.last_name = last_name
             }
+            if(password !== undefined){
+                user.password = password
+            }
+            if(imageUrl !== undefined){
+                user.imageUrl = imageUrl
+            }
         }
     }
 })
 
-export const {setUserData} = uiSlice.actions;
-export default uiSlice.reducer
+export const {setUserData} = userSlice.actions;
+export default userSlice.reducer
 
 export const getUserData = createSelector(
     (state: RootState) => state.user.userData,

@@ -18,7 +18,6 @@ const postCommentApi = api.injectEndpoints({
     }),
     updatePostComment: builder.mutation({
       query: (updatedCommentData) => {
-        console.log(updatedCommentData,'api')
         return {
           url: `/api/postcomment/${updatedCommentData.comment_id}/`,
           method: 'PATCH',

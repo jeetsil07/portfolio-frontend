@@ -33,7 +33,7 @@ const initialState = {
             } as PostCategory
         },
         postData: {
-            data: [],
+            data: [] as any,
             selectedPost: {} as Post
         },
         postComments: {

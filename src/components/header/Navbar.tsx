@@ -10,7 +10,7 @@ import { setNavBar } from '../../slices/ui';
 import { primaryColor } from '../../util/constant';
 
 const Navbar = () => {
-    console.log("navbar")
+   
     const pathName = window.location.pathname.toLowerCase();
     const navigate = useNavigate();
     const navBarRef = useRef<HTMLDivElement | null>(null);

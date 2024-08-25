@@ -1,13 +1,13 @@
 import { Box, CircularProgress, Grid, Pagination, Stack, Typography } from '@mui/material'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { ContentBox, GridContainer } from './StyledComponents/CommonStyle';
-import { primaryColor, secondaryColor } from '../util/constant';
+import { ContentBox, GridContainer } from './../StyledComponents/CommonStyle';
+import { primaryColor, secondaryColor } from '../../util/constant';
 
 const Skills = () => {
-    console.log('skill')
+    
     const [skillPage, setSkillPage] = useState(1);
     const [skills, setSkills] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
-    // console.log(skills)
+    
     const allSkillsprogress = useMemo(() => [70, 80, 90, 70, 90, 80, 60, 80, 70, 60], []);
     const allSkillsTitle = ['React Js', 'Laravel', 'Javascript', 'Php', 'Html', 'Css', 'Bootstrap', 'Material Ui', 'Figma', 'Aws']
     const handleSkillPage = useCallback((event: React.ChangeEvent<unknown>, page: number) => {

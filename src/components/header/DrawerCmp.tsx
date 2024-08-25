@@ -26,7 +26,7 @@ const DrawerCmp = () => {
   const [drawer, setDrawer] = useState(false);
   const location = useLocation();
   const renderMenus = useMemo(() => {
-    // console.log("memo");
+    
     const storedTokens = localStorage.getItem('authTokens');
     let menus: string[];
     if (storedTokens) {

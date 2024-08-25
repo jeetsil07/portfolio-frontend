@@ -1,11 +1,11 @@
 import { Autocomplete, Box, Button, ButtonGroup, Checkbox, Divider, FormControl, FormControlLabel, FormGroup, FormLabel, Radio, RadioGroup, Rating, TextField, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import { BlogFilterPanel, CustomButton } from './StyledComponents/CommonStyle'
+import { BlogFilterPanel, CustomButton } from '../StyledComponents/CommonStyle'
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
-import { useAppDispatch, useAppSelector } from '../app/hook';
-import { getUiUxState, setBlogFilter } from '../slices/ui';
-import { primaryColor } from '../util/constant';
+import { useAppDispatch, useAppSelector } from '../../app/hook';
+import { getUiUxState, setBlogFilter } from '../../slices/ui';
+import { primaryColor } from '../../util/constant';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -68,7 +68,6 @@ const BlogFilter = () => {
       setRatingFilter((prev) => prev.filter((item) => item !== value));
     }
   }
-  console.log(ratingFilter)
   const ratings = [5, 4, 3, 2, 1];
   return (
     <BlogFilterPanel sx={{boxShadow: 1, marginTop: `${navBar?.height}px`}}>

@@ -33,11 +33,11 @@ const SignUp = () => {
 
     useEffect(() => {
         if (cpass === userRegisterData.password) {
-            console.log('same')
+           
             setPassError('')
         }
         if (cpass !== userRegisterData.password) {
-            console.log(cpass)
+            
             setPassError('Please Confirm the Password')
         }
     }, [cpass, userRegisterData.password])
@@ -57,7 +57,7 @@ const SignUp = () => {
                 setFieldError('')
             }
             const response = await userRegister(userRegisterData).unwrap();
-            console.log(response,'register')
+            
         } catch (error: any) {
             console.error('Failed to login:', error);
         }

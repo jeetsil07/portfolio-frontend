@@ -1,5 +1,5 @@
 import React from 'react'
-import { ContentBox, CustomButton } from './StyledComponents/CommonStyle'
+import { ContentBox, CustomButton } from './../StyledComponents/CommonStyle'
 import { Box, Card, CardActions, CardContent, CardMedia, Typography } from '@mui/material'
 import SendIcon from '@mui/icons-material/Send';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -8,11 +8,11 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
 // import 'swiper/css/navigation';
-import "../swiperStyle/swiper.css"
+import "../../swiperStyle/swiper.css"
 
 // import required modules
 import { Keyboard, Pagination } from 'swiper/modules';
-import { primaryColor } from '../util/constant';
+import { primaryColor } from '../../util/constant';
 
 const Projects = () => {
   const AllProjects = [

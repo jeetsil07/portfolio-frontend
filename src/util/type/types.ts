@@ -1,3 +1,9 @@
+import { BoxProps } from '@mui/material';
+
+export interface ImageBoxProps extends BoxProps {
+  profile?: boolean;
+}
+
 export interface Post {
   id: number;
   post_category: number;
