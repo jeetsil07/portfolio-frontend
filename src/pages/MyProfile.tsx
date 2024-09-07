@@ -50,29 +50,6 @@ const MyProfile = () => {
   const { user } = useAppSelector(getUserData);
   const { navBar, postCategory, postData } = useAppSelector(getUiUxState);
 
-  // const { data: postCategories, isLoading: categoryLoading } =
-  //   useGetPostsCategoryQuery({});
-  // useEffect(() => {
-  //   if (!postCategories || postCategories.status !== 200) return;
-  //   dispatch(
-  //     setPostCategory({
-  //       data: postCategories.data,
-  //     })
-  //   );
-  // }, [postCategories]);
-
-  // const { data: postdata, isLoading } = useGetPostsQuery("");
-
-  // useEffect(() => {
-  //   console.log('useeffect',postdata)
-  //   if (!postdata || postdata.status !== 200) return;
-  //   console.log('success')
-  //   dispatch(
-  //     setPostData({
-  //       data: postdata,
-  //     })
-  //   );
-  // }, [postdata]);
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
