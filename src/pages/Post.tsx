@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { ContentBox } from '../components/StyledComponents/CommonStyle'
 import { useAppDispatch, useAppSelector } from '../app/hook'
 import { getUiUxState, setPostComments } from '../slices/ui'
@@ -27,6 +27,7 @@ const Post = () => {
     const [editCommentId, setEditCommentId] = useState('')
     const [updatedComment, setUpdatedComment] = useState('');
     const [showSnackBar, setShowSnackBar] = useState(false);
+    const contentRef = useRef<HTMLDivElement | null>(null);
 
    
     const navigate = useNavigate();
@@ -39,6 +40,23 @@ const Post = () => {
         }
     }, [postData])
 
+    useEffect(() => {
+      // Function to apply styles to images
+      const styleImages = () => {
+        if (contentRef.current) {
+          const images = contentRef.current.querySelectorAll('img');
+          images.forEach((img: any) => {
+            img.style.textAlign = 'center';
+            img.style.width = '60%';
+            img.style.margin = '10px auto';
+            img.style.display = 'block';
+          });
+        }
+      };
+  
+      // Apply styles when component mounts or postData changes
+      styleImages();
+    }, [postData]);
     const { data: comments } = useGetPostCommentQuery(postData.selectedPost.id, {
         skip: Object.values(postData.selectedPost).length === 0
     })
@@ -501,7 +519,7 @@ const Post = () => {
                                 </Grid>
                                 <Divider />
                                 <Grid item>
-                                    <Card sx={{ maxWidth: 600, margin: '30px auto' }}>
+                                    <Card sx={{ maxWidth: 600, margin: '30px auto', boxShadow: 'none'  }}>
                                         <CardMedia
                                             component="img"
                                             alt="green iguana"
@@ -512,7 +530,7 @@ const Post = () => {
                                     </Card>
                                 </Grid>
                                 <Grid item sx={{ py: 2, textAlign: 'justify' }}>
-                                    <div dangerouslySetInnerHTML={{ __html: postData.selectedPost.description }} />
+                                    <div ref={contentRef} dangerouslySetInnerHTML={{ __html: postData.selectedPost.description }} />
 
                                 </Grid>
                                 <Typography variant='h6' color={'GrayText'}>Comment</Typography>

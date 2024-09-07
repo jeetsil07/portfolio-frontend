@@ -21,22 +21,23 @@ import { Logo } from "../StyledComponents/CommonStyle";
 import { Link, useLocation } from "react-router-dom";
 import logoImg from '../../assets/img/jeet1.jpeg'
 import { primaryColor } from "../../util/constant";
+import Groups2Icon from '@mui/icons-material/Groups2';
 
 const DrawerCmp = () => {
   const [drawer, setDrawer] = useState(false);
   const location = useLocation();
   const renderMenus = useMemo(() => {
-    
+
     const storedTokens = localStorage.getItem('authTokens');
     let menus: string[];
     if (storedTokens) {
-      menus = ['Home', 'About Me', 'Blogs', 'Contact', 'My Profile'];
+      menus = ['Home', 'Team', 'Blogs', 'Contact', 'My Profile'];
     } else {
-      menus = ['Home', 'About Me', 'Blogs', 'Contact', 'Login'];
+      menus = ['Home', 'Team', 'Blogs', 'Contact', 'Login'];
     }
     const menuIcons: { [key: string]: React.ElementType } = {
       Home: HomeTwoToneIcon,
-      'About Me': InfoTwoToneIcon,
+      Team: Groups2Icon,
       Blogs: BookTwoToneIcon,
       Contact: PermContactCalendarTwoToneIcon,
       Login: LoginIcon,
@@ -46,9 +47,7 @@ const DrawerCmp = () => {
     return menus.map((menu, index) => {
       const IconComponent = menuIcons[menu];
       let to: string;
-      if (menu === 'About Me') {
-        to = '/about'
-      } else if (menu === 'My Profile') {
+      if (menu === 'My Profile') {
         to = '/profile'
       } else {
         to = `/${menu.toLowerCase()}`;

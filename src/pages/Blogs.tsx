@@ -1,6 +1,12 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../app/hook";
-import { getUiUxState, setBlogFilter, setNavBar, setPostCategory, setPostData } from "../slices/ui";
+import {
+  getUiUxState,
+  setBlogFilter,
+  setNavBar,
+  setPostCategory,
+  setPostData,
+} from "../slices/ui";
 import {
   ContentBox,
   CustomButton,
@@ -29,62 +35,75 @@ import { Route, useNavigate } from "react-router-dom";
 import routes from "../util/routes";
 import { formatDate, sortPosts } from "../util/general";
 
-
 const Blogs = () => {
- 
   const [postPage, setPostpage] = useState<number>(1);
-  const { navBar, blogFilter, postData, postCategory } = useAppSelector(getUiUxState);
+  const { navBar, blogFilter, postData, postCategory } =
+    useAppSelector(getUiUxState);
   const filterRef = useRef<HTMLDivElement>(null);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { data: postCategories, isLoading: categoryLoading } = useGetPostsCategoryQuery({})
+  const { data: postCategories, isLoading: categoryLoading } =
+    useGetPostsCategoryQuery({});
   useEffect(() => {
-    if (!postCategories || postCategories.status !== 200) return
+    if (!postCategories || postCategories.status !== 200) return;
     dispatch(
       setPostCategory({
         data: postCategories.data,
       })
-    )
-  }, [postCategories, dispatch])
-  const { data: postdata, isLoading } = useGetPostsQuery(postCategory.selectedCategory, {
-    skip: Object.values(postCategory.selectedCategory).length === 0
-  })
+    );
+  }, [postCategories, dispatch]);
+  const { data: postdata, isLoading, isFetching } = useGetPostsQuery(
+    postCategory.selectedCategory,
+    {
+      skip: Object.values(postCategory.selectedCategory).length === 0,
+    }
+  );
 
   useEffect(() => {
-    if (!postdata || postdata.status !== 200) return
+    if (!postdata || postdata.status !== 200) return;
     const mutablePosts = JSON.parse(JSON.stringify(postdata.data));
-    const dateOrder = blogFilter.filter.date
-    const sortedPosts = sortPosts(mutablePosts, dateOrder)
+    const dateOrder = blogFilter.filter.date;
+    const sortedPosts = sortPosts(mutablePosts, dateOrder);
     dispatch(
       setPostData({
-        data: sortedPosts
+        data: sortedPosts,
       })
-    )
-  }, [postdata, dispatch, blogFilter])
+    );
+  }, [postdata, dispatch, blogFilter,postCategory]);
 
   const toggleFilter = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
-    dispatch(setBlogFilter({
-      open: true
-    }))
-  }
-  const handleOutsideClick = useCallback((event: MouseEvent) => {
-    if (filterRef.current && !filterRef.current.contains(event.target as Node)) {
-      dispatch(setBlogFilter({
-        open: false
-      }));
-    }
-  }, [filterRef, dispatch]);
+    dispatch(
+      setBlogFilter({
+        open: true,
+      })
+    );
+  };
+  const handleOutsideClick = useCallback(
+    (event: MouseEvent) => {
+      if (
+        filterRef.current &&
+        !filterRef.current.contains(event.target as Node)
+      ) {
+        dispatch(
+          setBlogFilter({
+            open: false,
+          })
+        );
+      }
+    },
+    [filterRef, dispatch]
+  );
 
   useEffect(() => {
-    window.addEventListener('click', handleOutsideClick);
+    window.addEventListener("click", handleOutsideClick);
     return () => {
-      window.removeEventListener('click', handleOutsideClick);
-    }
-  }, [filterRef, handleOutsideClick])
+      window.removeEventListener("click", handleOutsideClick);
+    };
+  }, [filterRef, handleOutsideClick]);
   const handlePostPage = (event: React.ChangeEvent<unknown>, page: number) => {
     setPostpage(page);
-  }
+  };
 
   const postsPerPage = 3;
   const totalPostPage = Math.ceil(postData.data.length / postsPerPage);
@@ -94,24 +113,30 @@ const Blogs = () => {
   const openPost = (post: Post) => {
     dispatch(
       setPostData({
-        selectedPost: post
-      }),
-    )
+        selectedPost: post,
+      })
+    );
     dispatch(
       setNavBar({
-        selectedTab: -1
+        selectedTab: -1,
       })
-    )
-    navigate(routes.post)
-  }
+    );
+    navigate(routes.post);
+  };
   const setCatPage = (value: PostCategory) => {
-    setPostpage(1)
+    setPostpage(1);
     dispatch(
       setPostCategory({
-        selectedCategory: value
+        selectedCategory: value,
       })
-    )
-  }
+    );
+  };
+  // Function to strip HTML tags and get plain text
+  const stripHtmlTags = (html: string) => {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, "text/html");
+    return doc.body.textContent || ""; // Extract plain text from HTML
+  };
   return (
     <ContentBox topmargin={navBar.height}>
       <Grid
@@ -121,7 +146,9 @@ const Blogs = () => {
         justifyContent={"space-between"}
       >
         <Typography variant="h5" color={"GrayText"}>
-          {postCategory.selectedCategory.name === '' ? 'All' : postCategory.selectedCategory.name}
+          {postCategory.selectedCategory.name === ""
+            ? "All"
+            : postCategory.selectedCategory.name}
         </Typography>
         <Button
           variant="text"
@@ -139,86 +166,106 @@ const Blogs = () => {
       </Grid>
       <Grid container spacing={2}>
         <Grid item sm={8}>
-          {
-            !isLoading && postData.data.length > 0 ?
-              (
-                <>
-                  <Box>
-                    {postData.data.slice(startIndex, endIndex).map((post: any, index: any) => (
-                      <Card key={index} sx={{ padding: "5px", margin: "10px" }}>
-                        <CardActionArea>
-                          <Grid container alignItems={"center"}>
-                            <Grid item md={6} xs={12}>
-                              <CardMedia
-                                component="img"
-                                height="170"
-                                image={post.image}
-                                alt="post img"
-                              />
-                            </Grid>
-                            <Grid item md={6} xs={12}>
-                              <CardContent>
-                                <Typography
-                                  variant="subtitle1"
-                                  component="div"
-                                >
-                                  {post.title}
-                                </Typography>
-                                <Typography
-                                  gutterBottom
-                                  variant="caption"
-                                  component="div"
-                                  color={'GrayText'}
-                                >
-                                  {formatDate(post.created_at)}
-                                </Typography>
-                                <Typography variant="caption" color="text.secondary">
-                                  <div dangerouslySetInnerHTML={{ __html: post.description.substring(0, 100) }} />
-                                </Typography>
-                                <br />
-                                <CustomButton
-                                  size="small"
-                                  marginTop={true}
-                                  variant="contained"
-                                  endIcon={<SendIcon />}
-                                  onClick={() => { openPost(post) }}
-                                >
-                                  Read More
-                                </CustomButton>
-                              </CardContent>
-                            </Grid>
+          {!isFetching && !isLoading && postData.data.length > 0 ? (
+            <>
+              <Box>
+                {postData.data
+                  .slice(startIndex, endIndex)
+                  .map((post: any, index: any) => (
+                    <Card key={index} sx={{ padding: "5px", margin: "10px" }}>
+                      <CardActionArea>
+                        <Grid container alignItems={"center"}>
+                          <Grid item md={6} xs={12}>
+                            <CardMedia
+                              component="img"
+                              height="170"
+                              image={post.image}
+                              alt="post img"
+                            />
                           </Grid>
-                        </CardActionArea>
-                      </Card>
-                    ))}
-                    {(postdata === undefined || postdata?.length === 0) &&
-                      <Typography variant="body1" color={"GrayText"} margin={2}>No Result Found</Typography>
-                    }
-                  </Box>
-                  <Stack sx={{ margin: "25px" }}>
-                    <Pagination
-                      count={totalPostPage}
-                      page={postPage}
-                      onChange={handlePostPage}
-                      showFirstButton
-                      showLastButton
-                      sx={{
-                        "& .MuiPaginationItem-root": {
-                          color: primaryColor, // Change to your desired color
-                        },
-                        "& .Mui-selected": {
-                          backgroundColor: `${secondaryColor} !important`, // Change to your desired color
-                          color: "white", // Change to your desired color
-                          transform: "scale(1.2)",
-                        },
-                        alignSelf: "center",
-                      }}
-                    />
-                  </Stack>
-                </>) : (
-                <Typography variant="body1" color="initial">No Post Available</Typography>
-              )
-          }
+                          <Grid item md={6} xs={12}>
+                            <CardContent>
+                              <Typography variant="subtitle1" component="div">
+                                {post.title}
+                              </Typography>
+                              <Typography
+                                gutterBottom
+                                variant="caption"
+                                component="div"
+                                color={"GrayText"}
+                              >
+                                {formatDate(post.created_at)}
+                              </Typography>
+                              <Typography
+                                variant="caption"
+                                color="text.secondary"
+                              >
+                                <div
+                                  dangerouslySetInnerHTML={{
+                                    __html: stripHtmlTags(
+                                      post.description
+                                    ).substring(0, 140),
+                                  }}
+                                />
+                              </Typography>
+                              <br />
+                              <CustomButton
+                                size="small"
+                                marginTop={true}
+                                variant="contained"
+                                endIcon={<SendIcon />}
+                                onClick={() => {
+                                  openPost(post);
+                                }}
+                              >
+                                Read More
+                              </CustomButton>
+                            </CardContent>
+                          </Grid>
+                        </Grid>
+                      </CardActionArea>
+                    </Card>
+                  ))}
+                {(postdata === undefined || postdata?.length === 0) && (
+                  <Typography variant="body1" color={"GrayText"} margin={2}>
+                    No Result Found
+                  </Typography>
+                )}
+              </Box>
+              <Stack sx={{ margin: "25px" }}>
+                <Pagination
+                  count={totalPostPage}
+                  page={postPage}
+                  onChange={handlePostPage}
+                  showFirstButton
+                  showLastButton
+                  sx={{
+                    "& .MuiPaginationItem-root": {
+                      color: primaryColor, // Change to your desired color
+                    },
+                    "& .Mui-selected": {
+                      backgroundColor: `${secondaryColor} !important`, // Change to your desired color
+                      color: "white", // Change to your desired color
+                      transform: "scale(1.2)",
+                    },
+                    alignSelf: "center",
+                  }}
+                />
+              </Stack>
+            </>
+          ) : (
+            <Stack sx={{ margin: "25px" }}>
+              {isFetching || isLoading ? (
+                <Typography variant="body1" color="initial">
+                  Loading Data...
+                </Typography>
+              ) : (
+                <Typography variant="body1" color="initial">
+                  No Post Available
+                </Typography>
+              )}
+            </Stack>
+          )}
         </Grid>
         <Grid item sm={4}>
           <Grid container spacing={2}>
@@ -233,18 +280,23 @@ const Blogs = () => {
               >
                 Blogs Category
               </Typography>
-              {
-                (postCategory.data.length > 0 && Object.values(postCategory.selectedCategory).length > 0) && (
+              {postCategory.data.length > 0 &&
+                Object.values(postCategory.selectedCategory).length > 0 && (
                   <Stack direction="row" spacing={1} flexWrap={"wrap"}>
                     <Chip
-                      label='All'
+                      label="All"
                       variant="outlined"
                       sx={{
                         "&.MuiChip-root": {
                           margin: "3px",
                           backgroundColor:
-                            postCategory.selectedCategory.id === '' ? primaryColor : "inherit",
-                          color: postCategory.selectedCategory.id === '' ? "#fff" : "inherit",
+                            postCategory.selectedCategory.id === ""
+                              ? primaryColor
+                              : "inherit",
+                          color:
+                            postCategory.selectedCategory.id === ""
+                              ? "#fff"
+                              : "inherit",
                           "&:hover": {
                             backgroundColor: primaryColor,
                             color: "#fff",
@@ -253,10 +305,9 @@ const Blogs = () => {
                       }}
                       onClick={() => {
                         setCatPage({
-                          id: '',
-                          name: ''
-                        })
-
+                          id: "",
+                          name: "",
+                        });
                       }}
                     />
                     {postCategory.data?.map((category: any, index: number) => (
@@ -268,8 +319,13 @@ const Blogs = () => {
                           "&.MuiChip-root": {
                             margin: "3px",
                             backgroundColor:
-                              category.id === postCategory.selectedCategory.id ? primaryColor : "inherit",
-                            color: category.id === postCategory.selectedCategory.id ? "#fff" : "inherit",
+                              category.id === postCategory.selectedCategory.id
+                                ? primaryColor
+                                : "inherit",
+                            color:
+                              category.id === postCategory.selectedCategory.id
+                                ? "#fff"
+                                : "inherit",
                             "&:hover": {
                               backgroundColor: primaryColor,
                               color: "#fff",
@@ -279,26 +335,22 @@ const Blogs = () => {
                         onClick={() => {
                           setCatPage({
                             id: category.id,
-                            name: category.name
-                          })
+                            name: category.name,
+                          });
                         }}
                       />
                     ))}
                   </Stack>
-
-                )
-              }
+                )}
             </Grid>
           </Grid>
         </Grid>
       </Grid>
-      {
-        blogFilter.open && (
-          <section ref={filterRef}>
-            <BlogFilter />
-          </section>
-        )
-      }
+      {blogFilter.open && (
+        <section ref={filterRef}>
+          <BlogFilter />
+        </section>
+      )}
     </ContentBox>
   );
 };

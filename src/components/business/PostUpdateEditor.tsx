@@ -1,21 +1,22 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import "../../css/global.scss"
 import { primaryColor, secondaryColor } from '../../util/constant';
 import { IconButton, TextField, Grid, Snackbar, Alert, Typography, Autocomplete } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { useCreatePostCommentMutation } from '../../services/comment.service';
-import { useCreatePostMutation } from '../../services/posts.service';
-import { useAppSelector } from '../../app/hook';
-import { getUiUxState } from '../../slices/ui';
+import { useCreatePostMutation, useUpdatePostMutation } from '../../services/posts.service';
+import { useAppDispatch, useAppSelector } from '../../app/hook';
+import { getUiUxState, setPostData } from '../../slices/ui';
 import { CustomButton } from '../StyledComponents/CommonStyle';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import CustomUploadAdapter from './CustomUploadAdapter';
 import { PostCategory } from '../../util/type/types';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import { useDispatch } from 'react-redux';
 
-const PostEditor = () => {
+const PostUpdateEditor = () => {
     const [postDescription, setpostDescription] = useState('');
     const [postTitle, setpostTitle] = useState('');
     const [selectedCategory, setSelectedCategory] = useState<PostCategory | null>(null);
@@ -23,8 +24,7 @@ const PostEditor = () => {
     const [showSnackBar, setShowSnackBar] = useState(false);
     const [image, setImage] = useState<string | null>(null);
     const [binaryImg, setBinaryImg] = useState<File | null>(null);
-
-
+    const dispatch = useAppDispatch()
     const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (file) {
@@ -33,22 +33,24 @@ const PostEditor = () => {
             setImage(fileUrl);
         }
     };
-    const [createPost] = useCreatePostMutation()
-    const handleCreatePost = async () => {
+    const [updatePost] = useUpdatePostMutation()
+    const handleUpdatePost = async (id:any) => {
         try {
             const postData = {
+                id: id,
                 title: postTitle,
                 description: postDescription,
                 image: binaryImg,
                 post_category: selectedCategory?.id
             }
 
-            const response = await createPost(postData).unwrap();
-            if (response.status === 201) {
-                setpostDescription('')
-                setImage(null)
-                setBinaryImg(null)
-                setpostTitle('')
+            const response = await updatePost(postData).unwrap();
+            if (response.status === 200) {
+                dispatch(
+                    setPostData({
+                        editPost: {}
+                    })
+                )
             }
             setShowSnackBar(true)
         } catch (error: any) {
@@ -58,12 +60,39 @@ const PostEditor = () => {
     const handleCloseSnack = () => {
         setShowSnackBar(false)
     }
-    const { navBar, postCategory } = useAppSelector(getUiUxState)
-
+    const { navBar, postCategory, postData } = useAppSelector(getUiUxState)
+    const getFileExtension = (url: string): string => {
+        const extension = url.split('.').pop();
+        return extension ? extension : 'jpg'; // Default to 'jpg' if no extension is found
+    };
+    const fetchImageAsFile = async (imageUrl: string): Promise<File> => {
+        const response = await fetch(imageUrl);
+        const blob = await response.blob();
+        const extension = getFileExtension(imageUrl);
+        const fileName = `image.${extension}`;
+        return new File([blob], fileName, { type: blob.type });
+    };
+    useEffect(() => {
+        if (Object.keys(postData.editPost).length > 0) {
+            const updateCategory = postCategory.data.find(obj => obj.id === postData.editPost.post_category)
+            if (updateCategory) {
+                setSelectedCategory(updateCategory)
+            }
+            setpostTitle(postData.editPost.title);
+            setpostDescription(postData.editPost.description)
+            const fetchImage = async () => {
+                const file = await fetchImageAsFile(postData.editPost.image);
+                setBinaryImg(file);
+                const fileUrl = URL.createObjectURL(file);
+                setImage(fileUrl);
+            };
+            fetchImage();
+        }
+    }, [postData])
     return (
         <div>
             <Grid container spacing={0}>
-                <Typography variant="h5" color="initial" sx={{ color: primaryColor, marginY: '15px' }}>Add Post</Typography>
+                <Typography variant="h5" color="initial" sx={{ color: primaryColor, marginY: '15px' }}>Update Post</Typography>
                 <Snackbar open={showSnackBar}
                     autoHideDuration={6000}
                     onClose={handleCloseSnack}
@@ -81,7 +110,7 @@ const PostEditor = () => {
                         variant="filled"
                         sx={{ width: '100%' }}
                     >
-                        post created successfully
+                        post updated successfully
                     </Alert>
                 </Snackbar>
 
@@ -212,11 +241,11 @@ const PostEditor = () => {
             />
             <Grid container justifyContent={'end'} my={2}>
 
-                <CustomButton variant='contained' size='large' onClick={handleCreatePost}>Create Post</CustomButton>
+                <CustomButton variant='contained' size='large' onClick={() => handleUpdatePost(postData.editPost.id)}>Update Post</CustomButton>
             </Grid>
         </div>
     );
 };
 
-export default PostEditor;
+export default PostUpdateEditor;
 

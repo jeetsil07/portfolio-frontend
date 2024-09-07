@@ -19,6 +19,6 @@ export const api = createApi({
       return { data, status: response.status };
     },
   }),
-  tagTypes: ["Posts", "Postscategory", "Comment"],
+  tagTypes: ["Posts", "Postscategory", "Comment", "Resume"],
   endpoints: () => ({}),
 });

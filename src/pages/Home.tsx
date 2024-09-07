@@ -6,8 +6,8 @@ import { getUiUxState } from "../slices/ui";
 import jeet2 from "../assets/img/jeet2.jpeg";
 import bgImg from "../assets/img/bgImg.png";
 import { Typewriter } from "react-simple-typewriter";
-import CloudDownloadTwoToneIcon from '@mui/icons-material/CloudDownloadTwoTone';
-import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
+import CloudDownloadTwoToneIcon from "@mui/icons-material/CloudDownloadTwoTone";
+import InfoTwoToneIcon from "@mui/icons-material/InfoTwoTone";
 import {
   AboutText,
   ContentBox,
@@ -18,9 +18,30 @@ import {
 import Skills from "../components/business/Skills";
 import Projects from "../components/business/Projects";
 import { primaryColor, secondaryColor } from "../util/constant";
+import { useGetResumeQuery } from "../services/resume.service";
+import { useNavigate } from "react-router-dom";
+import routes from "../util/routes";
 const Home = () => {
-  
   const { navBar } = useAppSelector(getUiUxState);
+  const { data, error, isLoading } = useGetResumeQuery({});
+  const navigate = useNavigate();
+  const handleDownload = () => {
+    if (data) {
+      const url = URL.createObjectURL(
+        new Blob([data], { type: "application/pdf" })
+      );
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "resume.pdf"); // Set the download file name
+      document.body.appendChild(link);
+      link.click(); // Trigger the download
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url); // Clean up the object URL
+    }
+  };
+  const handleTeam = () => {
+    navigate(routes.team)
+  }
   return (
     <>
       <ContentBox topmargin={navBar.height} bgimg={bgImg}>
@@ -43,12 +64,12 @@ const Home = () => {
           <Grid item lg={5} sx={{ margin: "20px 10px" }}>
             <Typography variant="h5" color="initial">
               <span style={{ color: primaryColor }}>I'm a</span>{" "}
-              <span style={{ color: secondaryColor,padding:'15px 0' }}>
+              <span style={{ color: secondaryColor, padding: "15px 0" }}>
                 <Typewriter
                   words={["Software Developer", "UI/UX Designer", "YouTuber"]}
                   loop={false}
                   cursor
-                  cursorStyle='_'
+                  cursorStyle="_"
                   typeSpeed={70}
                   deleteSpeed={50}
                 />
@@ -69,15 +90,35 @@ const Home = () => {
         </GridContainer>
       </ContentBox>
       <Box>
-        <ContentBox >
+        <ContentBox>
           <GridContainer container justifyContent="center" alignItems="center">
-            <CustomButton variant="contained" marginRight={true} marginLeft={true} marginTop={true} endIcon={<CloudDownloadTwoToneIcon />} >Download Resume</CustomButton>
-            <CustomButton variant="contained" marginLeft={true} marginRight={true} marginTop={true} endIcon={<InfoTwoToneIcon />} >About Me</CustomButton>
+            <CustomButton
+              onClick={handleDownload}
+              variant="contained"
+              marginRight={true}
+              marginLeft={true}
+              marginTop={true}
+              endIcon={<CloudDownloadTwoToneIcon />}
+            >
+              Download Resume
+            </CustomButton>
+            <CustomButton
+              variant="contained"
+              marginLeft={true}
+              marginRight={true}
+              marginTop={true}
+              endIcon={<InfoTwoToneIcon />}
+              onClick={handleTeam}
+            >
+              Our Team
+            </CustomButton>
           </GridContainer>
         </ContentBox>
       </Box>
-      <Skills/>
-      <Projects/>
+      <Skills />
+      { process.env.REACT_APP_SHOW_PROJECT_MODULE  === 'true'&& 
+      <Projects />
+      }
     </>
   );
 };

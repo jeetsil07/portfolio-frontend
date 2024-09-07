@@ -16,6 +16,7 @@ import NotificationsNoneTwoToneIcon from '@mui/icons-material/NotificationsNoneT
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LoginIcon from '@mui/icons-material/Login';
 import { secondaryColor } from '../../util/constant';
+import Groups2Icon from '@mui/icons-material/Groups2';
 
 const Footer = () => {
     const location = useLocation()
@@ -25,13 +26,13 @@ const Footer = () => {
         const storedTokens = localStorage.getItem('authTokens');
         let menus: string[];
         if (storedTokens) {
-            menus = ['Home', 'About Me', 'Blogs', 'Contact', 'My Profile'];
+            menus = ['Home', 'Team', 'Blogs', 'Contact', 'My Profile'];
         } else {
-            menus = ['Home', 'About Me', 'Blogs', 'Contact', 'Login'];
+            menus = ['Home', 'Team', 'Blogs', 'Contact', 'Login'];
         }
         const menuIcons: { [key: string]: React.ElementType } = {
             Home: HomeTwoToneIcon,
-            'About Me': InfoTwoToneIcon,
+            Team: Groups2Icon,
             Blogs: BookTwoToneIcon,
             Contact: PermContactCalendarTwoToneIcon,
             Login: LoginIcon,
@@ -41,9 +42,7 @@ const Footer = () => {
         return menus.map((menu, index) => {
             const IconComponent = menuIcons[menu];
             let to: string;
-            if (menu === 'About Me') {
-                to = '/about'
-            } else if (menu === 'My Profile') {
+            if (menu === 'My Profile') {
                 to = '/profile'
             } else {
                 to = `/${menu.toLowerCase()}`;

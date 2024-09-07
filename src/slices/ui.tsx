@@ -2,16 +2,6 @@ import { createSelector, createSlice } from '@reduxjs/toolkit'
 import { RootState } from '../app/store'
 import { Post, PostCategory } from '../util/type/types'
 
-// interface NavBarState {
-//     height: number;
-//     selectedTab: number|undefined;
-//   }
-
-//   interface State {
-//     header: {
-//       navBar: NavBarState;
-//     };
-//   }
 const initialState = {
     userInterface: {
         navBar: {
@@ -34,7 +24,8 @@ const initialState = {
         },
         postData: {
             data: [] as any,
-            selectedPost: {} as Post
+            selectedPost: {} as Post,
+            editPost:{} as Post
         },
         postComments: {
             data: []
@@ -58,7 +49,6 @@ const uiSlice = createSlice({
             }
             if (selectedTab === -1) {
                 navBar.selectedTab = -1
-                console.log('-1 tab')
             }
         },
         setBlogFilter: (state, { payload }) => {
@@ -83,13 +73,16 @@ const uiSlice = createSlice({
             }
         },
         setPostData: (state, { payload }) => {
-            const { data, selectedPost } = payload
+            const { data, selectedPost, editPost } = payload
             const { postData } = state.userInterface
             if (data !== undefined) {
                 postData.data = data
             }
             if (selectedPost !== undefined) {
                 postData.selectedPost = selectedPost
+            }
+            if (editPost !== undefined) {
+                postData.editPost = editPost
             }
         },
         setPostComments: (state, { payload }) => {

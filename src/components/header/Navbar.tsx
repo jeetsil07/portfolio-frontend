@@ -10,7 +10,7 @@ import { setNavBar } from '../../slices/ui';
 import { primaryColor } from '../../util/constant';
 
 const Navbar = () => {
-   
+
     const pathName = window.location.pathname.toLowerCase();
     const navigate = useNavigate();
     const navBarRef = useRef<HTMLDivElement | null>(null);
@@ -22,15 +22,13 @@ const Navbar = () => {
         const storedTokens = localStorage.getItem('authTokens');
         let menus: string[];
         if (storedTokens) {
-            menus = ['Home', 'About Me', 'Blogs', 'Contact', 'My Profile'];
+            menus = ['Home', 'Team', 'Blogs', 'Contact', 'My Profile'];
         } else {
-            menus = ['Home', 'About Me', 'Blogs', 'Contact', 'Login'];
+            menus = ['Home', 'Team', 'Blogs', 'Contact', 'Login'];
         }
         return menus.map((menu, index) => {
             let to: string;
-            if (menu === 'About Me') {
-                to = '/about'
-            } else if (menu === 'My Profile') {
+            if (menu === 'My Profile') {
                 to = '/profile'
             } else {
                 to = `/${menu.toLowerCase()}`;
@@ -46,7 +44,7 @@ const Navbar = () => {
     useEffect(() => {
         if (pathName === '/home') {
             dispatch(setNavBar({ selectedTab: 0 }))
-        } else if (pathName === '/about') {
+        } else if (pathName === '/team') {
             dispatch(setNavBar({ selectedTab: 1 }))
         } else if (pathName === '/blogs') {
             dispatch(setNavBar({ selectedTab: 2 }))
