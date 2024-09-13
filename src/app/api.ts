@@ -2,7 +2,8 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const api = createApi({
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://127.0.0.1:8000",
+    // baseUrl: "http://127.0.0.1:8000",
+    baseUrl: process.env.REACT_APP_THUNDER_BACKEND_PREFIX,
     credentials: "same-origin",
     mode: "cors",
     prepareHeaders: (headers) => {
@@ -19,6 +20,6 @@ export const api = createApi({
       return { data, status: response.status };
     },
   }),
-  tagTypes: ["Posts", "Postscategory", "Comment", "Resume"],
+  tagTypes: ["Posts", "Postscategory", "Comment", "Resume","Members"],
   endpoints: () => ({}),
 });

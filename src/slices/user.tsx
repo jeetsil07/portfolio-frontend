@@ -10,7 +10,8 @@ const initialState = {
             first_name: '',
             last_name: '',
             password: '',
-            imageUrl: ''
+            imageUrl: '',
+            bio:''
         }        
     }
 }
@@ -20,7 +21,7 @@ const userSlice = createSlice({
     initialState,
     reducers: {
         setUserData: (state,{payload})=>{
-            const {user_id,is_superuser,email,first_name,last_name,password,imageUrl} = payload
+            const {user_id,is_superuser,email,first_name,last_name,password,imageUrl,bio} = payload
             const {user} = state.userData
             if(user_id !== undefined){
                 user.user_id = user_id
@@ -41,6 +42,9 @@ const userSlice = createSlice({
             }
             if(imageUrl !== undefined){
                 user.imageUrl = imageUrl
+            }
+            if(bio !== undefined){
+                user.bio = bio
             }
         }
     }

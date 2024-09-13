@@ -22,6 +22,7 @@ import { Link, useLocation } from "react-router-dom";
 import logoImg from '../../assets/img/jeet1.jpeg'
 import { primaryColor } from "../../util/constant";
 import Groups2Icon from '@mui/icons-material/Groups2';
+import { StyledDrawer, StyledDrawerInnerContainer, StyledListItemText, StyledLogoContainer } from "../StyledComponents/NavbarStyled";
 
 const DrawerCmp = () => {
   const [drawer, setDrawer] = useState(false);
@@ -30,11 +31,15 @@ const DrawerCmp = () => {
 
     const storedTokens = localStorage.getItem('authTokens');
     let menus: string[];
+
+    // according to storedToken(authTokens) it will determine what to show 'My Profile'/'Login'
     if (storedTokens) {
       menus = ['Home', 'Team', 'Blogs', 'Contact', 'My Profile'];
     } else {
       menus = ['Home', 'Team', 'Blogs', 'Contact', 'Login'];
     }
+
+    //this is for drawer menu icons
     const menuIcons: { [key: string]: React.ElementType } = {
       Home: HomeTwoToneIcon,
       Team: Groups2Icon,
@@ -44,6 +49,7 @@ const DrawerCmp = () => {
       'My Profile': AccountCircleIcon,
     };
 
+    // this is to navigate to the specific page by clicking menu
     return menus.map((menu, index) => {
       const IconComponent = menuIcons[menu];
       let to: string;
@@ -57,13 +63,9 @@ const DrawerCmp = () => {
         <div key={index}>
           <ListItemButton component={Link} to={to}>
             <IconComponent sx={{ color: primaryColor }} />
-            <ListItemText
+            <StyledListItemText
               primary={menu}
-              sx={{
-                color: isActive ? primaryColor : '',
-                paddingLeft: "30px",
-                minWidth: "100px",
-              }}
+              isActive={isActive}              
             />
           </ListItemButton>
           <Divider />
@@ -81,35 +83,31 @@ const DrawerCmp = () => {
       >
         <MenuTwoToneIcon />
       </IconButton>
-      <Drawer open={drawer} onClose={() => setDrawer((prev) => !prev)}>
-        <Grid
+      <StyledDrawer open={drawer} onClose={() => setDrawer((prev) => !prev)}>
+        <StyledDrawerInnerContainer
           container
           spacing={2}
-          alignItems="center"
-          sx={{
-            padding: "10px",
-            backgroundColor: primaryColor,
-          }}
+          primaryColor={primaryColor}
         >
-          <Grid item xs={5}>
+          <StyledLogoContainer item xs={5}>
             <Logo
               alt="Jeet Sil"
               src={logoImg}
             />
-          </Grid>
-          <Grid item xs={7}>
+          </StyledLogoContainer>
+          <StyledLogoContainer item xs={7}>
             <Typography
               variant="body1"
               color="white"
             >
-              Jeet Sil
+              techSociety
             </Typography>
-          </Grid>
-        </Grid>
+          </StyledLogoContainer>
+        </StyledDrawerInnerContainer>
         <List>
           {drawer && renderMenus}
         </List>
-      </Drawer>
+      </StyledDrawer>
     </>
   );
 };

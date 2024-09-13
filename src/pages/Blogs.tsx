@@ -52,12 +52,13 @@ const Blogs = () => {
       })
     );
   }, [postCategories, dispatch]);
-  const { data: postdata, isLoading, isFetching } = useGetPostsQuery(
-    postCategory.selectedCategory,
-    {
-      skip: Object.values(postCategory.selectedCategory).length === 0,
-    }
-  );
+  const {
+    data: postdata,
+    isLoading,
+    isFetching,
+  } = useGetPostsQuery(postCategory.selectedCategory, {
+    skip: Object.values(postCategory.selectedCategory).length === 0,
+  });
 
   useEffect(() => {
     if (!postdata || postdata.status !== 200) return;
@@ -69,7 +70,7 @@ const Blogs = () => {
         data: sortedPosts,
       })
     );
-  }, [postdata, dispatch, blogFilter,postCategory]);
+  }, [postdata, dispatch, blogFilter, postCategory]);
 
   const toggleFilter = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
@@ -122,6 +123,8 @@ const Blogs = () => {
       })
     );
     navigate(routes.post);
+    // Scroll to top after navigation
+    window.scrollTo(0, 0);
   };
   const setCatPage = (value: PostCategory) => {
     setPostpage(1);

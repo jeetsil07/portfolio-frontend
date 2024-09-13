@@ -1,6 +1,6 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import Navbar from './components/header/Navbar';
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import Footer from './components/footer/Footer';
 import routes from './util/routes';
 
@@ -19,9 +19,32 @@ const LoadableNotFound = React.lazy(() => import(/* webpackChunkName: "NotFoundP
 const LoadComponent = () => <h3>Loading...</h3>;
 
 function App() {
+  // useEffect(() => {
+  //   // Disable right-click context menu
+  //   const handleContextMenu = (e: { preventDefault: () => void; }) => {
+  //     e.preventDefault();
+  //   };
+
+  //   document.addEventListener('contextmenu', handleContextMenu);
+
+  //   // Cleanup the event listener on component unmount
+  //   return () => {
+  //     document.removeEventListener('contextmenu', handleContextMenu);
+  //   };
+  // }, []);
+
+// Scroll to top on route change
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+};
   return (
     <BrowserRouter>
       <Navbar />
+      <ScrollToTop />
       <Suspense fallback={<LoadComponent />}>
         <Routes>
           <Route path="/" element={<Navigate to={routes.home} />} />

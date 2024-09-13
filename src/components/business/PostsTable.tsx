@@ -12,6 +12,7 @@ import {
   TablePagination,
   Box,
   IconButton,
+  Tooltip,
 } from "@mui/material";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -108,9 +109,6 @@ const PostsTable = () => {
     return category ? category.name : "Unknown Category";
   };
 
-  const handlePostDelete = (id: any) => {
-    // Implement delete functionality here
-  };
   const openPost = (post: Post) => {
     dispatch(
       setPostData({
@@ -123,6 +121,8 @@ const PostsTable = () => {
       })
     );
     navigate(routes.post);
+    // Scroll to top after navigation
+    window.scrollTo(0, 0);
   };
   const handleEditPost = (post: Post) => {
     dispatch(
@@ -159,21 +159,39 @@ const PostsTable = () => {
                 <TableRow key={post.id}>
                   <TableCell>{getCategoryName(post.post_category)}</TableCell>
                   <TableCell>
-                    <Typography
-                      variant="body1"
-                      onClick={() => {
-                        openPost(post);
-                      }}
-                      sx={{
-                        color: primaryColor,
-                        cursor: "pointer",
-                        "&:hover": {
-                          textDecoration: "underline",
+                    <Tooltip
+                      title={post.title}
+                      arrow
+                      componentsProps={{
+                        tooltip: {
+                          sx: {
+                            bgcolor: primaryColor,
+                            color: "white",
+                          },
+                        },
+                        arrow: {
+                          sx: {
+                            color: primaryColor,
+                          },
                         },
                       }}
                     >
-                      {post.title}
-                    </Typography>
+                      <Typography
+                        variant="body1"
+                        onClick={() => {
+                          openPost(post);
+                        }}
+                        sx={{
+                          color: primaryColor,
+                          cursor: "pointer",
+                          "&:hover": {
+                            textDecoration: "underline",
+                          },
+                        }}
+                      >
+                        {post.title.length > 50 ? post.title.substring(0, 20) + "...": post.title}
+                      </Typography>
+                    </Tooltip>
                   </TableCell>
                   <TableCell>
                     <Avatar

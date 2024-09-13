@@ -41,7 +41,6 @@ import NewEditor from "../components/business/NewEditor";
 import PostUpdateEditor from "../components/business/PostUpdateEditor";
 
 const MyProfile = () => {
-  console.log('my profile................')
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [profileEdit, setProfileEdit] = useState<boolean>(false);
   const [passwordFieldType, setPasswordFieldType] = useState("password");
@@ -74,9 +73,12 @@ const MyProfile = () => {
         last_name: "",
         imageUrl: "",
         password: "",
+        bio: "",
       })
     );
     navigate(routes.login);
+    // Scroll to top after navigation
+    window.scrollTo(0, 0);
   };
   const dispatch = useAppDispatch();
   const storedTokens = localStorage.getItem("authTokens");
@@ -92,6 +94,7 @@ const MyProfile = () => {
             first_name: user.first_name,
             last_name: user.last_name,
             imageUrl: user.image,
+            bio: user.bio,
           })
         );
       }
@@ -121,7 +124,8 @@ const MyProfile = () => {
         user.email === "" ||
         user.password === "" ||
         user.first_name === "" ||
-        user.last_name === ""
+        user.last_name === "" ||
+        user.bio === ""
       ) {
         setMessage("All Fields are required");
         setShowSnackBar(true);
@@ -134,6 +138,7 @@ const MyProfile = () => {
         last_name: user.last_name,
         password: user.password,
         ...(file ? { image: file } : {}),
+        bio: user.bio,
       };
 
       const response = await userUpdate(updateUser).unwrap();
@@ -169,7 +174,7 @@ const MyProfile = () => {
     <>
       <ContentBox topmargin={navBar.height}>
         <Grid container spacing={2} justifyContent={"center"}>
-          <Grid item sm={3} xs={12} justifyContent={"center"}>
+          <Grid item md={4} xs={12} justifyContent={"center"}>
             <Paper
               sx={{
                 padding: "22px",
@@ -467,42 +472,108 @@ const MyProfile = () => {
                     onChange={(e) => handleProfileUpdate("password", e)}
                     value={user.password}
                   />
+                  <TextField
+                    variant="outlined"
+                    placeholder="Update Bio"
+                    fullWidth
+                    multiline
+                    rows={3}
+                    sx={{
+                      marginY: "15px",
+                      "& .MuiOutlinedInput-root": {
+                        "& fieldset": {
+                          borderColor: primaryColor, // Border color when not focused
+                        },
+                        "&:hover fieldset": {
+                          borderColor: primaryColor, // Border color on hover
+                        },
+                        "&.Mui-focused fieldset": {
+                          borderColor: primaryColor, // Border color when focused
+                        },
+                      },
+                      "& .MuiInputLabel-root": {
+                        color: primaryColor, // Color of the label
+                      },
+                    }}
+                    InputProps={{
+                      style: {
+                        color: `${primaryColor}`,
+                      },
+                    }}
+                    InputLabelProps={{
+                      style: { color: `${primaryColor}` }, // Change the color of the label
+                    }}
+                    onChange={(e) => handleProfileUpdate("bio", e)}
+                    value={user.bio}
+                  />
                 </Box>
               ) : (
                 <Box>
                   <Grid
                     container
                     justifyContent={"space-between"}
-                    alignItems={"center"}
+                    alignItems={"start"}
                     my={2}
                   >
-                    <Typography variant="body1" color={primaryColor}>
-                      Name
-                    </Typography>
-                    <Typography
-                      variant="body1"
-                      color={secondaryColor}
-                      className="profileData"
-                    >
-                      {user.first_name + " " + user.last_name}
-                    </Typography>
+                    <Grid item xs={2}>
+                      <Typography variant="body1" color={primaryColor}>
+                        Name
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={10}>
+                      <Typography
+                        variant="body1"
+                        color={secondaryColor}
+                        className="profileData"
+                        textAlign={"end"}
+                      >
+                        {user.first_name + " " + user.last_name}
+                      </Typography>
+                    </Grid>
                   </Grid>
                   <Grid
                     container
                     justifyContent={"space-between"}
-                    alignItems={"center"}
+                    alignItems={"start"}
                     my={2}
                   >
-                    <Typography variant="body1" color={primaryColor}>
-                      Email
-                    </Typography>
-                    <Typography
-                      variant="body1"
-                      color={secondaryColor}
-                      className="profileData"
-                    >
-                      {user.email}
-                    </Typography>
+                    <Grid item xs={2}>
+                      <Typography variant="body1" color={primaryColor}>
+                        Email
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={10}>
+                      <Typography
+                        variant="body1"
+                        color={secondaryColor}
+                        className="profileData"
+                        textAlign={"end"}
+                      >
+                        {user.email}
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                  <Grid
+                    container
+                    justifyContent={"space-between"}
+                    alignItems={"start"}
+                    my={2}
+                  >
+                    <Grid item xs={2}>
+                      <Typography variant="body1" color={primaryColor}>
+                        Bio
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={10}>
+                      <Typography
+                        variant="body1"
+                        color={secondaryColor}
+                        className="profileData"
+                        textAlign={"end"}
+                      >
+                        {user.bio}
+                      </Typography>
+                    </Grid>
                   </Grid>
                 </Box>
               )}
@@ -526,12 +597,12 @@ const MyProfile = () => {
               </Grid>
             </Paper>
           </Grid>
-          <Grid item sm={8} xs={12}>
+          <Grid item md={7} xs={12}>
             <PostsTable />
           </Grid>
         </Grid>
         <Grid container justifyContent={"center"} spacing={2} mt={3}>
-          <Grid item xs={8}>
+          <Grid item md={8}>
             <Paper sx={{ padding: "10px" }}>
               {Object.keys(postData.editPost).length > 0 ? (
                 <PostUpdateEditor />
@@ -540,7 +611,7 @@ const MyProfile = () => {
               )}
             </Paper>
           </Grid>
-          <Grid item xs={3}></Grid>
+          <Grid item md={3}></Grid>
         </Grid>
       </ContentBox>
       <Snackbar

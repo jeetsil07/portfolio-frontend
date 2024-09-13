@@ -8,12 +8,16 @@ import bgImg from "../assets/img/bgImg.png";
 import { Typewriter } from "react-simple-typewriter";
 import CloudDownloadTwoToneIcon from "@mui/icons-material/CloudDownloadTwoTone";
 import InfoTwoToneIcon from "@mui/icons-material/InfoTwoTone";
+import Groups2Icon from '@mui/icons-material/Groups2';
 import {
   AboutText,
   ContentBox,
   CustomButton,
   GridContainer,
   ImageBox,
+  ImageBoxContainer,
+  StyleBioArea,
+  StyledButton,
 } from "../components/StyledComponents/CommonStyle";
 import Skills from "../components/business/Skills";
 import Projects from "../components/business/Projects";
@@ -40,28 +44,20 @@ const Home = () => {
     }
   };
   const handleTeam = () => {
-    navigate(routes.team)
-  }
+    navigate(routes.team);
+    // Scroll to top after navigation
+    window.scrollTo(0, 0);
+  };
   return (
     <>
       <ContentBox topmargin={navBar.height} bgimg={bgImg}>
-        <GridContainer container justifyContent="center" alignItems="center">
-          <Grid item md={3} sx={{ marginBottom: "10px" }}>
+        <GridContainer container>
+          <ImageBoxContainer item md={3}>
             <ImageBox>
-              <img
-                // src={jeet1}
-                src={jeet2}
-                // src="https://images.unsplash.com/photo-1610276198568-eb6d0ff53e48?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                alt="Jeet"
-                style={{
-                  height: "100%",
-                  width: "100%",
-                  objectFit: "cover",
-                }}
-              />
+              <img src={jeet2} alt="Jeet" />
             </ImageBox>
-          </Grid>
-          <Grid item lg={5} sx={{ margin: "20px 10px" }}>
+          </ImageBoxContainer>
+          <StyleBioArea item lg={5}>
             <Typography variant="h5" color="initial">
               <span style={{ color: primaryColor }}>I'm a</span>{" "}
               <span style={{ color: secondaryColor, padding: "15px 0" }}>
@@ -86,39 +82,31 @@ const Home = () => {
               engaging manner. Coding is not just a profession for me; it's a
               passion that drives me to constantly learn and innovate.{" "}
             </AboutText>
-          </Grid>
+          </StyleBioArea>
         </GridContainer>
       </ContentBox>
       <Box>
         <ContentBox>
           <GridContainer container justifyContent="center" alignItems="center">
-            <CustomButton
+            <StyledButton
               onClick={handleDownload}
               variant="contained"
-              marginRight={true}
-              marginLeft={true}
-              marginTop={true}
               endIcon={<CloudDownloadTwoToneIcon />}
             >
               Download Resume
-            </CustomButton>
-            <CustomButton
+            </StyledButton>
+            <StyledButton
               variant="contained"
-              marginLeft={true}
-              marginRight={true}
-              marginTop={true}
-              endIcon={<InfoTwoToneIcon />}
+              endIcon={<Groups2Icon />}
               onClick={handleTeam}
             >
               Our Team
-            </CustomButton>
+            </StyledButton>
           </GridContainer>
         </ContentBox>
       </Box>
       <Skills />
-      { process.env.REACT_APP_SHOW_PROJECT_MODULE  === 'true'&& 
-      <Projects />
-      }
+      {process.env.REACT_APP_SHOW_PROJECT_MODULE === "true" && <Projects />}
     </>
   );
 };
