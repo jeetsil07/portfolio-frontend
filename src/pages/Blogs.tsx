@@ -244,11 +244,11 @@ const Blogs = () => {
                   showLastButton
                   sx={{
                     "& .MuiPaginationItem-root": {
-                      color: primaryColor, // Change to your desired color
+                      color: primaryColor
                     },
                     "& .Mui-selected": {
-                      backgroundColor: `${secondaryColor} !important`, // Change to your desired color
-                      color: "white", // Change to your desired color
+                      backgroundColor: `${secondaryColor} !important`
+                      color: "white"
                       transform: "scale(1.2)",
                     },
                     alignSelf: "center",
