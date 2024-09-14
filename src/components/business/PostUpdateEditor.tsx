@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { CKEditor } from '@ckeditor/ckeditor5-react';
 import "../../css/global.scss"
 import { primaryColor, secondaryColor } from '../../util/constant';
 import { IconButton, TextField, Grid, Snackbar, Alert, Typography, Autocomplete } from '@mui/material';
@@ -9,7 +8,6 @@ import { useCreatePostMutation, useUpdatePostMutation } from '../../services/pos
 import { useAppDispatch, useAppSelector } from '../../app/hook';
 import { getUiUxState, setPostData } from '../../slices/ui';
 import { CustomButton } from '../StyledComponents/CommonStyle';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import CustomUploadAdapter from './CustomUploadAdapter';
 import { PostCategory } from '../../util/type/types';
 import ReactQuill from 'react-quill';
