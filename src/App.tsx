@@ -4,17 +4,17 @@ import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-route
 import Footer from './components/footer/Footer';
 import routes from './util/routes';
 
-// Lazy load the components with Webpack chunk names
-const LoadableHome = React.lazy<React.ComponentType>(() => import(/* webpackChunkName: "HomePage" */ './pages/Home'));
-const LoadableTeam = React.lazy<React.ComponentType>(() => import(/* webpackChunkName: "TeamPage" */ './pages/Team'));
-const LoadableBlogs = React.lazy<React.ComponentType>(() => import(/* webpackChunkName: "BlogsPage" */ './pages/Blogs'));
-const LoadableLogin = React.lazy<React.ComponentType>(() => import(/* webpackChunkName: "LoginPage" */ './pages/Login'));
-const LoadableMyProfile = React.lazy<React.ComponentType>(() => import(/* webpackChunkName: "MyProfilePage" */ './pages/MyProfile'));
-const LoadablePost = React.lazy<React.ComponentType>(() => import(/* webpackChunkName: "PostPage" */ './pages/Post'));
-const LoadableNotFound = React.lazy<React.ComponentType>(() => import(/* webpackChunkName: "NotFoundPage" */ './pages/NotFound'));
+// Define the fallback component
+const LoadComponent: React.FC = () => <h3>Loading...</h3>;
 
-// Fallback component to show while lazy-loaded components are being fetched
-const LoadComponent = () => <h3>Loading...</h3>;
+// Lazy load the components with correct typing
+const LoadableHome = React.lazy<React.FC>(() => import(/* webpackChunkName: "HomePage" */ './pages/Home'));
+const LoadableTeam = React.lazy<React.FC>(() => import(/* webpackChunkName: "TeamPage" */ './pages/Team'));
+const LoadableBlogs = React.lazy<React.FC>(() => import(/* webpackChunkName: "BlogsPage" */ './pages/Blogs'));
+const LoadableLogin = React.lazy<React.FC>(() => import(/* webpackChunkName: "LoginPage" */ './pages/Login'));
+const LoadableMyProfile = React.lazy<React.FC>(() => import(/* webpackChunkName: "MyProfilePage" */ './pages/MyProfile'));
+const LoadablePost = React.lazy<React.FC>(() => import(/* webpackChunkName: "PostPage" */ './pages/Post'));
+const LoadableNotFound = React.lazy<React.FC>(() => import(/* webpackChunkName: "NotFoundPage" */ './pages/NotFound'));
 
 // Scroll to top on route change
 const ScrollToTop: React.FC = () => {
@@ -25,7 +25,7 @@ const ScrollToTop: React.FC = () => {
   return null;
 };
 
-function App() {
+const App: React.FC = () => {
   return (
     <BrowserRouter>
       <Navbar />
@@ -45,6 +45,6 @@ function App() {
       <Footer />
     </BrowserRouter>
   );
-}
+};
 
 export default App;
