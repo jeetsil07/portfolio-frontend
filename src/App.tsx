@@ -5,13 +5,13 @@ import Footer from './components/footer/Footer';
 import routes from './util/routes';
 
 // Lazy load the components with Webpack chunk names
-const LoadableHome = React.lazy(() => import(/* webpackChunkName: "HomePage" */ './pages/Home'));
-const LoadableTeam = React.lazy(() => import(/* webpackChunkName: "TeamPage" */ './pages/Team'));
-const LoadableBlogs = React.lazy(() => import(/* webpackChunkName: "BlogsPage" */ './pages/Blogs'));
-const LoadableLogin = React.lazy(() => import(/* webpackChunkName: "LoginPage" */ './pages/Login'));
-const LoadableMyProfile = React.lazy(() => import(/* webpackChunkName: "MyProfilePage" */ './pages/MyProfile'));
-const LoadablePost = React.lazy(() => import(/* webpackChunkName: "PostPage" */ './pages/Post'));
-const LoadableNotFound = React.lazy(() => import(/* webpackChunkName: "NotFoundPage" */ './pages/NotFound'));
+const LoadableHome = React.lazy<React.ComponentType>(() => import(/* webpackChunkName: "HomePage" */ './pages/Home'));
+const LoadableTeam = React.lazy<React.ComponentType>(() => import(/* webpackChunkName: "TeamPage" */ './pages/Team'));
+const LoadableBlogs = React.lazy<React.ComponentType>(() => import(/* webpackChunkName: "BlogsPage" */ './pages/Blogs'));
+const LoadableLogin = React.lazy<React.ComponentType>(() => import(/* webpackChunkName: "LoginPage" */ './pages/Login'));
+const LoadableMyProfile = React.lazy<React.ComponentType>(() => import(/* webpackChunkName: "MyProfilePage" */ './pages/MyProfile'));
+const LoadablePost = React.lazy<React.ComponentType>(() => import(/* webpackChunkName: "PostPage" */ './pages/Post'));
+const LoadableNotFound = React.lazy<React.ComponentType>(() => import(/* webpackChunkName: "NotFoundPage" */ './pages/NotFound'));
 
 // Fallback component to show while lazy-loaded components are being fetched
 const LoadComponent = () => <h3>Loading...</h3>;
