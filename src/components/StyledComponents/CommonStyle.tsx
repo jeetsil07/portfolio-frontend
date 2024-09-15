@@ -1,7 +1,17 @@
 import styled from "@emotion/styled";
-import { Avatar, Box, Button, Grid, Typography } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Button,
+  Checkbox,
+  Divider,
+  Grid,
+  Radio,
+  Typography,
+} from "@mui/material";
 import { ImageBoxProps } from "../../util/type/types";
 import { primaryColor, secondaryColor } from "../../util/constant";
+import { CheckBox } from "@mui/icons-material";
 export const Logo = styled(Avatar)`
   margin: 0 auto;
 `;
@@ -74,9 +84,9 @@ export const CustomButton = styled(Button)<{
   }
 `;
 export const StyledButton = styled(Button)`
-background-color: ${primaryColor};
-margin: 10px;
-&:hover {
+  background-color: ${primaryColor};
+  margin: 10px;
+  &:hover {
     background-color: ${secondaryColor};
   }
 `;
@@ -91,7 +101,7 @@ export const SectionTitle = styled(Typography)`
   border-bottom: 2px solid;
 `;
 
-export const BlogFilterPanel = styled(Box)`
+export const BlogFilterPanel = styled(Box)<{ marginTop: number }>`
   box-sizing: border-box;
   position: fixed;
   top: 0;
@@ -102,8 +112,35 @@ export const BlogFilterPanel = styled(Box)`
   background-color: white;
   padding: 25px;
   overflow: auto;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  margin-top: ${(props) => props.marginTop}px;
 `;
 
 export const ProfileImgInput = styled.div`
   margin-left: 10px;
+`;
+
+export const StyledRadio = styled(Radio)`
+  color: ${primaryColor};
+  &.Mui-checked {
+    color: ${primaryColor};
+  }
+`;
+
+export const StyledDivider = styled(Divider)`
+  margin: 5px 0;
+`;
+
+export const StyledCheckBox = styled(Checkbox)`
+  color: ${primaryColor};
+  &.Mui-checked {
+    color: ${primaryColor};
+  }
+`;
+
+export const StyledFilterButtonsHolder = styled(Box)`
+  position: fixed;
+  bottom: 10px;
+  width: 100%;
+  background-color: #fff;
 `;

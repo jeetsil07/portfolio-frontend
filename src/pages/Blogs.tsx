@@ -34,6 +34,7 @@ import { Post, PostCategory } from "../util/type/types";
 import { Route, useNavigate } from "react-router-dom";
 import routes from "../util/routes";
 import { formatDate, sortPosts } from "../util/general";
+import { StyledBlogCard, StyledBlogCategoryHolder, StyledBlogCategoryTitle, StyledBlogContainer, StyledBlogLeft, StyledBlogPagination, StyledBlogPlaceHolder, StyledButton, StyledCategoryChip, StyledCategoryName, StyledFilterContainer } from "../components/StyledComponents/BlogStyle";
 
 const Blogs = () => {
   const [postPage, setPostpage] = useState<number>(1);
@@ -142,40 +143,31 @@ const Blogs = () => {
   };
   return (
     <ContentBox topmargin={navBar.height}>
-      <Grid
+      <StyledFilterContainer
         container
-        sx={{ padding: "10px" }}
-        alignItems={"center"}
-        justifyContent={"space-between"}
       >
-        <Typography variant="h5" color={"GrayText"}>
+        <StyledCategoryName variant="h5">
           {postCategory.selectedCategory.name === ""
-            ? "All"
+            ? "All Category"
             : postCategory.selectedCategory.name}
-        </Typography>
-        <Button
+        </StyledCategoryName>
+        <StyledButton
           variant="text"
           startIcon={<FilterAltIcon />}
-          sx={{
-            color: primaryColor, // Change text color
-            "& .MuiSvgIcon-root": {
-              color: primaryColor, // Change icon color
-            },
-          }}
           onClick={toggleFilter}
         >
           Blogs Filter
-        </Button>
-      </Grid>
-      <Grid container spacing={2}>
-        <Grid item sm={8}>
+        </StyledButton>
+      </StyledFilterContainer>
+      <StyledBlogContainer container spacing={2}>
+        <StyledBlogLeft item sm={8}>
           {!isFetching && !isLoading && postData.data.length > 0 ? (
             <>
               <Box>
                 {postData.data
                   .slice(startIndex, endIndex)
                   .map((post: any, index: any) => (
-                    <Card key={index} sx={{ padding: "5px", margin: "10px" }}>
+                    <StyledBlogCard key={index}>
                       <CardActionArea>
                         <Grid container alignItems={"center"}>
                           <Grid item md={6} xs={12}>
@@ -227,7 +219,7 @@ const Blogs = () => {
                           </Grid>
                         </Grid>
                       </CardActionArea>
-                    </Card>
+                    </StyledBlogCard>
                   ))}
                 {(postdata === undefined || postdata?.length === 0) && (
                   <Typography variant="body1" color={"GrayText"} margin={2}>
@@ -235,29 +227,18 @@ const Blogs = () => {
                   </Typography>
                 )}
               </Box>
-              <Stack sx={{ margin: "25px" }}>
-                <Pagination
+              <StyledBlogPlaceHolder>
+                <StyledBlogPagination
                   count={totalPostPage}
                   page={postPage}
                   onChange={handlePostPage}
                   showFirstButton
                   showLastButton
-                  sx={{
-                    "& .MuiPaginationItem-root": {
-                      color: primaryColor, // Change to your desired color
-                    },
-                    "& .Mui-selected": {
-                      backgroundColor: `${secondaryColor} !important`, // Change to your desired color
-                      color: "white", // Change to your desired color
-                      transform: "scale(1.2)",
-                    },
-                    alignSelf: "center",
-                  }}
                 />
-              </Stack>
+              </StyledBlogPlaceHolder>
             </>
           ) : (
-            <Stack sx={{ margin: "25px" }}>
+            <StyledBlogPlaceHolder>
               {isFetching || isLoading ? (
                 <Typography variant="body1" color="initial">
                   Loading Data...
@@ -267,45 +248,24 @@ const Blogs = () => {
                   No Post Available
                 </Typography>
               )}
-            </Stack>
+            </StyledBlogPlaceHolder>
           )}
-        </Grid>
-        <Grid item sm={4}>
+        </StyledBlogLeft>
+        <StyledBlogCategoryHolder item sm={4}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <Typography
-                variant="h6"
-                color={"GrayText"}
-                sx={{
-                  margin: "5px",
-                  marginBottom: "10px",
-                }}
+              <StyledBlogCategoryTitle
+                variant="h6"                
               >
                 Blogs Category
-              </Typography>
+              </StyledBlogCategoryTitle>
               {postCategory.data.length > 0 &&
                 Object.values(postCategory.selectedCategory).length > 0 && (
                   <Stack direction="row" spacing={1} flexWrap={"wrap"}>
-                    <Chip
+                    <StyledCategoryChip
                       label="All"
                       variant="outlined"
-                      sx={{
-                        "&.MuiChip-root": {
-                          margin: "3px",
-                          backgroundColor:
-                            postCategory.selectedCategory.id === ""
-                              ? primaryColor
-                              : "inherit",
-                          color:
-                            postCategory.selectedCategory.id === ""
-                              ? "#fff"
-                              : "inherit",
-                          "&:hover": {
-                            backgroundColor: primaryColor,
-                            color: "#fff",
-                          },
-                        },
-                      }}
+                      selectedCategory={postCategory.selectedCategory.id === ""}
                       onClick={() => {
                         setCatPage({
                           id: "",
@@ -314,27 +274,11 @@ const Blogs = () => {
                       }}
                     />
                     {postCategory.data?.map((category: any, index: number) => (
-                      <Chip
+                      <StyledCategoryChip
                         key={index}
                         label={category.name}
                         variant="outlined"
-                        sx={{
-                          "&.MuiChip-root": {
-                            margin: "3px",
-                            backgroundColor:
-                              category.id === postCategory.selectedCategory.id
-                                ? primaryColor
-                                : "inherit",
-                            color:
-                              category.id === postCategory.selectedCategory.id
-                                ? "#fff"
-                                : "inherit",
-                            "&:hover": {
-                              backgroundColor: primaryColor,
-                              color: "#fff",
-                            },
-                          },
-                        }}
+                        selectedCategory={postCategory.selectedCategory.id === category.id}
                         onClick={() => {
                           setCatPage({
                             id: category.id,
@@ -347,8 +291,8 @@ const Blogs = () => {
                 )}
             </Grid>
           </Grid>
-        </Grid>
-      </Grid>
+        </StyledBlogCategoryHolder>
+      </StyledBlogContainer>
       {blogFilter.open && (
         <section ref={filterRef}>
           <BlogFilter />
