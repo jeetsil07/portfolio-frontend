@@ -88,7 +88,7 @@ export const StyledListItemText = styled(ListItemText)<{ isActive: boolean }>`
 
 export const StyledDrawer = styled(Drawer)`
   & .MuiDrawer-paper {
-    width: 30%; /* Custom width */
+    width: 200px;
   }
 `;
 

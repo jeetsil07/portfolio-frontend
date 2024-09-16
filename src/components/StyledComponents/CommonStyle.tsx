@@ -35,7 +35,6 @@ export const ContentBox = styled(Box)<{ topmargin?: number; bgimg?: string }>`
 export const GridContainer = styled(Grid)`
   width: 100%;
   height: auto;
-  // padding-top: 20px;
   justify-content: center;
   align-items: center;
 `;

@@ -1,23 +1,10 @@
-import { Autocomplete, Box, Button, ButtonGroup, Checkbox, Divider, FormControl, FormControlLabel, FormGroup, FormLabel, Radio, RadioGroup, Rating, TextField, Typography } from '@mui/material'
+import { FormControlLabel, FormGroup, RadioGroup, Rating, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import { BlogFilterPanel, CustomButton, StyledButton, StyledCheckBox, StyledDivider, StyledFilterButtonsHolder, StyledRadio } from '../StyledComponents/CommonStyle'
-import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
+import { BlogFilterPanel, StyledButton, StyledCheckBox, StyledDivider, StyledFilterButtonsHolder, StyledRadio } from '../StyledComponents/CommonStyle'
 import { useAppDispatch, useAppSelector } from '../../app/hook';
 import { getUiUxState, setBlogFilter } from '../../slices/ui';
 import { primaryColor } from '../../util/constant';
 
-const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
-const checkedIcon = <CheckBoxIcon fontSize="small" />;
-const top100Films = [
-  { title: 'The Shawshank Redemption' },
-  { title: 'The Godfather' },
-  { title: 'The Godfather: Part II' },
-  { title: 'The Dark Knight' },
-  { title: '12 Angry Men' },
-  { title: "Schindler's List" },
-  { title: 'Pulp Fiction' },
-];
 const BlogFilter = () => {
   const {blogFilter, navBar} = useAppSelector(getUiUxState);
   const [dateFilter, setDateFilter] = useState<string>('');

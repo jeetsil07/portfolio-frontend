@@ -47,6 +47,22 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { Comment } from "../util/type/types";
 import { formatDate, sortComments } from "../util/general";
 import { getUserData } from "../slices/user";
+import {
+  StyledNoComment,
+  StyledPostCommentFieldHolder,
+  StyledPostCommentSecHolder,
+  StyledPostCommentSecTitle,
+  StyledPostCommentShowBtn,
+  StyledPostContainer,
+  StyledPostDescriptionHolder,
+  StyledPostImageCard,
+  StyledPostWrapper,
+  StyledSelectedPostArea,
+  StyledSelectedPostCategory,
+  StyledSelectedPostDate,
+  StyledSelectedPostHeader,
+  StyledSelectedPostTitle,
+} from "../components/StyledComponents/PostStyle";
 const Post = () => {
   const [expandedComments, setExpandedComments] = useState(new Set());
   const [expandedChildren, setExpandedChildren] = useState(new Set());
@@ -310,99 +326,101 @@ const Post = () => {
                     />
                   </IconButton>
                 </Tooltip>
-                {user.user_id !== "" && user.user_id === comment.user.user_id && (
-                  <Tooltip
-                    title="Edit Comment"
-                    arrow
-                    componentsProps={{
-                      tooltip: {
-                        sx: {
-                          bgcolor: primaryColor,
-                          color: "white",
-                        },
-                      },
-                      arrow: {
-                        sx: {
-                          color: primaryColor,
-                        },
-                      },
-                    }}
-                    slotProps={{
-                      popper: {
-                        modifiers: [
-                          {
-                            name: "offset",
-                            options: {
-                              offset: [0, -20],
-                            },
+                {user.user_id !== "" &&
+                  user.user_id === comment.user.user_id && (
+                    <Tooltip
+                      title="Edit Comment"
+                      arrow
+                      componentsProps={{
+                        tooltip: {
+                          sx: {
+                            bgcolor: primaryColor,
+                            color: "white",
                           },
-                        ],
-                      },
-                    }}
-                  >
-                    <IconButton
-                      onClick={() =>
-                        editCommentModalHandle(
-                          comment.comment_id,
-                          comment.comment
-                        )
-                      }
-                    >
-                      <RateReviewIcon
-                        sx={{
-                          color: primaryColor,
-                          margin: "5px",
-                          fontSize: "18px",
-                          cursor: "pointer",
-                        }}
-                      />
-                    </IconButton>
-                  </Tooltip>
-                )}
-                {user.user_id !== "" && user.user_id === comment.user.user_id && (
-                  <Tooltip
-                    title="Delete Comment"
-                    arrow
-                    componentsProps={{
-                      tooltip: {
-                        sx: {
-                          bgcolor: primaryColor,
-                          color: "white",
                         },
-                      },
-                      arrow: {
-                        sx: {
-                          color: primaryColor,
-                        },
-                      },
-                    }}
-                    slotProps={{
-                      popper: {
-                        modifiers: [
-                          {
-                            name: "offset",
-                            options: {
-                              offset: [0, -20],
-                            },
+                        arrow: {
+                          sx: {
+                            color: primaryColor,
                           },
-                        ],
-                      },
-                    }}
-                  >
-                    <IconButton
-                      onClick={() => handleDeleteClick(comment.comment_id)}
+                        },
+                      }}
+                      slotProps={{
+                        popper: {
+                          modifiers: [
+                            {
+                              name: "offset",
+                              options: {
+                                offset: [0, -20],
+                              },
+                            },
+                          ],
+                        },
+                      }}
                     >
-                      <DeleteIcon
-                        sx={{
-                          color: primaryColor,
-                          margin: "5px",
-                          fontSize: "18px",
-                          cursor: "pointer",
-                        }}
-                      />
-                    </IconButton>
-                  </Tooltip>
-                )}
+                      <IconButton
+                        onClick={() =>
+                          editCommentModalHandle(
+                            comment.comment_id,
+                            comment.comment
+                          )
+                        }
+                      >
+                        <RateReviewIcon
+                          sx={{
+                            color: primaryColor,
+                            margin: "5px",
+                            fontSize: "18px",
+                            cursor: "pointer",
+                          }}
+                        />
+                      </IconButton>
+                    </Tooltip>
+                  )}
+                {user.user_id !== "" &&
+                  user.user_id === comment.user.user_id && (
+                    <Tooltip
+                      title="Delete Comment"
+                      arrow
+                      componentsProps={{
+                        tooltip: {
+                          sx: {
+                            bgcolor: primaryColor,
+                            color: "white",
+                          },
+                        },
+                        arrow: {
+                          sx: {
+                            color: primaryColor,
+                          },
+                        },
+                      }}
+                      slotProps={{
+                        popper: {
+                          modifiers: [
+                            {
+                              name: "offset",
+                              options: {
+                                offset: [0, -20],
+                              },
+                            },
+                          ],
+                        },
+                      }}
+                    >
+                      <IconButton
+                        onClick={() => handleDeleteClick(comment.comment_id)}
+                      >
+                        <DeleteIcon
+                          sx={{
+                            color: primaryColor,
+                            margin: "5px",
+                            fontSize: "18px",
+                            cursor: "pointer",
+                          }}
+                        />
+                      </IconButton>
+                    </Tooltip>
+                  )}
                 {comment.comment_likes !== 0 ? (
                   <>
                     <Tooltip
@@ -531,19 +549,6 @@ const Post = () => {
     });
   };
 
-  // const sortComments = (comments: Comment[]): Comment[] => {
-  //     // Sort comments by created_at in descending order
-  //     comments.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
-
-  //     // Recursively sort the children comments
-  //     comments.forEach((comment) => {
-  //         if (comment.children && comment.children.length > 0) {
-  //             sortComments(comment.children);
-  //         }
-  //     });
-
-  //     return comments;
-  // };
   const handleModalClose = () => {
     if (modalOpen) {
       setModalOpen(false);
@@ -588,32 +593,26 @@ const Post = () => {
   return (
     <>
       <ContentBox topmargin={navBar.height}>
-        <Grid container>
-          <Grid item lg={8}>
+        <StyledPostContainer container>
+          <StyledPostWrapper item lg={7}>
             {Object.values(postData.selectedPost).length > 0 && (
-              <Grid container flexDirection={"column"} sx={{ background: "" }}>
-                <Grid item>
-                  <Typography variant="h4" color={"GrayText"} my={1}>
+              <StyledSelectedPostArea container>
+                <StyledSelectedPostHeader item>
+                  <StyledSelectedPostTitle variant="h4">
                     {postData.selectedPost.title}
-                  </Typography>
+                  </StyledSelectedPostTitle>
                   <Grid container justifyContent={"space-between"}>
-                    <Typography variant="caption" color={"GrayText"}>
+                    <StyledSelectedPostCategory variant="caption">
                       {getCategoryName()}
-                    </Typography>
-                    <Typography variant="caption" color={"GrayText"}>
+                    </StyledSelectedPostCategory>
+                    <StyledSelectedPostDate variant="caption">
                       {formatDate(postData.selectedPost.created_at)}
-                    </Typography>
+                    </StyledSelectedPostDate>
                   </Grid>
-                </Grid>
+                </StyledSelectedPostHeader>
                 <Divider />
                 <Grid item>
-                  <Card
-                    sx={{
-                      maxWidth: 600,
-                      margin: "30px auto",
-                      boxShadow: "none",
-                    }}
-                  >
+                  <StyledPostImageCard>
                     <CardMedia
                       component="img"
                       alt="green iguana"
@@ -621,21 +620,21 @@ const Post = () => {
                       image={postData.selectedPost.image}
                       sx={{ objectFit: "contain" }}
                     />
-                  </Card>
+                  </StyledPostImageCard>
                 </Grid>
-                <Grid item sx={{ py: 2, textAlign: "justify" }}>
+                <StyledPostDescriptionHolder item>
                   <div
                     ref={contentRef}
                     dangerouslySetInnerHTML={{
                       __html: postData.selectedPost.description,
                     }}
                   />
-                </Grid>
-                <Typography variant="h6" color={"GrayText"}>
+                </StyledPostDescriptionHolder>
+                <StyledPostCommentSecTitle variant="h6">
                   Comment
-                </Typography>
+                </StyledPostCommentSecTitle>
                 <Divider />
-                <Grid item sx={{ py: 2 }}>
+                <StyledPostCommentFieldHolder item>
                   <TextField
                     variant="outlined"
                     placeholder="Enter Comment"
@@ -668,44 +667,42 @@ const Post = () => {
                     onChange={(e) => addComment(e)}
                     value={parentCommentId === "" ? newComment : ""}
                   />
-                </Grid>
+                </StyledPostCommentFieldHolder>
                 {postComments.data.length > 0 ? (
-                  <Grid item sx={{ py: 1 }}>
+                  <StyledPostCommentSecHolder item>
                     {renderComments(
                       showAllComments
                         ? postComments.data
                         : postComments.data.slice(0, 2)
                     )}
                     {!showAllComments && postComments.data.length > 2 ? (
-                      <Button
-                        sx={{ margin: 2, color: primaryColor }}
+                      <StyledPostCommentShowBtn
+                        colorCode={primaryColor}
                         onClick={() => setShowAllComments(true)}
                       >
                         Show All Comments
-                      </Button>
+                      </StyledPostCommentShowBtn>
                     ) : postComments.data.length <= 2 ? (
                       <></>
                     ) : (
-                      <Button
-                        sx={{ margin: 2, color: secondaryColor }}
+                      <StyledPostCommentShowBtn
+                        colorCode={secondaryColor}
                         onClick={() => setShowAllComments(false)}
                       >
                         Show Less
-                      </Button>
+                      </StyledPostCommentShowBtn>
                     )}
-                  </Grid>
+                  </StyledPostCommentSecHolder>
                 ) : (
-                  <Typography
-                    sx={{ mt: 2, textAlign: "center", color: "GrayText" }}
-                  >
+                  <StyledNoComment>
                     No Comments
-                  </Typography>
+                  </StyledNoComment>
                 )}
-              </Grid>
+              </StyledSelectedPostArea>
             )}
-          </Grid>
-          <Grid item sm={4}></Grid>
-        </Grid>
+          </StyledPostWrapper>
+          <Grid item lg={3}></Grid>
+        </StyledPostContainer>
       </ContentBox>
 
       {deleteCommentId !== "" && (
