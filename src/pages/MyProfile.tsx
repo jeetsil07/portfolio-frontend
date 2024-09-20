@@ -1,19 +1,17 @@
 import {
   Alert,
   Box,
-  Button,
   Grid,
   IconButton,
-  InputAdornment,
   Paper,
   Snackbar,
   TextField,
   Tooltip,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../app/hook";
-import { getUiUxState, setPostCategory, setPostData } from "../slices/ui";
+import { getUiUxState, setPostData } from "../slices/ui";
 import {
   ContentBox,
   CustomButton,
@@ -23,31 +21,27 @@ import {
 import { useNavigate } from "react-router-dom";
 import routes from "../util/routes";
 import { getUserData, setUserData } from "../slices/user";
-import jeet2 from "../assets/img/jeet2.jpeg";
 import { primaryColor, secondaryColor } from "../util/constant";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import EditOffIcon from "@mui/icons-material/EditOff";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+// import VisibilityIcon from "@mui/icons-material/Visibility";
+// import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import "../css/global.scss";
 import { useUpdateUserMutation } from "../services/UserRegistration.service";
-import { Password } from "@mui/icons-material";
 import PostEditor from "../components/business/PostEditor";
-import { useGetPostsCategoryQuery } from "../services/postsCategory.service";
-import { useGetPostsQuery } from "../services/posts.service";
 import PostsTable from "../components/business/PostsTable";
-import NewEditor from "../components/business/NewEditor";
 import PostUpdateEditor from "../components/business/PostUpdateEditor";
 
 const MyProfile = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [profileEdit, setProfileEdit] = useState<boolean>(false);
-  const [passwordFieldType, setPasswordFieldType] = useState("password");
+  const [message, setMessage] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [showSnackBar, setShowSnackBar] = useState(false);
   const { user } = useAppSelector(getUserData);
-  const { navBar, postCategory, postData } = useAppSelector(getUiUxState);
+  const { navBar, postData } = useAppSelector(getUiUxState);
+  const UpdateFormRef = useRef(null);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
@@ -72,10 +66,15 @@ const MyProfile = () => {
         first_name: "",
         last_name: "",
         imageUrl: "",
-        password: "",
+        // password: "",
         bio: "",
       })
     );
+    dispatch(
+      setPostData({
+        editPost: {}
+      })
+    )
     navigate(routes.login);
     // Scroll to top after navigation
     window.scrollTo(0, 0);
@@ -115,14 +114,13 @@ const MyProfile = () => {
       })
     );
   };
-  const [userUpdate] = useUpdateUserMutation();
-  const [message, setMessage] = useState("");
+  const [userUpdate, { isLoading }] = useUpdateUserMutation();
 
   const applyUpdate = async () => {
     try {
       if (
         user.email === "" ||
-        user.password === "" ||
+        // user.password === "" ||
         user.first_name === "" ||
         user.last_name === "" ||
         user.bio === ""
@@ -136,7 +134,7 @@ const MyProfile = () => {
         email: user.email,
         first_name: user.first_name,
         last_name: user.last_name,
-        password: user.password,
+        // password: user.password,
         ...(file ? { image: file } : {}),
         bio: user.bio,
       };
@@ -160,10 +158,19 @@ const MyProfile = () => {
         // navigate(routes.profile)
         setMessage("User Profile Updated Successfully");
         setShowSnackBar(true);
+        handleProfileEdit();
       }
     } catch (error: any) {
-      // setFieldError(error.data.data.non_field_errors[0])
-      console.error("Failed to login:", error);
+      if (error.status === 400) {
+        setMessage("Invalid input data. Please check your fields.");
+      } else if (error.status === 401) {
+        setMessage("Unauthorized. Please log in again.");
+      } else if (error.status === 500) {
+        setMessage("Server error. Please try again later.");
+      } else {
+        setMessage("Something went wrong. Please try again.");
+      }
+      setShowSnackBar(true); // Show the error message
     }
   };
   const handleCloseSnack = () => {
@@ -186,7 +193,7 @@ const MyProfile = () => {
                     <ImageBox profile={true}>
                       <img
                         src={selectedImage || user.imageUrl}
-                        alt="Jeet"
+                        alt={user.first_name}
                         style={{
                           height: "100%",
                           objectFit: "cover",
@@ -424,7 +431,7 @@ const MyProfile = () => {
                     onChange={(e) => handleProfileUpdate("email", e)}
                     value={user.email}
                   />
-                  <TextField
+                  {/* <TextField
                     autoComplete="new-password"
                     variant="standard"
                     placeholder="Update Your Password"
@@ -471,7 +478,7 @@ const MyProfile = () => {
                     }}
                     onChange={(e) => handleProfileUpdate("password", e)}
                     value={user.password}
-                  />
+                  /> */}
                   <TextField
                     variant="outlined"
                     placeholder="Update Bio"
@@ -578,34 +585,37 @@ const MyProfile = () => {
                 </Box>
               )}
               <Grid container justifyContent={"space-between"} my={2}>
-                <CustomButton
-                  variant="contained"
-                  marginTop={true}
-                  onClick={hadleLogout}
-                >
-                  Logout
-                </CustomButton>
-                {profileEdit && (
+                {profileEdit ? (
                   <CustomButton
                     variant="contained"
                     marginTop={true}
                     onClick={applyUpdate}
+                    fullWidth
                   >
-                    Update Profile
+                    {isLoading ? "Updating..." : "Apply"}
+                  </CustomButton>
+                ) : (
+                  <CustomButton
+                    variant="contained"
+                    marginTop={true}
+                    onClick={hadleLogout}
+                    fullWidth
+                  >
+                    Logout
                   </CustomButton>
                 )}
               </Grid>
             </Paper>
           </Grid>
           <Grid item md={7} xs={12}>
-            <PostsTable />
+            <PostsTable UpdateFormRef={UpdateFormRef} />
           </Grid>
         </Grid>
         <Grid container justifyContent={"center"} spacing={2} mt={3}>
           <Grid item md={8}>
             <Paper sx={{ padding: "10px" }}>
               {Object.keys(postData.editPost).length > 0 ? (
-                <PostUpdateEditor />
+                <PostUpdateEditor UpdateFormRef={UpdateFormRef} />
               ) : (
                 <PostEditor />
               )}

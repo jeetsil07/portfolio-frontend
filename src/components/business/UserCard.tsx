@@ -19,7 +19,7 @@ const UserCard = ({ member }: any) => {
   return (
     <StyledUserCard>
       <StyledUserCardContent>
-        <StyledUserCardAvatar src={member.image} alt={member.name} />
+        <StyledUserCardAvatar src={member.image} alt={member.first_name} />
         <StyledUserName variant="h6">
           {member.first_name + " " + member.last_name}
         </StyledUserName>

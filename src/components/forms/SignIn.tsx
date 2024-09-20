@@ -13,6 +13,7 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { useLoginUserMutation } from "../../services/login.service";
 import routes from "../../util/routes";
 import { useNavigate } from "react-router-dom";
+import { ClosePasswordIcon, LoginButton, LoginFormError, LoginFormPaper, LoginFormTitle, ShowPasswordIcon, StyledLoginField } from "../StyledComponents/LoginStyle";
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -33,7 +34,7 @@ const SignIn = () => {
     }));
   };
 
-  const [userLogin] = useLoginUserMutation();
+  const [userLogin, { isLoading }] = useLoginUserMutation();
 
   const handleLoginSubmit = async () => {
     try {
@@ -45,121 +46,91 @@ const SignIn = () => {
         setFieldError("");
       }
       const response = await userLogin(loginData).unwrap();
+      console.log("response", response);
       localStorage.setItem("authTokens", JSON.stringify(response.data)); // Store the token
       // Proceed with further actions like redirecting or fetching user data
       navigate(routes.profile);
       // Scroll to top after navigation
       window.scrollTo(0, 0);
     } catch (error: any) {
-      setFieldError(error.data.data.non_field_errors[0]);
-      console.error("Failed to login:", error);
+      console.log("error", error);
+      // Handle client errors (status code 400)
+      if (error.status === 400) {
+        console.log("check1");
+        setFieldError(
+          error.data.data.email
+            ? error.data.data.email[0]
+            : "Invalid credentials."
+        );
+      }
+
+      // Handle server errors (status codes 500, 502, 503, etc.)
+      else if ([500, 502, 503, 504].includes(error.status)) {
+        setFieldError("The server is currently unavailable.");
+      }
+      // Handle any other errors
+      else {
+        setFieldError(
+          "An unexpected error occurred. Try again after some time..."
+        );
+      }
     }
   };
 
   return (
     <>
-      <Paper
+      <LoginFormPaper
         elevation={3}
-        sx={{
-          padding: "10px !important",
-        }}
       >
-        <Typography variant="h5" my={2} color={secondaryColor}>
+        <LoginFormTitle variant="h5">
           Sign in
-        </Typography>
+        </LoginFormTitle>
         {fieldError !== "" && (
-          <Typography variant="caption" color={secondaryColor}>
+          <LoginFormError
+            variant="caption"
+          >
             {fieldError}
-          </Typography>
+          </LoginFormError>
         )}
-        <TextField
+        <StyledLoginField
           variant="outlined"
           placeholder="Enter User Valid Email"
           label={"Email"}
           fullWidth
-          sx={{
-            marginTop: "5px",
-            "& .MuiOutlinedInput-root": {
-              "& fieldset": {
-                borderColor: `${primaryColor}`, // Set outline color
-              },
-              "&:hover fieldset": {
-                borderColor: `${primaryColor}`, // Set outline color on hover
-              },
-              "&.Mui-focused fieldset": {
-                borderColor: `${primaryColor}`, // Set outline color when focused
-              },
-            },
-          }}
-          InputProps={{
-            style: {
-              color: `${primaryColor}`,
-            },
-          }}
-          InputLabelProps={{
-            style: { color: `${primaryColor}` }, // Change the color of the label
-          }}
           onChange={(e) => handleLoginData("email", e)}
           value={loginData.email}
         />
-        <TextField
+        <StyledLoginField
           variant="outlined"
           type={passwordFieldType}
           placeholder="Enter Valid Password"
           label={"Password"}
           fullWidth
-          sx={{
-            marginY: "15px",
-            "& .MuiOutlinedInput-root": {
-              "& fieldset": {
-                borderColor: `${primaryColor}`, // Set outline color
-              },
-              "&:hover fieldset": {
-                borderColor: `${primaryColor}`, // Set outline color on hover
-              },
-              "&.Mui-focused fieldset": {
-                borderColor: `${primaryColor}`, // Set outline color when focused
-              },
-            },
-          }}
           InputProps={{
-            style: {
-              color: `${primaryColor}`,
-            },
             endAdornment: (
               <InputAdornment position="end">
                 {passwordFieldType === "password" ? (
                   <IconButton onClick={() => setPasswordFieldType("text")}>
-                    <VisibilityIcon style={{ color: primaryColor }} />
+                    <ShowPasswordIcon/>
                   </IconButton>
                 ) : (
                   <IconButton onClick={() => setPasswordFieldType("password")}>
-                    <VisibilityOffIcon style={{ color: secondaryColor }} />
+                    <ClosePasswordIcon/>
                   </IconButton>
                 )}
               </InputAdornment>
             ),
           }}
-          InputLabelProps={{
-            style: { color: `${primaryColor}` }, // Change the color of the label
-          }}
           onChange={(e) => handleLoginData("password", e)}
           value={loginData.password}
         />
-        <Button
+        <LoginButton
           variant="contained"
-          sx={{
-            backgroundColor: `${primaryColor}`,
-            width: "100%",
-            "&:hover": {
-              backgroundColor: `${secondaryColor}`,
-            },
-          }}
           onClick={handleLoginSubmit}
         >
-          Sign in
-        </Button>
-      </Paper>
+          {isLoading ? "Loading..." : "Sign in"}
+        </LoginButton>
+      </LoginFormPaper>
     </>
   );
 };
