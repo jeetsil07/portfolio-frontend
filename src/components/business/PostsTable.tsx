@@ -200,6 +200,7 @@ const PostsTable: React.FC<PostTableProps> = ({ UpdateFormRef }) => {
                           },
                         },
                       }}
+                      
                     >
                       <Typography
                         variant="body1"

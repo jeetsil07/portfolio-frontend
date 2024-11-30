@@ -4,7 +4,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const Dotenv = require("dotenv-webpack");
 
-module.exports = {
+module.exports = (env) => ({
   entry: "./src/index.tsx",
   output: {
     filename: "bundle.js",
@@ -52,8 +52,8 @@ module.exports = {
     }),
     // Load .env file
     new Dotenv({
-      path: './.env', // Load .env file
+      path: `./.env.${env.ENVIRONMENT || ''}`, // Load .env file
       systemvars: true, // Load system environment variables as well
     }),
   ],
-};
+});

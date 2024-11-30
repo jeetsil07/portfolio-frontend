@@ -8,7 +8,7 @@ import bgImg from "../assets/img/bgImg.png";
 import { Typewriter } from "react-simple-typewriter";
 import CloudDownloadTwoToneIcon from "@mui/icons-material/CloudDownloadTwoTone";
 import InfoTwoToneIcon from "@mui/icons-material/InfoTwoTone";
-import Groups2Icon from '@mui/icons-material/Groups2';
+import Groups2Icon from "@mui/icons-material/Groups2";
 import {
   AboutText,
   ContentBox,
@@ -89,6 +89,7 @@ const Home = () => {
         <ContentBox>
           <GridContainer container justifyContent="center" alignItems="center">
             <StyledButton
+              spaceMargin={true}
               onClick={handleDownload}
               variant="contained"
               endIcon={<CloudDownloadTwoToneIcon />}
@@ -96,6 +97,7 @@ const Home = () => {
               Download Resume
             </StyledButton>
             <StyledButton
+              spaceMargin={true}
               variant="contained"
               endIcon={<Groups2Icon />}
               onClick={handleTeam}

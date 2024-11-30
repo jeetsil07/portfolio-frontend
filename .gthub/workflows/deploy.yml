@@ -1,0 +1,43 @@
+# name: Deploy React App
+
+# on:
+#   push:
+#     branches:
+#       - qa       # Deploy on push to qa branch
+#       - staging  # Deploy on push to staging branch
+#       - main     # Deploy on push to main branch
+
+# jobs:
+#   deploy:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#     - name: Checkout code
+#       uses: actions/checkout@v3
+
+#     - name: Setup Node.js
+#       uses: actions/setup-node@v3
+#       with:
+#         node-version: 20
+#         cache: 'npm'
+
+#     - name: Install dependencies
+#       run: npm install
+
+#     - name: Build for environment
+#       run: |
+#         if [[ ${{ github.ref_name }} == 'develop' ]]; then
+#           npm run build:qa
+#         elif [[ ${{ github.ref_name }} == 'staging' ]]; then
+#           npm run build:staging
+#         else
+#           npm run build:prod
+#         fi
+
+#     - name: Deploy to VPS
+#       env:
+#         DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+#         DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+#         DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+#       run: |
+#         scp -r dist $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH
