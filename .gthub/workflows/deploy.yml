@@ -1,43 +1,57 @@
-# name: Deploy React App
+name: Deploy to VPS
 
-# on:
-#   push:
-#     branches:
-#       - qa       # Deploy on push to qa branch
-#       - staging  # Deploy on push to staging branch
-#       - main     # Deploy on push to main branch
+on:
+  push:
+    branches:
+      - develop
+      - staging
+      - main
 
-# jobs:
-#   deploy:
-#     runs-on: ubuntu-latest
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
 
-#     steps:
-#     - name: Checkout code
-#       uses: actions/checkout@v3
+    steps:
+      # Step 1: Checkout the branch that triggered the workflow
+      - name: Checkout Code
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.ref }}
 
-#     - name: Setup Node.js
-#       uses: actions/setup-node@v3
-#       with:
-#         node-version: 20
-#         cache: 'npm'
+      # Step 2: Install Node.js and cache npm
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+          cache: 'npm'
 
-#     - name: Install dependencies
-#       run: npm install
+      # Step 3: Install dependencies
+      - name: Install Dependencies
+        run: npm install
 
-#     - name: Build for environment
-#       run: |
-#         if [[ ${{ github.ref_name }} == 'develop' ]]; then
-#           npm run build:qa
-#         elif [[ ${{ github.ref_name }} == 'staging' ]]; then
-#           npm run build:staging
-#         else
-#           npm run build:prod
-#         fi
+      # Step 4: Deploy to the VPS
+      - name: Deploy to VPS
+        run: |
+          SSH_HOST="jeet@62.72.29.140"
+          SSH_PORT=2699
+          if [ "${{ github.ref }}" == "refs/heads/develop" ]; then
+            DEPLOY_PATH="/home/jeet/frontendproject/frontendqa/portfolio-frontend"
+            BRANCH_NAME="develop"
+            BUILD_PREFIX="qa"
+          elif [ "${{ github.ref }}" == "refs/heads/staging" ]; then
+            DEPLOY_PATH="/home/jeet/frontendproject/frontendstag/portfolio-frontend"
+            BRANCH_NAME="staging"
+            BUILD_PREFIX="stag"
+          elif [ "${{ github.ref }}" == "refs/heads/main" ]; then
+            DEPLOY_PATH="/home/jeet/frontendproject/frontendprod/portfolio-frontend"
+            BRANCH_NAME="main"
+            BUILD_PREFIX="prod"
+          fi
 
-#     - name: Deploy to VPS
-#       env:
-#         DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
-#         DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
-#         DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
-#       run: |
-#         scp -r dist $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH
+          ssh -p $SSH_PORT $SSH_HOST << EOF
+          cd $DEPLOY_PATH
+          git checkout $BRANCH_NAME
+          git pull origin $BRANCH_NAME
+          npm install
+          npm run build:BUILD_PREFIX
+          EOF
