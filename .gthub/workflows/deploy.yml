@@ -53,5 +53,5 @@ jobs:
           git checkout $BRANCH_NAME
           git pull origin $BRANCH_NAME
           npm install
-          npm run build:BUILD_PREFIX
+          npm run build:$BUILD_PREFIX
           EOF
