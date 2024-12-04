@@ -58,8 +58,10 @@ jobs:
           git checkout $BRANCH_NAME
           echo "Pulling latest changes from $BRANCH_NAME..."
           git pull origin $BRANCH_NAME
+          echo "Clearing existing node_modules..."
+          rm -rf node_modules
           echo "Installing dependencies..."
           npm install --verbose
           echo "Building the project..."
-          npm run build:$BUILD_PREFIX --verbose
+          npx webpack --config webpack.prod.js --env ENVIRONMENT=$BUILD_PREFIX --verbose
           EOF
