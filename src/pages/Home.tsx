@@ -80,7 +80,7 @@ const Home = () => {
               expertise, I have a deep passion for writing and creating YouTube
               videos, allowing me to communicate complex ideas in a clear and
               engaging manner. Coding is not just a profession for me; it's a
-              passion that drives me to constantly learn and innovate.{" "}
+              passion that drives me to constantly learn and innovate.jeet{" "}
             </AboutText>
           </StyleBioArea>
         </GridContainer>
