@@ -37,7 +37,7 @@
     "start": "webpack serve --config webpack.dev.js  --env ENVIRONMENT=dev",
     "build:dev": "webpack --config webpack.dev.js --env ENVIRONMENT=dev",
     "build:qa": "webpack --config webpack.prod.js --env ENVIRONMENT=qa",
-    "deploy:qa": "npm run build:qa && scp -r dist jeet@62.72.29.140:/home/jeet/frontendproject/portfolio-frontend"
+    "deploy:qa": "npm run build:qa && scp -r dist jeet@62.72.29.140:/var/www/frontendproject/portfolio-frontend"
   },
   "eslintConfig": {
     "extends": [

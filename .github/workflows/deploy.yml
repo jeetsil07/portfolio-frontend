@@ -39,15 +39,15 @@ jobs:
           SSH_HOST="jeet@62.72.29.140"
           SSH_PORT=2699
           if [ "${{ github.ref }}" == "refs/heads/develop" ]; then
-            DEPLOY_PATH="/home/jeet/frontendproject/frontendqa/portfolio-frontend"
+            DEPLOY_PATH="/var/www/frontendproject/frontendqa/portfolio-frontend"
             BRANCH_NAME="develop"
             BUILD_PREFIX="qa"
           elif [ "${{ github.ref }}" == "refs/heads/staging" ]; then
-            DEPLOY_PATH="/home/jeet/frontendproject/frontendstag/portfolio-frontend"
+            DEPLOY_PATH="/var/www/frontendproject/frontendstag/portfolio-frontend"
             BRANCH_NAME="staging"
             BUILD_PREFIX="stag"
           elif [ "${{ github.ref }}" == "refs/heads/main" ]; then
-            DEPLOY_PATH="/home/jeet/frontendproject/frontendprod/portfolio-frontend"
+            DEPLOY_PATH="/var/www/frontendproject/frontendprod/portfolio-frontend"
             BRANCH_NAME="main"
             BUILD_PREFIX="prod"
           fi
