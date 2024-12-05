@@ -84,7 +84,7 @@ const Footer = () => {
                                 <ListItem sx={{ overflowWrap: 'anywhere' }}>
                                     <EmailTwoToneIcon sx={{ margin: 1, color: 'white' }} />
                                     <Typography variant="body1" color="white" >
-                                        jeetsil100@gmail.com
+                                        iamjeetsil100@gmail.com
                                     </Typography>
                                 </ListItem>
                                 <ListItem>
