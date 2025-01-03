@@ -99,7 +99,6 @@ const Navbar = () => {
             <>
               <StyledLogoContainer item xs={2}>
                 <Logo alt="Jeet Sil" src={logoImg} />
-                staging
               </StyledLogoContainer>
               <StyledTabContainer item xs={7}>
                 <StyledTabs
