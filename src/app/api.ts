@@ -11,7 +11,17 @@ export const api = createApi({
       const storedTokens = localStorage.getItem("authTokens");
       if (storedTokens) {
         const { tokens } = JSON.parse(storedTokens);
-        headers.set("Authorization", `Bearer ${tokens.access}`);
+    
+        // Decode the access token payload to check expiration
+        const accessTokenPayload = JSON.parse(atob(tokens.access.split(".")[1]));
+        const currentTime = Math.floor(Date.now() / 1000);
+    
+        // Check if the access token has expired
+        if (accessTokenPayload.exp < currentTime) {
+          localStorage.removeItem("authTokens");
+        } else {
+          headers.set("Authorization", `Bearer ${tokens.access}`);
+        }
       }
       return headers;
     },
