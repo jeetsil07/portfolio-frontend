@@ -31,8 +31,8 @@ const Navbar = () => {
   const dispatch = useAppDispatch();
   const theme = useTheme();
   const isMatch = useMediaQuery(theme.breakpoints.down("md"));
+  const storedTokens = localStorage.getItem("authTokens");
   const renderMenus = useMemo(() => {
-    const storedTokens = localStorage.getItem("authTokens");
     let menus: string[];
 
     // according to storedToken(authTokens) it will determine what to show 'My Profile'/'Login'
@@ -52,7 +52,7 @@ const Navbar = () => {
       }
       return <Tab key={index} label={menu} onClick={() => navigate(to)} />;
     });
-  }, [navigate]);
+  }, [navigate,storedTokens]);
 
   useEffect(() => {
     //according to page/path it shows selected menu and store in redux
