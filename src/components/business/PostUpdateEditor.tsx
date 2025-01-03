@@ -63,8 +63,15 @@ const PostUpdateEditor: React.FC<PostUpdateEditorProps> = ({
 
       const response = await updatePost(postData).unwrap();
       if (response.status === 200) {
-        setErrorMessage("Post Updated Successfully");
-        setShowSnackBar(true);
+        window.scrollTo(0, 0);
+        dispatch(
+          setPostData({
+            editPost: {},
+            editSuccess: true,
+          })
+        );
+      //   setErrorMessage("Post update successfully.");
+      // setShowSnackBar(true);
       }
     } catch (error: any) {
       // General error handling
@@ -86,6 +93,13 @@ const PostUpdateEditor: React.FC<PostUpdateEditorProps> = ({
   };
   const handleCloseSnack = () => {
     setShowSnackBar(false);
+    if (postData.editSuccess) {
+      dispatch(
+        setPostData({
+          editSuccess: false,
+        })
+      );
+    }
   };
   const { navBar, postCategory, postData } = useAppSelector(getUiUxState);
   const getFileExtension = (url: string): string => {
@@ -118,6 +132,20 @@ const PostUpdateEditor: React.FC<PostUpdateEditorProps> = ({
       fetchImage();
     }
   }, [postData]);
+  console.log('showsnackbar',showSnackBar)
+
+  // useEffect(() => {
+  //   console.log('showsnackbar2')
+  //   if (showSnackBar) {
+  //   console.log('showsnackbar3')
+
+  //     dispatch(
+  //       setPostData({
+  //         editPost: {},
+  //       })
+  //     );
+  //   }
+  // },[showSnackBar,dispatch]);
   return (
     <div ref={UpdateFormRef}>
       <Grid container spacing={0}>

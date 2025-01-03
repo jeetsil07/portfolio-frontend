@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import {
   ContentBox,
-  Logo,
   UserImg,
 } from "../components/StyledComponents/CommonStyle";
 import { useAppDispatch, useAppSelector } from "../app/hook";
@@ -11,7 +10,6 @@ import {
   Avatar,
   Box,
   Button,
-  Card,
   CardMedia,
   Divider,
   Grid,
@@ -44,7 +42,6 @@ import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import AddCommentIcon from "@mui/icons-material/AddComment";
 import RateReviewIcon from "@mui/icons-material/RateReview";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { Comment } from "../util/type/types";
 import { formatDate, sortComments } from "../util/general";
 import { getUserData } from "../slices/user";
 import {
@@ -81,6 +78,7 @@ const Post = () => {
   const { navBar, postData, postCategory, postComments } =
     useAppSelector(getUiUxState);
   const { user } = useAppSelector(getUserData);
+  console.log("user", user);
   useEffect(() => {
     if (Object.values(postData.selectedPost).length === 0) {
       navigate(routes.blogs);
@@ -327,6 +325,7 @@ const Post = () => {
                   </IconButton>
                 </Tooltip>
                 {user.user_id !== "" &&
+                  comment.user &&
                   user.user_id === comment.user.user_id && (
                     <Tooltip
                       title="Edit Comment"
@@ -377,6 +376,7 @@ const Post = () => {
                     </Tooltip>
                   )}
                 {user.user_id !== "" &&
+                  comment.user &&
                   user.user_id === comment.user.user_id && (
                     <Tooltip
                       title="Delete Comment"
@@ -694,9 +694,7 @@ const Post = () => {
                     )}
                   </StyledPostCommentSecHolder>
                 ) : (
-                  <StyledNoComment>
-                    No Comments
-                  </StyledNoComment>
+                  <StyledNoComment>No Comments</StyledNoComment>
                 )}
               </StyledSelectedPostArea>
             )}

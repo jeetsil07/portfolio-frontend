@@ -8,7 +8,7 @@ import bgImg from "../assets/img/bgImg.png";
 import { Typewriter } from "react-simple-typewriter";
 import CloudDownloadTwoToneIcon from "@mui/icons-material/CloudDownloadTwoTone";
 import InfoTwoToneIcon from "@mui/icons-material/InfoTwoTone";
-import Groups2Icon from '@mui/icons-material/Groups2';
+import Groups2Icon from "@mui/icons-material/Groups2";
 import {
   AboutText,
   ContentBox,
@@ -80,7 +80,7 @@ const Home = () => {
               expertise, I have a deep passion for writing and creating YouTube
               videos, allowing me to communicate complex ideas in a clear and
               engaging manner. Coding is not just a profession for me; it's a
-              passion that drives me to constantly learn and innovate.{" "}
+              passion that drives me to constantly learn and innovate.jeet{" "}
             </AboutText>
           </StyleBioArea>
         </GridContainer>
@@ -89,6 +89,7 @@ const Home = () => {
         <ContentBox>
           <GridContainer container justifyContent="center" alignItems="center">
             <StyledButton
+              spaceMargin={true}
               onClick={handleDownload}
               variant="contained"
               endIcon={<CloudDownloadTwoToneIcon />}
@@ -96,6 +97,7 @@ const Home = () => {
               Download Resume
             </StyledButton>
             <StyledButton
+              spaceMargin={true}
               variant="contained"
               endIcon={<Groups2Icon />}
               onClick={handleTeam}

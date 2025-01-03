@@ -1,0 +1,61 @@
+name: Deploy Frontend to VPS
+
+on:
+  push:
+    branches:
+      - develop
+      - staging
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Add VPS to known hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -p 2699 62.72.29.140 >> ~/.ssh/known_hosts
+
+      - name: Prepare SSH key
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.DEPLOY_KEY }}
+
+      - name: Deploy to VPS
+        run: |
+          SSH_HOST="jeet@62.72.29.140"
+          SSH_PORT=2699
+          if [ "${{ github.ref }}" == "refs/heads/develop" ]; then
+            DEPLOY_PATH="/var/www/frontendproject/frontendqa/portfolio-frontend"
+            BRANCH_NAME="develop"
+            BUILD_PREFIX="qa"
+          elif [ "${{ github.ref }}" == "refs/heads/staging" ]; then
+            DEPLOY_PATH="/var/www/frontendproject/frontendstag/portfolio-frontend"
+            BRANCH_NAME="staging"
+            BUILD_PREFIX="stag"
+          elif [ "${{ github.ref }}" == "refs/heads/main" ]; then
+            DEPLOY_PATH="/var/www/frontendproject/frontendprod/portfolio-frontend"
+            BRANCH_NAME="main"
+            BUILD_PREFIX="prod"
+          fi
+
+          ssh -p $SSH_PORT $SSH_HOST << EOF
+          cd $DEPLOY_PATH
+          git checkout $BRANCH_NAME
+          git pull origin $BRANCH_NAME
+          npm install
+          npm run build:$BUILD_PREFIX
+          EOF

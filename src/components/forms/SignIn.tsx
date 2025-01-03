@@ -1,15 +1,8 @@
 import {
-  Button,
   IconButton,
   InputAdornment,
-  Paper,
-  TextField,
-  Typography,
 } from "@mui/material";
 import React, { useState } from "react";
-import { primaryColor, secondaryColor } from "../../util/constant";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { useLoginUserMutation } from "../../services/login.service";
 import routes from "../../util/routes";
 import { useNavigate } from "react-router-dom";

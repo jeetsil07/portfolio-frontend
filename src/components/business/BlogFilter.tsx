@@ -110,8 +110,8 @@ const BlogFilter = () => {
           />
       </FormGroup>
       <StyledFilterButtonsHolder>
-        <StyledButton variant='contained' size='large'onClick={resetFilter}>Reset</StyledButton>
-        <StyledButton variant='contained' size='large' onClick={setFilter}>Apply</StyledButton>
+        <StyledButton spaceMargin={true} variant='contained' size='large'onClick={resetFilter}>Reset</StyledButton>
+        <StyledButton spaceMargin={true} variant='contained' size='large' onClick={setFilter}>Apply</StyledButton>
       </StyledFilterButtonsHolder>
     </BlogFilterPanel>
   )

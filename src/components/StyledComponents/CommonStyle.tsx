@@ -7,6 +7,8 @@ import {
   Divider,
   Grid,
   Radio,
+  Tooltip,
+  tooltipClasses,
   Typography,
 } from "@mui/material";
 import { ImageBoxProps } from "../../util/type/types";
@@ -44,7 +46,7 @@ export const ImageBoxContainer = styled(Grid)`
 export const ImageBox = styled(Box)<ImageBoxProps>`
   height: ${({ profile }) => (profile ? "150px" : "200px")};
   width: ${({ profile }) => (profile ? "150px" : "200px")};
-  border-radius: ${({ profile }) => (profile ? "" : "50%")};
+  border-radius: ${({ profile }) => (profile ? "10px" : "50%")};
   overflow: hidden;
   box-shadow: ${({ profile }) =>
     profile ? "" : `0 0 0 10px white, 0 0 0 15px ${primaryColor}`};
@@ -56,7 +58,7 @@ export const ImageBox = styled(Box)<ImageBoxProps>`
   & img {
     height: 100%;
     width: 100%;
-    object-fit: cover;
+    object-fit: ${({ profile }) => (profile ? "contain" : "cover")};
   }
 `;
 export const StyleBioArea = styled(Grid)`
@@ -82,9 +84,9 @@ export const CustomButton = styled(Button)<{
     background-color: #ff0060;
   }
 `;
-export const StyledButton = styled(Button)`
+export const StyledButton = styled(Button)<{spaceMargin?: boolean}>`
   background-color: ${primaryColor};
-  margin: 10px;
+  margin:${(props)=>props.spaceMargin ? "10px":""};
   &:hover {
     background-color: ${secondaryColor};
   }
@@ -117,7 +119,22 @@ export const BlogFilterPanel = styled(Box)<{ marginTop: number }>`
 
 export const ProfileImgInput = styled.div`
   margin-left: 10px;
+
+  & input {
+    display: none;
+  }
 `;
+
+// export const StyledTooltip = styled(Tooltip)`
+//   & .${tooltipClasses.tooltip} {
+//     background-color: ${primaryColor};
+//     color: white;
+//   }
+
+//   & .${tooltipClasses.arrow} {
+//     color: ${primaryColor};
+//   }
+// `
 
 export const StyledRadio = styled(Radio)`
   color: ${primaryColor};
