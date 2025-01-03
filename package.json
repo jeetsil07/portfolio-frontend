@@ -41,7 +41,7 @@
     "build:stag": "webpack --config webpack.prod.js --env ENVIRONMENT=staging",
     "deploy:stag": "npm run build:stag && scp -r dist jeet@62.72.29.140:/var/www/frontendproject/frontendstag/portfolio-frontend",
     "build:prod": "webpack --config webpack.prod.js --env ENVIRONMENT=production",
-    "deploy:prod": "npm run build:stag && scp -r dist jeet@62.72.29.140:/var/www/frontendproject/frontendprod/portfolio-frontend"
+    "deploy:prod": "npm run build:prod && scp -r dist jeet@62.72.29.140:/var/www/frontendproject/frontendprod/portfolio-frontend"
   },
   "eslintConfig": {
     "extends": [
