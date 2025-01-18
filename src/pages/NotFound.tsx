@@ -1,13 +1,23 @@
-import React from 'react'
-import { ContentBox } from '../components/StyledComponents/CommonStyle'
-import { useAppSelector } from '../app/hook'
-import { getUiUxState } from '../slices/ui'
+import React, { useEffect } from 'react'
+import { ContentBox, NoContent } from '../components/StyledComponents/CommonStyle'
+import { useAppDispatch, useAppSelector } from "../app/hook";
+import { getUiUxState, setNavBar } from '../slices/ui'
 
 const NotFound = () => {
   const {navBar} = useAppSelector(getUiUxState)
+  const dispatch = useAppDispatch();
+  useEffect(()=>{
+      dispatch(
+        setNavBar({
+          selectedTab: -1,
+        })
+      );
+    },[])
   return (
     <ContentBox topmargin={navBar.height}>
-    <h3>Page Not Found</h3>
+      <NoContent>
+        <h3>Page Not Found</h3>
+      </NoContent>
     </ContentBox>
   )
 }
