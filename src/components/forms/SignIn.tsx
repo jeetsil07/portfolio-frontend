@@ -39,17 +39,14 @@ const SignIn = () => {
         setFieldError("");
       }
       const response = await userLogin(loginData).unwrap();
-      console.log("response", response);
       localStorage.setItem("authTokens", JSON.stringify(response.data)); // Store the token
       // Proceed with further actions like redirecting or fetching user data
       navigate(routes.profile);
       // Scroll to top after navigation
       window.scrollTo(0, 0);
     } catch (error: any) {
-      console.log("error", error);
       // Handle client errors (status code 400)
       if (error.status === 400) {
-        console.log("check1");
         setFieldError(
           error.data.data.email
             ? error.data.data.email[0]

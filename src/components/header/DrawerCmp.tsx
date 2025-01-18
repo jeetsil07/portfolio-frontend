@@ -19,7 +19,7 @@ import LoginIcon from '@mui/icons-material/Login';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { Logo } from "../StyledComponents/CommonStyle";
 import { Link, useLocation } from "react-router-dom";
-import logoImg from '../../assets/img/jeet1.jpeg'
+import logoImg from '../../assets/img/logo.png'
 import { primaryColor } from "../../util/constant";
 import Groups2Icon from '@mui/icons-material/Groups2';
 import { StyledDrawer, StyledDrawerInnerContainer, StyledListItemText, StyledLogoContainer } from "../StyledComponents/NavbarStyled";
@@ -34,9 +34,9 @@ const DrawerCmp = () => {
 
     // according to storedToken(authTokens) it will determine what to show 'My Profile'/'Login'
     if (storedTokens) {
-      menus = ['Home', 'Team', 'Blogs', 'Contact', 'My Profile'];
+      menus = ['Home', 'Team', 'Blogs', 'My Profile'];
     } else {
-      menus = ['Home', 'Team', 'Blogs', 'Contact', 'Login'];
+      menus = ['Home', 'Team', 'Blogs', 'Login'];
     }
 
     //this is for drawer menu icons
@@ -89,19 +89,12 @@ const DrawerCmp = () => {
           spacing={2}
           primaryColor={primaryColor}
         >
-          <StyledLogoContainer item xs={5}>
-            <Logo
+          <StyledLogoContainer item xs={7}>
+            {/* <Logo
               alt="Jeet Sil"
               src={logoImg}
-            />
-          </StyledLogoContainer>
-          <StyledLogoContainer item xs={7}>
-            <Typography
-              variant="body1"
-              color="white"
-            >
-              techSociety
-            </Typography>
+            /> */}
+            <img src={logoImg} alt="logo" />
           </StyledLogoContainer>
         </StyledDrawerInnerContainer>
         <List>

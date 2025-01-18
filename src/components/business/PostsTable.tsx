@@ -61,9 +61,7 @@ const PostsTable: React.FC<PostTableProps> = ({ UpdateFormRef }) => {
   const { data, isLoading } = useGetPostsQuery("");
 
   useEffect(() => {
-    console.log("useeffect", data);
     if (!data || data.status !== 200) return;
-    console.log("success");
     dispatch(
       setPostData({
         data: data,
@@ -113,17 +111,17 @@ const PostsTable: React.FC<PostTableProps> = ({ UpdateFormRef }) => {
   };
 
   const openPost = (post: Post) => {
-    dispatch(
-      setPostData({
-        selectedPost: post,
-      })
-    );
+    // dispatch(
+    //   setPostData({
+    //     selectedPost: "hlo",
+    //   })
+    // );
     dispatch(
       setNavBar({
         selectedTab: -1,
       })
     );
-    navigate(routes.post);
+    navigate(`${routes.post}/${post.id}`);
     // Scroll to top after navigation
     window.scrollTo(0, 0);
   };

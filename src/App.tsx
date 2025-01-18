@@ -38,7 +38,7 @@ function App() {
           <Route path={routes.blogs} element={<LoadableBlogs />} />
           <Route path={routes.login} element={<LoadableLogin />} />
           <Route path={routes.profile} element={<LoadableMyProfile />} />
-          <Route path={routes.post} element={<LoadablePost />} />
+          <Route path={`${routes.post}/:id`} element={<LoadablePost />} />
           <Route path={routes.notfound} element={<LoadableNotFound />} />
         </Routes>
       </Suspense>

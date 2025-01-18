@@ -22,7 +22,6 @@ const MyProfile = () => {
     setShowSnackBar(false);
   };
   const authTokens = localStorage.getItem("authTokens");
-  console.log('authTokens',authTokens)
   useEffect(() => {    
     if (!authTokens) {
       alert('session has expired...')
