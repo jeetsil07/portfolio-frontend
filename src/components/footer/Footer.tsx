@@ -104,7 +104,7 @@ const Footer = () => {
                         <Grid item md={3}>
                             <Typography variant="h6" color="white" marginLeft={4}>Popular Posts</Typography>
                             <hr />
-                            <List>
+                            {/* <List>
                                 <ListItem>
                                     <DescriptionTwoToneIcon sx={{ margin: 2, color: 'white' }} />
                                     <Typography variant="body1" color="white">
@@ -135,7 +135,7 @@ const Footer = () => {
                                         <Link to="https://github.com/jeetsil07" target="_blank" style={{ color: 'white' }} title='Modern Day Technology and Website with Ai & Machine Learning' >Modern Website</Link>
                                     </Typography>
                                 </ListItem>
-                            </List>
+                            </List> */}
                         </Grid>
                         <Grid item md={4}>
                             <Typography variant="h6" color="white" marginLeft={4}>Subscribe</Typography>
