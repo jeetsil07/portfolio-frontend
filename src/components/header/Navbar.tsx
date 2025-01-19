@@ -9,7 +9,7 @@ import { Logo } from "../StyledComponents/CommonStyle";
 import { useNavigate } from "react-router-dom";
 import SearchBar from "./SearchBar";
 import DrawerCmp from "./DrawerCmp";
-import logoImg from "../../assets/img/jeet1.jpeg";
+import logoImg from "../../assets/img/logo.png";
 import { useAppDispatch, useAppSelector } from "../../app/hook";
 import { setNavBar } from "../../slices/ui";
 import { primaryColor } from "../../util/constant";
@@ -32,14 +32,15 @@ const Navbar = () => {
   const theme = useTheme();
   const isMatch = useMediaQuery(theme.breakpoints.down("md"));
   const storedTokens = localStorage.getItem("authTokens");
+  console.log('storedTokens',storedTokens)
   const renderMenus = useMemo(() => {
     let menus: string[];
 
     // according to storedToken(authTokens) it will determine what to show 'My Profile'/'Login'
     if (storedTokens) {
-      menus = ["Home", "Team", "Blogs", "Contact", "My Profile"];
+      menus = ["Home", "Team", "Blogs", "My Profile"];
     } else {
-      menus = ["Home", "Team", "Blogs", "Contact", "Login"];
+      menus = ["Home", "Team", "Blogs", "Login"];
     }
 
     // this is to navigate to the specific page by clicking menu
@@ -62,12 +63,10 @@ const Navbar = () => {
       dispatch(setNavBar({ selectedTab: 1 }));
     } else if (pathName === "/blogs") {
       dispatch(setNavBar({ selectedTab: 2 }));
-    } else if (pathName === "/contact") {
-      dispatch(setNavBar({ selectedTab: 3 }));
     } else if (pathName === "/login") {
-      dispatch(setNavBar({ selectedTab: 4 }));
+      dispatch(setNavBar({ selectedTab: 3 }));
     } else if (pathName === "/profile") {
-      dispatch(setNavBar({ selectedTab: 4 }));
+      dispatch(setNavBar({ selectedTab: 3 }));
     }
 
     // calculate navbar height and store it to redux
@@ -97,11 +96,11 @@ const Navbar = () => {
         <StyledToolBarGrid container>
           {!isMatch ? (
             <>
-              <StyledLogoContainer item xs={2}>
-                <Logo alt="Jeet Sil" src={logoImg} />
-                staging
+              <StyledLogoContainer item xs={3}>
+                <img src={logoImg} alt="logo" />
+                {/* <Logo alt="Jeet Sil" src={logoImg} /> */}
               </StyledLogoContainer>
-              <StyledTabContainer item xs={7}>
+              <StyledTabContainer item xs={6}>
                 <StyledTabs
                   textColor="inherit"
                   value={navBar.selectedTab}
@@ -110,13 +109,14 @@ const Navbar = () => {
                 </StyledTabs>
               </StyledTabContainer>
               <StyledSearchContainer item xs={3}>
-                <SearchBar pathName={pathName} />
+                {/* <SearchBar pathName={pathName} /> */}
               </StyledSearchContainer>
             </>
           ) : (
             <>
-              <StyledLogoContainer item xs={2}>
-                <Logo alt="Jeet Sil" src={logoImg} />
+              <StyledLogoContainer item xs={4}>
+                <img src={logoImg} alt="logo" />
+                {/* <Logo alt="Jeet Sil" src={logoImg} /> */}
               </StyledLogoContainer>
               <StyledDrawerContainer item xs={2}>
                 <DrawerCmp />

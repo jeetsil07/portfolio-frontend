@@ -14,7 +14,7 @@ import {
 import { ImageBoxProps } from "../../util/type/types";
 import { primaryColor, secondaryColor } from "../../util/constant";
 import { CheckBox } from "@mui/icons-material";
-export const Logo = styled(Avatar)`
+export const Logo = styled.div`
   margin: 0 auto;
 `;
 export const UserImg = styled(Avatar)`
@@ -159,4 +159,8 @@ export const StyledFilterButtonsHolder = styled(Box)`
   bottom: 10px;
   width: 100%;
   background-color: #fff;
+`;
+
+export const NoContent = styled.div`
+  min-height: 100vh;
 `;
