@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const Dotenv = require("dotenv-webpack");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 module.exports = (env) => {
   // Determine the correct .env file based on the ENVIRONMENT
@@ -49,6 +50,17 @@ module.exports = (env) => {
         filename: "index.html",
         inject: true,
         publicPath: "/",
+      }),
+      new CopyWebpackPlugin({
+        patterns: [
+          {
+            from: path.resolve(__dirname, "public"),
+            to: path.resolve(__dirname, "dist"),
+            globOptions: {
+              ignore: ["**/index.html"], // Exclude index.html because HtmlWebpackPlugin already handles it
+            },
+          },
+        ],
       }),
       new MiniCssExtractPlugin({
         filename: "[name].[contenthash].css",

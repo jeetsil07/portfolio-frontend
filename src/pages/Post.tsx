@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import {
   ContentBox,
+  NoContent,
   UserImg,
 } from "../components/StyledComponents/CommonStyle";
 import { useAppDispatch, useAppSelector } from "../app/hook";
-import { getUiUxState, setPostComments } from "../slices/ui";
+import { getUiUxState, setNavBar, setPostCategory, setPostComments, setPostData } from "../slices/ui";
 import {
   Alert,
   Avatar,
@@ -22,7 +23,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import routes from "../util/routes";
 import {
   useCreatePostCommentMutation,
@@ -43,7 +44,7 @@ import AddCommentIcon from "@mui/icons-material/AddComment";
 import RateReviewIcon from "@mui/icons-material/RateReview";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { formatDate, sortComments } from "../util/general";
-import { getUserData } from "../slices/user";
+import { getUserData, setUserData } from "../slices/user";
 import {
   StyledNoComment,
   StyledPostCommentFieldHolder,
@@ -60,6 +61,8 @@ import {
   StyledSelectedPostHeader,
   StyledSelectedPostTitle,
 } from "../components/StyledComponents/PostStyle";
+import { useGetPostsQuery } from "../services/posts.service";
+import { useGetPostsCategoryQuery } from "../services/postsCategory.service";
 const Post = () => {
   const [expandedComments, setExpandedComments] = useState(new Set());
   const [expandedChildren, setExpandedChildren] = useState(new Set());
@@ -72,21 +75,68 @@ const Post = () => {
   const [updatedComment, setUpdatedComment] = useState("");
   const [showSnackBar, setShowSnackBar] = useState(false);
   const contentRef = useRef<HTMLDivElement | null>(null);
+  const { id } = useParams();
 
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { navBar, postData, postCategory, postComments } =
     useAppSelector(getUiUxState);
   const { user } = useAppSelector(getUserData);
-  console.log("user", user);
+  const storedTokens = localStorage.getItem("authTokens");
+  useEffect(()=>{
+    dispatch(
+      setNavBar({
+        selectedTab: -1,
+      })
+    );
+  },[])
   useEffect(() => {
-    if (Object.values(postData.selectedPost).length === 0) {
-      navigate(routes.blogs);
-      // Scroll to top after navigation
-      window.scrollTo(0, 0);
+    if (storedTokens) {
+      const { user } = JSON.parse(storedTokens);
+      if (user) {
+        dispatch(
+          setUserData({
+            user_id: user.user_id,
+            is_superuser: user.is_superuser,
+            email: user.email,
+            first_name: user.first_name,
+            last_name: user.last_name,
+            imageUrl: user.image,
+            bio: user.bio,
+          })
+        );
+      }
     }
-  }, [postData]);
-
+  }, [storedTokens]);
+  // useEffect(() => {
+  //   if (Object.values(postData.selectedPost).length === 0) {
+  //     navigate(routes.blogs);
+  //     // Scroll to top after navigation
+  //     window.scrollTo(0, 0);
+  //   }
+  // }, [postData]);
+    const { data: postCategories, isLoading: categoryLoading } =
+      useGetPostsCategoryQuery({});
+    useEffect(() => {
+      if (!postCategories || postCategories.status !== 200) return;
+      dispatch(
+        setPostCategory({
+          data: postCategories.data,
+        })
+      );
+    }, [postCategories, dispatch]);
+  const { data:SelectedPostData, isLoading, isSuccess } = useGetPostsQuery(id);
+  console.log('SelectedPostData1',SelectedPostData)
+  // useEffect(()=>{
+  //   console.log("SelectedPostData",SelectedPostData)
+  //   if(SelectedPostData){
+  //     dispatch(
+  //       setPostData({
+  //         selectedPost: SelectedPostData.data,
+  //       })
+  //     );
+  //   }
+    
+  // },[SelectedPostData,dispatch])
   useEffect(() => {
     // Function to apply styles to images
     const styleImages = () => {
@@ -103,10 +153,11 @@ const Post = () => {
 
     // Apply styles when component mounts or postData changes
     styleImages();
-  }, [postData]);
-  const { data: comments } = useGetPostCommentQuery(postData.selectedPost.id, {
-    skip: Object.values(postData.selectedPost).length === 0,
+  }, [SelectedPostData]);
+  const { data: comments } = useGetPostCommentQuery(id, {
+    skip: !id,
   });
+  console.log('comments',comments)
   const [deleteComment] = useDeletePostCommentMutation();
   const [createPostComment] = useCreatePostCommentMutation();
   const [updatePostComment] = useUpdatePostCommentMutation();
@@ -122,9 +173,9 @@ const Post = () => {
     );
   }, [comments]);
 
-  const getCategoryName = () => {
+  const getCategoryName = (post_category: number) => {
     const category = postCategory.data.find(
-      (item) => item.id === postData.selectedPost.post_category
+      (item) => item.id === post_category
     );
     return category ? category.name : "Category not found";
   };
@@ -224,7 +275,6 @@ const Post = () => {
   };
 
   const renderComments = (comments: any, level = 0, show = false) => {
-    console.log(level, "level");
     return comments.map((comment: any) => {
       const isExpanded = expandedComments.has(comment.comment_id);
       const showAllChildren = expandedChildren.has(comment.comment_id);
@@ -595,18 +645,18 @@ const Post = () => {
       <ContentBox topmargin={navBar.height}>
         <StyledPostContainer container>
           <StyledPostWrapper item lg={7}>
-            {Object.values(postData.selectedPost).length > 0 && (
+            {isSuccess && Object.values(SelectedPostData?.data).length > 0 ?(
               <StyledSelectedPostArea container>
                 <StyledSelectedPostHeader item>
                   <StyledSelectedPostTitle variant="h4">
-                    {postData.selectedPost.title}
+                    {SelectedPostData.data.title}
                   </StyledSelectedPostTitle>
                   <Grid container justifyContent={"space-between"}>
                     <StyledSelectedPostCategory variant="caption">
-                      {getCategoryName()}
+                      {getCategoryName(SelectedPostData.data.post_category)}
                     </StyledSelectedPostCategory>
                     <StyledSelectedPostDate variant="caption">
-                      {formatDate(postData.selectedPost.created_at)}
+                      {formatDate(SelectedPostData.data.created_at)}
                     </StyledSelectedPostDate>
                   </Grid>
                 </StyledSelectedPostHeader>
@@ -617,7 +667,7 @@ const Post = () => {
                       component="img"
                       alt="green iguana"
                       height="240"
-                      image={postData.selectedPost.image}
+                      image={SelectedPostData.data.image}
                       sx={{ objectFit: "contain" }}
                     />
                   </StyledPostImageCard>
@@ -626,7 +676,7 @@ const Post = () => {
                   <div
                     ref={contentRef}
                     dangerouslySetInnerHTML={{
-                      __html: postData.selectedPost.description,
+                      __html: SelectedPostData.data.description,
                     }}
                   />
                 </StyledPostDescriptionHolder>
@@ -697,7 +747,7 @@ const Post = () => {
                   <StyledNoComment>No Comments</StyledNoComment>
                 )}
               </StyledSelectedPostArea>
-            )}
+            ):(<NoContent>{isLoading ? <h3>Loadng...</h3> : <h3>No Data Available</h3>}</NoContent>)}
           </StyledPostWrapper>
           <Grid item lg={3}></Grid>
         </StyledPostContainer>

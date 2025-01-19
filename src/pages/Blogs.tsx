@@ -113,17 +113,17 @@ const Blogs = () => {
   const endIndex = startIndex + postsPerPage;
 
   const openPost = (post: Post) => {
-    dispatch(
-      setPostData({
-        selectedPost: post,
-      })
-    );
+    // dispatch(
+    //   setPostData({
+    //     selectedPost: post,
+    //   })
+    // );
     dispatch(
       setNavBar({
         selectedTab: -1,
       })
     );
-    navigate(routes.post);
+    navigate(`${routes.post}/${post.id}`);
     // Scroll to top after navigation
     window.scrollTo(0, 0);
   };

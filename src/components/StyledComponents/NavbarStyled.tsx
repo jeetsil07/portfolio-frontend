@@ -29,7 +29,24 @@ export const StyledToolBarGrid = styled(Grid)`
   gap: 16px; /* equivalent to spacing={2} which is 8px * 2 */
 `;
 
-export const StyledLogoContainer = styled(Grid)``;
+export const StyledLogoContainer = styled(Grid)`
+  img {
+    width: 60%; /* Ensure the image takes the full width of the container */
+    height: auto; /* Maintain the aspect ratio */
+    object-fit: cover; /* Ensures the image fills the container while preserving aspect ratio */
+    -webkit-object-fit: cover; /* Adds WebKit-specific support */
+    padding: 10px;
+
+    /* Media queries for responsiveness */
+    @media (max-width: 768px) {
+      width: 100%; /* Adjust width for medium screens */
+    }
+
+    @media (min-width: 1024px) {
+      width: 60%; /* Adjust width for larger screens */
+    }
+  }
+`;
 
 export const StyledTabContainer = styled(Grid)``;
 

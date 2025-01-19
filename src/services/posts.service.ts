@@ -3,13 +3,16 @@ import { api } from "../app/api";
 const postsApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getPosts: builder.query({
-      query: (category) => {
-        console.log('category api',category)
-        if (category.id === "" || category === "") {
-          return "/api/posts/";
-        } else {
-          return `/api/posts/?category_id=${category.id}`;
-        }
+      query: (param) => {
+        if(typeof param === "object"){
+          if (param.id === "" || param === "") {
+            return "/api/posts/";
+          } else {
+            return `/api/posts/?category_id=${param.id}`;
+          }
+        }else{
+          return `/api/posts/${param}`;
+        }        
       },
       providesTags: ["Posts"],
     }),

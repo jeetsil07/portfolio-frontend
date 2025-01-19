@@ -26,9 +26,9 @@ const Footer = () => {
         const storedTokens = localStorage.getItem('authTokens');
         let menus: string[];
         if (storedTokens) {
-            menus = ['Home', 'Team', 'Blogs', 'Contact', 'My Profile'];
+            menus = ['Home', 'Team', 'Blogs', 'My Profile'];
         } else {
-            menus = ['Home', 'Team', 'Blogs', 'Contact', 'Login'];
+            menus = ['Home', 'Team', 'Blogs', 'Login'];
         }
         const menuIcons: { [key: string]: React.ElementType } = {
             Home: HomeTwoToneIcon,
