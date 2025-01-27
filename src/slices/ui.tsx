@@ -24,7 +24,11 @@ const initialState = {
     },
     postData: {
       data: [] as any,
-      selectedPost: {} as Post,
+      selectedPost: {
+        title: '',
+        id: '',
+        post_category:''
+      },
       editPost: {} as Post,
       editSuccess: false,
     },
@@ -80,7 +84,9 @@ const uiSlice = createSlice({
         postData.data = data;
       }
       if (selectedPost !== undefined) {
-        postData.selectedPost = selectedPost;
+        postData.selectedPost.id = selectedPost.id;
+        postData.selectedPost.title = selectedPost.title;
+        postData.selectedPost.post_category = selectedPost.post_category;
       }
       if (editPost !== undefined) {
         postData.editPost = editPost;

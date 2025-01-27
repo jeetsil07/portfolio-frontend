@@ -59,28 +59,33 @@ const Home = () => {
           </ImageBoxContainer>
           <StyleBioArea item lg={5}>
             <Typography variant="h5" color="initial">
-              <span style={{ color: primaryColor }}>I'm a</span>{" "}
+              <span style={{ color: primaryColor }}>I'm</span>{" "}
               <span style={{ color: secondaryColor, padding: "15px 0" }}>
                 <Typewriter
-                  words={["Software Developer", "UI/UX Designer", "YouTuber"]}
+                  words={["software developer", "ui/ux designer", "doing journey with machine learning"]}
                   loop={false}
                   cursor
                   cursorStyle="_"
-                  typeSpeed={70}
-                  deleteSpeed={50}
+                  typeSpeed={60}
+                  deleteSpeed={40}
                 />
               </span>
             </Typography>
             <AboutText variant="subtitle2" color="GrayText">
-              As a professional software developer, I bring a unique blend of
-              academic excellence and creative flair to my work. With a
-              background in BCA from MAKAUT and Botany Honours from Calcutta
-              University, I possess a diverse skill set that enables me to
-              approach problems from different perspectives. Beyond my technical
-              expertise, I have a deep passion for writing and creating YouTube
-              videos, allowing me to communicate complex ideas in a clear and
-              engaging manner. Coding is not just a profession for me; it's a
-              passion that drives me to constantly learn and innovate.jeet{" "}
+              I am a passionate Software Developer with 2 years of experience in
+              web development, specializing in creating dynamic and
+              user-friendly websites. I am eager to learn new technologies and
+              enjoy exploring innovative ways to implement them through hands-on
+              projects. Alongside my professional work, I also take up freelance
+              projects, helping clients bring their ideas to life with creative
+              and efficient solutions. Beyond coding, I find joy in activities
+              that balance my technical pursuits with creativity and relaxation.
+              I love playing carrom, which hones my focus and strategy skills,
+              and I’m an avid listener of audio stories on radio stations, which
+              fuel my imagination and provide inspiration for my work. With a
+              curious mind and a dedication to continuous learning, I aim to
+              grow as a developer while delivering meaningful and impactful
+              projects that solve real-world problems.
             </AboutText>
           </StyleBioArea>
         </GridContainer>

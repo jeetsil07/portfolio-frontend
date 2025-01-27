@@ -8,6 +8,7 @@ import {
   setPostData,
 } from "../slices/ui";
 import {
+  BackgroundFilter,
   ContentBox,
   CustomButton,
 } from "../components/StyledComponents/CommonStyle";
@@ -142,6 +143,7 @@ const Blogs = () => {
     return doc.body.textContent || ""; // Extract plain text from HTML
   };
   return (
+    <>
     <ContentBox topmargin={navBar.height}>
       <StyledFilterContainer
         container
@@ -255,7 +257,7 @@ const Blogs = () => {
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <StyledBlogCategoryTitle
-                variant="h6"                
+                variant="h6"
               >
                 Blogs Category
               </StyledBlogCategoryTitle>
@@ -292,13 +294,16 @@ const Blogs = () => {
             </Grid>
           </Grid>
         </StyledBlogCategoryHolder>
-      </StyledBlogContainer>
-      {blogFilter.open && (
+      </StyledBlogContainer>      
+    </ContentBox>
+    {blogFilter.open && (
+      <BackgroundFilter>
         <section ref={filterRef}>
           <BlogFilter />
         </section>
-      )}
-    </ContentBox>
+      </BackgroundFilter>
+    )}
+    </>
   );
 };
 

@@ -63,6 +63,7 @@ import {
 } from "../components/StyledComponents/PostStyle";
 import { useGetPostsQuery } from "../services/posts.service";
 import { useGetPostsCategoryQuery } from "../services/postsCategory.service";
+import SimilarBlogs from "../components/business/SimilarBlogs";
 const Post = () => {
   const [expandedComments, setExpandedComments] = useState(new Set());
   const [expandedChildren, setExpandedChildren] = useState(new Set());
@@ -125,18 +126,20 @@ const Post = () => {
       );
     }, [postCategories, dispatch]);
   const { data:SelectedPostData, isLoading, isSuccess } = useGetPostsQuery(id);
-  console.log('SelectedPostData1',SelectedPostData)
-  // useEffect(()=>{
-  //   console.log("SelectedPostData",SelectedPostData)
-  //   if(SelectedPostData){
-  //     dispatch(
-  //       setPostData({
-  //         selectedPost: SelectedPostData.data,
-  //       })
-  //     );
-  //   }
+  useEffect(()=>{
+    if(SelectedPostData){
+      dispatch(
+        setPostData({
+          selectedPost: {
+            title: SelectedPostData?.data.title,
+            id: SelectedPostData?.data.id,
+            post_category: SelectedPostData?.data.post_category
+          },
+        })
+      );
+    }
     
-  // },[SelectedPostData,dispatch])
+  },[SelectedPostData,dispatch])
   useEffect(() => {
     // Function to apply styles to images
     const styleImages = () => {
@@ -157,7 +160,6 @@ const Post = () => {
   const { data: comments } = useGetPostCommentQuery(id, {
     skip: !id,
   });
-  console.log('comments',comments)
   const [deleteComment] = useDeletePostCommentMutation();
   const [createPostComment] = useCreatePostCommentMutation();
   const [updatePostComment] = useUpdatePostCommentMutation();
@@ -644,7 +646,7 @@ const Post = () => {
     <>
       <ContentBox topmargin={navBar.height}>
         <StyledPostContainer container>
-          <StyledPostWrapper item lg={7}>
+          <StyledPostWrapper item lg={8}>
             {isSuccess && Object.values(SelectedPostData?.data).length > 0 ?(
               <StyledSelectedPostArea container>
                 <StyledSelectedPostHeader item>
@@ -749,7 +751,9 @@ const Post = () => {
               </StyledSelectedPostArea>
             ):(<NoContent>{isLoading ? <h3>Loadng...</h3> : <h3>No Data Available</h3>}</NoContent>)}
           </StyledPostWrapper>
-          <Grid item lg={3}></Grid>
+          <Grid item lg={3}>
+            <SimilarBlogs/>
+          </Grid>
         </StyledPostContainer>
       </ContentBox>
 

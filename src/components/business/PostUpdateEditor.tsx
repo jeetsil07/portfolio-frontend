@@ -132,7 +132,7 @@ const PostUpdateEditor: React.FC<PostUpdateEditorProps> = ({
       fetchImage();
     }
   }, [postData]);
-  console.log('showsnackbar',showSnackBar)
+  // console.log('showsnackbar',showSnackBar)
 
   // useEffect(() => {
   //   console.log('showsnackbar2')

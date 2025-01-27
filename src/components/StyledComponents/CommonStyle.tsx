@@ -164,3 +164,11 @@ export const StyledFilterButtonsHolder = styled(Box)`
 export const NoContent = styled.div`
   min-height: 100vh;
 `;
+export const BackgroundFilter = styled.div`
+  width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    background: rgba(0, 0, 0, 0.12);
+    z-index: 199;
+`;
