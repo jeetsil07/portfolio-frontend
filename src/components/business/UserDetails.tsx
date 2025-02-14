@@ -386,7 +386,7 @@ const UserDetails: React.FC<UserDetailsProps> = ({
           </Grid>
         </Box>
       )}
-      <Grid container justifyContent={"space-between"}>
+      <Grid container justifyContent={"space-between"} sx={{mt: 2}}>
         {profileEdit ? (
           <StyledButton
             spaceMargin={false}

@@ -76,12 +76,12 @@ export const StyledPostCommentShowBtn = styled(Button)<{colorCode: string}>`
 `;
 
 export const ImageHolder = styled(Box)`
-  width: 50px;
-  height: 30px;
+  width: 100% !important;
+  height: 100% !important;
 
   & img {
-    width: 100%;
-    height: 100%;
+    width: 100% !important;
+    height: 100% !important;
     object-fit: cover; /* Ensures the image scales properly within the container */
   }
 `;;

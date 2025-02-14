@@ -49,7 +49,7 @@ export const StyledBlogPagination = styled(Pagination)`
 `;
 
 export const StyledBlogPlaceHolder = styled(Stack)`
-  margin: 25px;
+  margin: 50px auto 25px;
 `;
 
 export const StyledBlogCategoryHolder = styled(Grid)``;

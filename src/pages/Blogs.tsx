@@ -144,7 +144,7 @@ const Blogs = () => {
   };
   return (
     <>
-    <ContentBox topmargin={navBar.height}>
+    <ContentBox topmargin={navBar.height} minHeight="100vh">
       <StyledFilterContainer
         container
       >
@@ -229,6 +229,7 @@ const Blogs = () => {
                   </Typography>
                 )}
               </Box>
+              {postData.data.length > postsPerPage &&
               <StyledBlogPlaceHolder>
                 <StyledBlogPagination
                   count={totalPostPage}
@@ -237,7 +238,7 @@ const Blogs = () => {
                   showFirstButton
                   showLastButton
                 />
-              </StyledBlogPlaceHolder>
+              </StyledBlogPlaceHolder>}
             </>
           ) : (
             <StyledBlogPlaceHolder>
