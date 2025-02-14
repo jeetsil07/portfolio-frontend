@@ -25,7 +25,7 @@ export const UserImg = styled(Avatar)`
 export const SearchBar = styled("div")`
   width: 70%;
 `;
-export const ContentBox = styled(Box)<{ topmargin?: number; bgimg?: string }>`
+export const ContentBox = styled(Box)<{ topmargin?: number; bgimg?: string;}>`
   margin-top: ${(props) => props.topmargin}px;
   padding: 20px;
   box-sizing: border-box;

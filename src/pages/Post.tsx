@@ -64,6 +64,7 @@ import {
 import { useGetPostsQuery } from "../services/posts.service";
 import { useGetPostsCategoryQuery } from "../services/postsCategory.service";
 import SimilarBlogs from "../components/business/SimilarBlogs";
+import { Helmet } from "react-helmet-async";
 const Post = () => {
   const [expandedComments, setExpandedComments] = useState(new Set());
   const [expandedChildren, setExpandedChildren] = useState(new Set());
@@ -642,11 +643,26 @@ const Post = () => {
   const handleCloseSnack = () => {
     setShowSnackBar(false);
   };
+
+  const postTitle = `Post: ${id} - JeetHack`; // Replace this with your actual post title
+  const postDescription = `This is the detailed page for Post ${id}. Learn more about the topic here!`;
+  const postImage = `https://jeethack.com/tabicon.png`; // Replace this with your image URL
+
   return (
     <>
+      <Helmet>
+        <title>{postTitle}</title>
+        <link rel="icon" href="/tabicon.png" />
+        <meta name="description" content={postDescription} />
+        <meta property="og:title" content={postTitle} />
+        <meta property="og:description" content={postDescription} />
+        <meta property="og:image" content={postImage} />
+        <meta property="og:url" content={`https://jeethack.com/post/${id}`} />
+        <meta property="og:type" content="article" />
+      </Helmet>
       <ContentBox topmargin={navBar.height}>
         <StyledPostContainer container>
-          <StyledPostWrapper item lg={8}>
+          <StyledPostWrapper item lg={7}>
             {isSuccess && Object.values(SelectedPostData?.data).length > 0 ?(
               <StyledSelectedPostArea container>
                 <StyledSelectedPostHeader item>
@@ -751,7 +767,7 @@ const Post = () => {
               </StyledSelectedPostArea>
             ):(<NoContent>{isLoading ? <h3>Loadng...</h3> : <h3>No Data Available</h3>}</NoContent>)}
           </StyledPostWrapper>
-          <Grid item lg={3}>
+          <Grid item lg={4} sx={{ width: '100%' }}>
             <SimilarBlogs/>
           </Grid>
         </StyledPostContainer>
