@@ -25,7 +25,7 @@ export const UserImg = styled(Avatar)`
 export const SearchBar = styled("div")`
   width: 70%;
 `;
-export const ContentBox = styled(Box)<{ topmargin?: number; bgimg?: string }>`
+export const ContentBox = styled(Box)<{ topmargin?: number; bgimg?: string;}>`
   margin-top: ${(props) => props.topmargin}px;
   padding: 20px;
   box-sizing: border-box;
@@ -163,4 +163,12 @@ export const StyledFilterButtonsHolder = styled(Box)`
 
 export const NoContent = styled.div`
   min-height: 100vh;
+`;
+export const BackgroundFilter = styled.div`
+  width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    background: rgba(0, 0, 0, 0.12);
+    z-index: 199;
 `;

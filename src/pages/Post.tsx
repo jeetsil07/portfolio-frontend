@@ -63,6 +63,8 @@ import {
 } from "../components/StyledComponents/PostStyle";
 import { useGetPostsQuery } from "../services/posts.service";
 import { useGetPostsCategoryQuery } from "../services/postsCategory.service";
+import SimilarBlogs from "../components/business/SimilarBlogs";
+import { Helmet } from "react-helmet-async";
 const Post = () => {
   const [expandedComments, setExpandedComments] = useState(new Set());
   const [expandedChildren, setExpandedChildren] = useState(new Set());
@@ -125,18 +127,20 @@ const Post = () => {
       );
     }, [postCategories, dispatch]);
   const { data:SelectedPostData, isLoading, isSuccess } = useGetPostsQuery(id);
-  console.log('SelectedPostData1',SelectedPostData)
-  // useEffect(()=>{
-  //   console.log("SelectedPostData",SelectedPostData)
-  //   if(SelectedPostData){
-  //     dispatch(
-  //       setPostData({
-  //         selectedPost: SelectedPostData.data,
-  //       })
-  //     );
-  //   }
+  useEffect(()=>{
+    if(SelectedPostData){
+      dispatch(
+        setPostData({
+          selectedPost: {
+            title: SelectedPostData?.data.title,
+            id: SelectedPostData?.data.id,
+            post_category: SelectedPostData?.data.post_category
+          },
+        })
+      );
+    }
     
-  // },[SelectedPostData,dispatch])
+  },[SelectedPostData,dispatch])
   useEffect(() => {
     // Function to apply styles to images
     const styleImages = () => {
@@ -157,7 +161,6 @@ const Post = () => {
   const { data: comments } = useGetPostCommentQuery(id, {
     skip: !id,
   });
-  console.log('comments',comments)
   const [deleteComment] = useDeletePostCommentMutation();
   const [createPostComment] = useCreatePostCommentMutation();
   const [updatePostComment] = useUpdatePostCommentMutation();
@@ -640,8 +643,23 @@ const Post = () => {
   const handleCloseSnack = () => {
     setShowSnackBar(false);
   };
+
+  const postTitle = `Post: ${id} - JeetHack`; // Replace this with your actual post title
+  const postDescription = `This is the detailed page for Post ${id}. Learn more about the topic here!`;
+  const postImage = `https://jeethack.com/tabicon.png`; // Replace this with your image URL
+
   return (
     <>
+      <Helmet>
+        <title>{postTitle}</title>
+        <link rel="icon" href="/tabicon.png" />
+        <meta name="description" content={postDescription} />
+        <meta property="og:title" content={postTitle} />
+        <meta property="og:description" content={postDescription} />
+        <meta property="og:image" content={postImage} />
+        <meta property="og:url" content={`https://jeethack.com/post/${id}`} />
+        <meta property="og:type" content="article" />
+      </Helmet>
       <ContentBox topmargin={navBar.height}>
         <StyledPostContainer container>
           <StyledPostWrapper item lg={7}>
@@ -749,7 +767,9 @@ const Post = () => {
               </StyledSelectedPostArea>
             ):(<NoContent>{isLoading ? <h3>Loadng...</h3> : <h3>No Data Available</h3>}</NoContent>)}
           </StyledPostWrapper>
-          <Grid item lg={3}></Grid>
+          <Grid item lg={4} sx={{ width: '100%' }}>
+            <SimilarBlogs/>
+          </Grid>
         </StyledPostContainer>
       </ContentBox>
 
