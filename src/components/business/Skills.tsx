@@ -4,16 +4,16 @@ import { ContentBox, GridContainer } from './../StyledComponents/CommonStyle';
 import { primaryColor, secondaryColor } from '../../util/constant';
 
 const Skills = () => {
-    
+
     const [skillPage, setSkillPage] = useState(1);
-    const [skills, setSkills] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
-    
-    const allSkillsprogress = useMemo(() => [70, 80, 90, 70, 90, 80, 60, 80, 70, 60], []);
-    const allSkillsTitle = ['React Js', 'Laravel', 'Javascript', 'Php', 'Html', 'Css', 'Bootstrap', 'Material Ui', 'Figma', 'Aws']
+    const [skills, setSkills] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+
+    const allSkillsprogress = useMemo(() => [70, 70, 80, 70, 70, 60, 80, 80, 80, 70, 70, 60, 70], []);
+    const allSkillsTitle = ['React Js', 'Laravel', 'Django', 'Javascript', 'PHP', 'Html', 'Css', 'Git', 'Bootstrap', 'Material Ui', 'Figma', 'VPS', 'Jira']
     const handleSkillPage = useCallback((event: React.ChangeEvent<unknown>, page: number) => {
         if (page !== skillPage) {
             setSkillPage(page);
-            setSkills([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+            setSkills([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
         }
     }, [skillPage])
     useEffect(() => {
@@ -45,7 +45,7 @@ const Skills = () => {
         <>
             <Box>
                 <ContentBox sx={{ backgroundColor: '#F2EFE5', margin: '30px' }}>
-                    <Typography variant="h4" align='center' margin={3} sx={{ color: primaryColor }}>SKILLS & TECH STACK</Typography>
+                    <Typography variant="h4" align='center' margin={3} sx={{ color: primaryColor }}>skills & tech stacks</Typography>
                     <GridContainer container justifyContent="center" alignItems="center">
                         {
                             skills.slice(startIndex, endIndex).map((skill, index) => (
@@ -62,19 +62,19 @@ const Skills = () => {
                     </GridContainer>
                     <GridContainer container justifyContent="center" alignItems="center">
                         <Stack spacing={2}>
-                            <Pagination count={totalSkillPage} showFirstButton showLastButton 
-                             page={skillPage} onChange={handleSkillPage} 
-                             sx={{
-                                '& .MuiPaginationItem-root': {
-                                  color: primaryColor, // Change to your desired color
-                                },
-                                '& .Mui-selected': {
-                                  backgroundColor: `${secondaryColor} !important`, // Change to your desired color
-                                  color: 'white', // Change to your desired color
-                                  transform: 'scale(1.2)'
-                                },
-                                alignSelf: 'center'
-                              }} 
+                            <Pagination count={totalSkillPage} showFirstButton showLastButton
+                                page={skillPage} onChange={handleSkillPage}
+                                sx={{
+                                    '& .MuiPaginationItem-root': {
+                                        color: primaryColor, // Change to your desired color
+                                    },
+                                    '& .Mui-selected': {
+                                        backgroundColor: `${secondaryColor} !important`, // Change to your desired color
+                                        color: 'white', // Change to your desired color
+                                        transform: 'scale(1.2)'
+                                    },
+                                    alignSelf: 'center'
+                                }}
                             />
                         </Stack>
                     </GridContainer>

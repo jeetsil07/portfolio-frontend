@@ -3,6 +3,7 @@ import Navbar from './components/header/Navbar';
 import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import Footer from './components/footer/Footer';
 import routes from './util/routes';
+import { HelmetProvider } from 'react-helmet-async';
 
 // Lazy load the components with Webpack chunk names
 const LoadableHome = React.lazy(() => import(/* webpackChunkName: "HomePage" */ './pages/Home'));
@@ -27,23 +28,25 @@ const ScrollToTop: React.FC = () => {
 
 function App() {
   return (
-    <BrowserRouter>
-      <Navbar />
-      <ScrollToTop />
-      <Suspense fallback={<LoadComponent />}>
-        <Routes>
-          <Route path="/" element={<Navigate to={routes.home} />} />
-          <Route index path={routes.home} element={<LoadableHome />} />
-          <Route path={routes.team} element={<LoadableTeam />} />
-          <Route path={routes.blogs} element={<LoadableBlogs />} />
-          <Route path={routes.login} element={<LoadableLogin />} />
-          <Route path={routes.profile} element={<LoadableMyProfile />} />
-          <Route path={`${routes.post}/:id`} element={<LoadablePost />} />
-          <Route path={routes.notfound} element={<LoadableNotFound />} />
-        </Routes>
-      </Suspense>
-      <Footer />
-    </BrowserRouter>
+    <HelmetProvider>
+      <BrowserRouter>
+        <Navbar />
+        <ScrollToTop />
+        <Suspense fallback={<LoadComponent />}>
+          <Routes>
+            <Route path="/" element={<Navigate to={routes.home} />} />
+            <Route index path={routes.home} element={<LoadableHome />} />
+            <Route path={routes.team} element={<LoadableTeam />} />
+            <Route path={routes.blogs} element={<LoadableBlogs />} />
+            <Route path={routes.login} element={<LoadableLogin />} />
+            <Route path={routes.profile} element={<LoadableMyProfile />} />
+            <Route path={`${routes.post}/:id`} element={<LoadablePost />} />
+            <Route path={routes.notfound} element={<LoadableNotFound />} />
+          </Routes>
+        </Suspense>
+        <Footer />
+      </BrowserRouter>
+    </HelmetProvider>
   );
 }
 
